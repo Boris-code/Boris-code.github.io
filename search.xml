@@ -38,8 +38,11 @@
 <h1 id="福利"><a href="#福利" class="headerlink" title="福利"></a>福利</h1><p>本识别验证码算法已打包成可执行文件，提供http接口，方便不同语言间调用。</p>
 <p>下载地址：<a href="https://github.com/striver-ing/crack_slider.git" target="_blank" rel="noopener">https://github.com/striver-ing/crack_slider.git</a></p>
 ]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
       <tags>
-        <tag>爬虫</tag>
+        <tag>滑块破解</tag>
       </tags>
   </entry>
   <entry>
@@ -77,6 +80,9 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>插件</category>
+      </categories>
       <tags>
         <tag>sublime 插件</tag>
       </tags>
