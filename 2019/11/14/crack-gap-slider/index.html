@@ -72,18 +72,20 @@
       
         <h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>以抖音开发者平台为例</p>
 <pre><code>https://sso.douyin.com/?service=https://www.douyin.com/login?redirect_url=https%3A%2F%2Fwww.douyin.com%2Fplatform</code></pre><p>目标，找到如下滑块缺口中心点，计算需要滑动的偏移量即像素点的个数</p>
-<p><img src="media/15737096984879.jpg" alt=""></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737096984879.jpg" alt=""></p>
+<a id="more"></a>
+
 <h1 id="破解思路"><a href="#破解思路" class="headerlink" title="破解思路"></a>破解思路</h1><h2 id="1-根据边界的rgb方式"><a href="#1-根据边界的rgb方式" class="headerlink" title="1. 根据边界的rgb方式"></a>1. 根据边界的rgb方式</h2><ol>
 <li>找出缺口边缘的像素 rgb值</li>
 <li>根据rgb值来找出缺口边缘的像素点</li>
 </ol>
-<p><img src="media/15737097349737.jpg" alt=""><br><img src="media/15737097429933.jpg" alt=""></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097349737.jpg" alt=""><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097429933.jpg" alt=""></p>
 <ol start="3">
 <li><p>绘制背景图的二维矩阵，将匹配到点的位置，即红点位置设置为1，其他点为0</p>
 </li>
 <li><p>想办法排除干扰点，找出正确的缺口中心点</p>
 </li>
-<li><p>绘制小滑块的边界点<br><img src="media/15737097637196.jpg" alt=""><br><img src="media/15737097752550.jpg" alt=""></p>
+<li><p>绘制小滑块的边界点<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097637196.jpg" alt=""><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097752550.jpg" alt=""></p>
 </li>
 <li><p>绘制小滑块的二维矩阵，将匹配到点的位置，即红点位置设置为1，其他点为0</p>
 </li>
@@ -92,13 +94,13 @@
 <li><p>在背景图的二维矩阵中，移动小滑块的二维矩阵，用被遮罩的背景图所在区域的二维矩阵与小滑块的二维矩阵对应坐标相乘，取乘积最大的位置的中心点。</p>
 </li>
 </ol>
-<h2 id="2-直接找边缘"><a href="#2-直接找边缘" class="headerlink" title="2. 直接找边缘"></a>2. 直接找边缘</h2><p>原图<br><img src="media/15737097903269.jpg" alt=""></p>
-<p>转为灰度图 （不是原图，拿个其他的图冒出下）<br><img src="media/15737098031088.jpg" alt=""></p>
-<p>锐化 成 0 255的点<br><img src="media/15737098203947.jpg" alt=""></p>
-<p>找小滑块的边界<br><img src="media/15737098368335.jpg" alt=""></p>
-<p>矩阵如下<br><img src="media/15737098535328.jpg" alt=""></p>
-<p>用小滑块的矩阵与背景图蜕化之后形成的矩阵做2d卷积（为了找落在小滑块边界最多的点的区域）<br><img src="media/15737098694558.jpg" alt=""></p>
-<p>找出图中值最大的点，及为缺口的中心点<br><img src="media/15737098808389.jpg" alt=""></p>
+<h2 id="2-直接找边缘"><a href="#2-直接找边缘" class="headerlink" title="2. 直接找边缘"></a>2. 直接找边缘</h2><p>原图<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097903269.jpg" alt=""></p>
+<p>转为灰度图 （不是原图，拿个其他的图冒出下）<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098031088.jpg" alt=""></p>
+<p>锐化 成 0 255的点<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098203947.jpg" alt=""></p>
+<p>找小滑块的边界<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098368335.jpg" alt=""></p>
+<p>矩阵如下<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098535328.jpg" alt=""></p>
+<p>用小滑块的矩阵与背景图蜕化之后形成的矩阵做2d卷积（为了找落在小滑块边界最多的点的区域）<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098694558.jpg" alt=""></p>
+<p>找出图中值最大的点，及为缺口的中心点<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098808389.jpg" alt=""></p>
 <p>此处识别结果有些小偏移，且多组图的偏移量一致，不知这个偏移量是如何产生的，待后续优化</p>
 <h1 id="福利"><a href="#福利" class="headerlink" title="福利"></a>福利</h1><p>本识别验证码算法已打包成可执行文件，提供http接口，方便不同语言间调用。</p>
 <p>下载地址：<a href="https://github.com/striver-ing/crack_slider.git" target="_blank" rel="noopener">https://github.com/striver-ing/crack_slider.git</a></p>
@@ -106,7 +108,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/14/crack-gap-slider/" data-id="ck2yafdgz00004vs61f611u2e"
+      <a data-url="http://yoursite.com/2019/11/14/crack-gap-slider/" data-id="ck2yal15d000173s65ty1cevj"
          class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li></ul>
