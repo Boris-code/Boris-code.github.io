@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    MONIO 文件存储服务 |
+    
+    Boris</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  
+
+<article id="post-MONIO-文件存储服务" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MONIO 文件存储服务
+    </h1>
+  
+  
+
+
+
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/12/06/MONIO-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/" class="article-date">
+  <time datetime="2019-12-06T04:24:31.000Z" itemprop="datePublished">2019-12-06</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AC%AC%E4%B8%89%E6%96%B9%E6%9C%8D%E5%8A%A1/">第三方服务</a>
+  </div>
+
+      </div>
+    
+
+    
+      
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>MinIO 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。</p>
+<p>MinIO是一个非常轻量的服务,可以很简单的和其他应用的结合，类似 NodeJS, Redis 或者 MySQL。</p>
+<a id="more"></a>
+
+<h1 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><h3 id="Docker-容器"><a href="#Docker-容器" class="headerlink" title="Docker 容器"></a>Docker 容器</h3><pre><code>docker pull minio/minio
+docker run -p 9000:9000 minio/minio server /data</code></pre><h3 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h3><p>使用 Homebrew安装minio</p>
+<pre><code>Copybrew install minio/stable/minio
+minio server /data</code></pre><p>下载二进制文件</p>
+<pre><code>wget https://dl.min.io/server/minio/release/darwin-amd64/minio
+chmod 755 minio
+./minio server /data</code></pre><h3 id="GNU-Linux"><a href="#GNU-Linux" class="headerlink" title="GNU/Linux"></a>GNU/Linux</h3><pre><code>wget https://dl.min.io/server/minio/release/linux-amd64/minio
+chmod +x minio
+./minio server /data</code></pre><h3 id="微软Windows系统"><a href="#微软Windows系统" class="headerlink" title="微软Windows系统"></a>微软Windows系统</h3><p>下载地址：<a href="https://dl.min.io/server/minio/release/windows-amd64/minio.exe" target="_blank" rel="noopener">https://dl.min.io/server/minio/release/windows-amd64/minio.exe</a></p>
+<p>运行</p>
+<pre><code>minio.exe server D:\data</code></pre><h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>运行时留意打印的参数</p>
+<pre><code>AccessKey: 916PB1FPAX34MADOS3DI
+SecretKey: qDq9d2C+j4HncPbKJfb+R9x2UXPfUcDtYtnKIB4+</code></pre><h3 id="使用浏览器进行验证"><a href="#使用浏览器进行验证" class="headerlink" title="使用浏览器进行验证"></a>使用浏览器进行验证</h3><p>安装后使用浏览器访问 <a href="http://127.0.0.1:9000" target="_blank" rel="noopener">http://127.0.0.1:9000</a> 如果可以访问，则表示minio已经安装成功。</p>
+<h2 id="python-代码示例"><a href="#python-代码示例" class="headerlink" title="python 代码示例"></a>python 代码示例</h2><pre><code># -*- coding: utf-8 -*-
+&quot;&quot;&quot;
+Created on 2019/7/24 7:49 PM
+---------
+@summary:
+---------
+@author: liubo
+&quot;&quot;&quot;
+
+from datetime import timedelta
+
+from minio import Minio
+
+minioClient = Minio(
+    endpoint=&quot;192.168.0.129:9000&quot;,
+    access_key=&quot;916PB1FPAX34MADOS3DI&quot;,
+    secret_key=&quot;qDq9d2C+j4HncPbKJfb+R9x2UXPfUcDtYtnKIB4+&quot;,
+    secure=False,
+)
+
+# 创建bucket 不能重复创建
+# minioClient.make_bucket(&quot;files&quot;, location=&quot;us-east-1&quot;)
+
+# 上传文件
+etag = minioClient.fput_object(
+    &quot;files&quot;, &quot;微信公众号爬虫.jpg&quot;, &quot;/Users/liubo/Downloads/微信公众号爬虫.jpg&quot;
+)
+
+print(etag)
+
+# 获取下载地址
+presignedURL = minioClient.presigned_get_object(
+    &quot;files&quot;, &quot;微信公众号爬虫.jpg&quot;, timedelta(days=7)
+)
+print(presignedURL)</code></pre><h1 id="使用docker-运行"><a href="#使用docker-运行" class="headerlink" title="使用docker 运行"></a>使用docker 运行</h1><h2 id="下载-1"><a href="#下载-1" class="headerlink" title="下载"></a>下载</h2><pre><code>docker pull minio/minio</code></pre><h2 id="创建本地存储文件夹"><a href="#创建本地存储文件夹" class="headerlink" title="创建本地存储文件夹"></a>创建本地存储文件夹</h2><pre><code># 创建文件下
+mkdir /mnt
+cd /mnt
+mkdir data
+mkdir config
+# 文件夹授权写权限
+sudo chmod -R 777 /mnt/data
+sudo chmod -R 777 /mnt/config</code></pre><h2 id="首次运行"><a href="#首次运行" class="headerlink" title="首次运行"></a>首次运行</h2><pre><code>sudo docker run -p 9000:9000 --name minio1 \
+-e &quot;MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE&quot; \
+-e &quot;MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&quot; \
+-v /mnt/data:/data \
+-v /mnt/config:/root/.minio \
+minio/minio server /data</code></pre><p>MINIO_ACCESS_KEY 与 MINIO_SECRET_KEY 为密钥，可修改</p>
+<p>停止：</p>
+<pre><code>ctrl + c</code></pre><h2 id="再次运行"><a href="#再次运行" class="headerlink" title="再次运行"></a>再次运行</h2><pre><code>docker container start minio1</code></pre><p>停止：</p>
+<pre><code>docker container stop minio1</code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>官方文档：<a href="https://docs.min.io/cn/minio-quickstart-guide.html" target="_blank" rel="noopener">https://docs.min.io/cn/minio-quickstart-guide.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/06/MONIO-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/" data-id="ck3tnrx2h0000jgs6begf20dl"
+         class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/" rel="tag">文件存储服务</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+    
+      <a href="/2019/11/17/arm-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">arm 常用指令</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '955c9faec73be9ec9c60',
+      clientSecret: 'a5011b60f1fe57f6e35f6aadd6f444c3d4da0b52',
+      repo: 'Boris-code.github.io',
+      owner: 'Boris-code',
+      admin: ['Boris-code'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2019 Boris</li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+
+<aside class="sidebar sidebar-specter">
+  
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/shark.svg" alt="Boris"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/categories">分类</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/tocbot.min.js"></script>
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>
