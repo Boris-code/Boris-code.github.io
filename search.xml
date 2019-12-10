@@ -36,6 +36,12 @@ print(text)</code></pre><p>输出：</p>
 <pre><code>{&apos;text&apos;: &apos;&lt;html&gt;&lt;body&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;\xa0&lt;/span&gt;&lt;/body&gt;&lt;/html&gt;&apos;}
 &lt;html&gt;&lt;body&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt; &lt;/span&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>直接用正则替换为空白符</p>
 <pre><code>text = re.sub(&apos;\xa0&apos;, &apos;\x20&apos;, text)</code></pre>]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>特殊字符</tag>
+      </tags>
   </entry>
   <entry>
     <title>MONIO 文件存储服务</title>
