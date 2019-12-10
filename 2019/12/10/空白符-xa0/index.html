@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>
-    Sublime-Plugin-CreateInit |
+    空白符  |
     
     Boris</title>
   
@@ -25,7 +25,7 @@
   <section class="outer">
   
 
-<article id="post-Sublime-Plugin-CreateInit" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+<article id="post-空白符-xa0" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
   
   <div class="article-inner">
     
@@ -33,7 +33,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Sublime-Plugin-CreateInit
+      空白符 
     </h1>
   
   
@@ -46,14 +46,10 @@
 
     
       <div class="article-meta">
-        <a href="/2019/11/14/Sublime-Plugin-CreateInit/" class="article-date">
-  <time datetime="2019-11-14T05:12:36.000Z" itemprop="datePublished">2019-11-14</time>
+        <a href="/2019/12/10/%E7%A9%BA%E7%99%BD%E7%AC%A6-xa0/" class="article-date">
+  <time datetime="2019-12-10T06:05:25.000Z" itemprop="datePublished">2019-12-10</time>
 </a>
         
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%8F%92%E4%BB%B6/">插件</a>
-  </div>
-
       </div>
     
 
@@ -74,46 +70,45 @@
       
 
       
-        <h1 id="CreateInit"><a href="#CreateInit" class="headerlink" title="CreateInit"></a>CreateInit</h1><p>This CreateInit plugin for Sublime Text to auto create <code>__init__.py</code> that import all python files into <code>__all__</code></p>
-<a id="more"></a>
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们通常所用的空格是 \x20 ，是在标准ASCII可见字符 0x20~0x7e 范围内。</p>
+<p>而\xa0 是不间断空白符 <code>&amp;nbsp;</code> 属于 latin1 （ISO/IEC_8859-1）中的扩展字符集字符，代表空白符nbsp(non-breaking space)。latin1 字符集向下兼容 ASCII （ 0x20~0x7e ）。通常我们见到的字符多数是 latin1 的</p>
+<p>比如在 MySQL 数据库中，有如下信息：</p>
+<pre><code>&lt;span style=\\&quot;font-size: 16px;\\&quot;&gt;\xa0&lt;/span&gt;</code></pre><p>网页中的正常数据为</p>
+<pre><code>&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;</code></pre><p>网页地址：</p>
+<pre><code>https://mp.weixin.qq.com/s?__biz=MjM5ODkyMDE0OQ==&amp;mid=2651784114&amp;idx=2&amp;sn=d16c9e4977dbeb4de26bf49f03a6670f&amp;chksm=bd38c9088a4f401e03f81c97bd2ba0896ef199f262c63bd635ea8dba332ebd1378b49ee376a9&amp;scene=0&amp;xtrack=1#rd</code></pre><a id="more"></a>
 
-<h1 id="Plugin-Installation"><a href="#Plugin-Installation" class="headerlink" title="Plugin Installation"></a>Plugin Installation</h1><p><strong>With the Package Control plugin:</strong> The easiest way to install<br><code>CreateInit</code> is through Package Control, which can be found at this site: <a href="http://wbond.net/sublime_packages/package_control" target="_blank" rel="noopener">http://wbond.net/sublime_packages/package_control</a></p>
-<p>Once you install Package Control, restart Sublime Text and bring up the<br>Command Palette (<code>Command+Shift+P</code> on OS X, <code>Control+Shift+P</code> on<br>Linux/Windows). Select “Package Control: Install Package”, wait while<br>Package Control fetches the latest package list, then select<br><code>CreateInit</code> when the list appears. The advantage of using this<br>method is that Package Control will automatically keep CreateInit<br>up to date with the latest version.</p>
-<p><strong>Without Git:</strong> Download the latest source from <a href="https://github.com/Boris-code/CreateInit" target="_blank" rel="noopener">GitHub</a> and copy<br>the whole directory into the Packages directory.</p>
-<p><strong>With Git:</strong> Clone the repository in your Sublime Text Packages directory, located somewhere in user’s “Home” directory:</p>
-<pre><code>git clone https://github.com/Boris-code/CreateInit.git</code></pre><p>The “Packages” packages directory is located differently in different<br>platforms. To access the directory use:</p>
-<ul>
-<li><p>OS X:</p>
-<pre><code>Sublime Text -&gt; Preferences -&gt; Browse Packages...</code></pre></li>
-<li><p>Linux:</p>
-<pre><code>Preferences -&gt; Browse Packages...</code></pre></li>
-<li><p>Windows:</p>
-<pre><code>Preferences -&gt; Browse Packages...</code></pre></li>
-</ul>
-<h1 id="Using"><a href="#Using" class="headerlink" title="Using"></a>Using</h1><ul>
-<li><p>Start typing code as usual. When you need create <code>__init__.py</code>, You can use bellow shortcut key.</p>
-<p>  For Mac OS X:</p>
-<ul>
-<li><p><code>command + alt + i</code></p>
-<p>For Linux:</p>
-</li>
-<li><p><code>ctrl + alt + i</code></p>
-<p>For Windows:</p>
-</li>
-<li><p><code>ctrl + alt +i</code></p>
-</li>
-</ul>
-</li>
-</ul>
+<h2 id="排查问题"><a href="#排查问题" class="headerlink" title="排查问题"></a>排查问题</h2><p>起初以为可能是如下问题引起的</p>
+<ol>
+<li>xpath 解析的问题</li>
+<li><code>pymysql.escape_string(value)</code> 处理的问题</li>
+</ol>
+<p>经排查不都是，排查代码如下：</p>
+<pre><code>text = &apos;&lt;span style=&quot;font-size: 16px;&quot;&gt; &lt;/span&gt;&apos;
+a = {
+    &quot;text&quot;:text
+}
+print(a)</code></pre><p>输出：</p>
+<pre><code>{&apos;text&apos;: &apos;&lt;span style=&quot;font-size: 16px;&quot;&gt;\xa0&lt;/span&gt;&apos;}</code></pre><p>当然，这里没看到<code>&amp;nbsp;</code>, 原因是解析时xpath将<code>&amp;nbsp;</code> 转成了text中的\xa0，因为是空白符，所以看不见</p>
+<p>xpath解析代码如下：</p>
+<pre><code>from parsel import Selector
 
+text = &apos;&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&apos;
+selector = Selector(text)
+text = selector.xpath(&apos;.&apos;).extract_first()
+a = {
+    &quot;text&quot;:text
+}
+print(a)
+print(text)</code></pre><p>输出：</p>
+<pre><code>{&apos;text&apos;: &apos;&lt;html&gt;&lt;body&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;\xa0&lt;/span&gt;&lt;/body&gt;&lt;/html&gt;&apos;}
+&lt;html&gt;&lt;body&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt; &lt;/span&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>直接用正则替换为空白符</p>
+<pre><code>text = re.sub(&apos;\xa0&apos;, &apos;\x20&apos;, text)</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/14/Sublime-Plugin-CreateInit/" data-id="ck3zimpm50000oxs6b3ox1hed"
+      <a data-url="http://yoursite.com/2019/12/10/%E7%A9%BA%E7%99%BD%E7%AC%A6-xa0/" data-id="ck3zimpml0008oxs6g5878iz7"
          class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sublime-%E6%8F%92%E4%BB%B6/" rel="tag">sublime 插件</a></li></ul>
-
     </footer>
 
   </div>
@@ -122,15 +117,11 @@
     
   <nav class="article-nav">
     
-      <a href="/2019/11/14/crack-gap-slider/" class="article-nav-link">
-        <strong class="article-nav-caption">前一篇</strong>
-        <div class="article-nav-title">
-          
-            缺口类滑块验证码破解
-          
-        </div>
-      </a>
     
+      <a href="/2019/12/06/MONIO-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">MONIO 文件存储服务</div>
+      </a>
     
   </nav>
 

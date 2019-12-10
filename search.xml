@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>空白符 </title>
+    <url>/2019/12/10/%E7%A9%BA%E7%99%BD%E7%AC%A6-xa0/</url>
+    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们通常所用的空格是 \x20 ，是在标准ASCII可见字符 0x20~0x7e 范围内。</p>
+<p>而\xa0 是不间断空白符 <code>&amp;nbsp;</code> 属于 latin1 （ISO/IEC_8859-1）中的扩展字符集字符，代表空白符nbsp(non-breaking space)。latin1 字符集向下兼容 ASCII （ 0x20~0x7e ）。通常我们见到的字符多数是 latin1 的</p>
+<p>比如在 MySQL 数据库中，有如下信息：</p>
+<pre><code>&lt;span style=\\&quot;font-size: 16px;\\&quot;&gt;\xa0&lt;/span&gt;</code></pre><p>网页中的正常数据为</p>
+<pre><code>&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;</code></pre><p>网页地址：</p>
+<pre><code>https://mp.weixin.qq.com/s?__biz=MjM5ODkyMDE0OQ==&amp;mid=2651784114&amp;idx=2&amp;sn=d16c9e4977dbeb4de26bf49f03a6670f&amp;chksm=bd38c9088a4f401e03f81c97bd2ba0896ef199f262c63bd635ea8dba332ebd1378b49ee376a9&amp;scene=0&amp;xtrack=1#rd</code></pre><a id="more"></a>
+
+<h2 id="排查问题"><a href="#排查问题" class="headerlink" title="排查问题"></a>排查问题</h2><p>起初以为可能是如下问题引起的</p>
+<ol>
+<li>xpath 解析的问题</li>
+<li><code>pymysql.escape_string(value)</code> 处理的问题</li>
+</ol>
+<p>经排查不都是，排查代码如下：</p>
+<pre><code>text = &apos;&lt;span style=&quot;font-size: 16px;&quot;&gt; &lt;/span&gt;&apos;
+a = {
+    &quot;text&quot;:text
+}
+print(a)</code></pre><p>输出：</p>
+<pre><code>{&apos;text&apos;: &apos;&lt;span style=&quot;font-size: 16px;&quot;&gt;\xa0&lt;/span&gt;&apos;}</code></pre><p>当然，这里没看到<code>&amp;nbsp;</code>, 原因是解析时xpath将<code>&amp;nbsp;</code> 转成了text中的\xa0，因为是空白符，所以看不见</p>
+<p>xpath解析代码如下：</p>
+<pre><code>from parsel import Selector
+
+text = &apos;&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&apos;
+selector = Selector(text)
+text = selector.xpath(&apos;.&apos;).extract_first()
+a = {
+    &quot;text&quot;:text
+}
+print(a)
+print(text)</code></pre><p>输出：</p>
+<pre><code>{&apos;text&apos;: &apos;&lt;html&gt;&lt;body&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;\xa0&lt;/span&gt;&lt;/body&gt;&lt;/html&gt;&apos;}
+&lt;html&gt;&lt;body&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt; &lt;/span&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>直接用正则替换为空白符</p>
+<pre><code>text = re.sub(&apos;\xa0&apos;, &apos;\x20&apos;, text)</code></pre>]]></content>
+  </entry>
+  <entry>
     <title>MONIO 文件存储服务</title>
     <url>/2019/12/06/MONIO-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>MinIO 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。</p>
