@@ -1,9 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>微信公众号抓取</title>
-    <url>/2019/12/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%93%E5%8F%96/</url>
-    <content><![CDATA[<h2 id="采集方案对比"><a href="#采集方案对比" class="headerlink" title="采集方案对比"></a>采集方案对比</h2><p>抓取公众号文章及文章动态信息不同采集方案对比如下：</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    微信公众号抓取 |
+    
+    Boris</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  
+
+<article id="post-微信公众号抓取" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      微信公众号抓取
+    </h1>
+  
+  
+
+
+
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/12/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%93%E5%8F%96/" class="article-date">
+  <time datetime="2019-12-22T14:44:33.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
+  </div>
+
+      </div>
+    
+
+    
+      
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+        <h2 id="采集方案对比"><a href="#采集方案对比" class="headerlink" title="采集方案对比"></a>采集方案对比</h2><p>抓取公众号文章及文章动态信息不同采集方案对比如下：</p>
 <p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/12/22/15770262788316.jpg" alt="-w834"></p>
 <p>基于中间人方式已在github上开源：<a href="https://github.com/striver-ing/wechat-spider" target="_blank" rel="noopener">https://github.com/striver-ing/wechat-spider</a><br>下面为基于逆向方式</p>
 <a id="more"></a>
@@ -391,231 +462,172 @@
 <p>备注：由于用户对阅读点赞评论数更新频率及时效性的需求不一，接口暂不支持设置采集阅读点赞评论量，如果需要采集，请联系我定制。</p>
 <h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><p><strong>wechat</strong>: bzkj_tech</p>
 <img src = 'https://markdown-media.oss-cn-beijing.aliyuncs.com/15594020547978.jpg' width =300px align='left'>
-]]></content>
-      <categories>
-        <category>爬虫</category>
-      </categories>
-      <tags>
-        <tag>微信</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>空白符 </title>
-    <url>/2019/12/10/%E7%A9%BA%E7%99%BD%E7%AC%A6-xa0/</url>
-    <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们通常所用的空格是 \x20 ，是在标准ASCII可见字符 0x20~0x7e 范围内。</p>
-<p>而\xa0 是不间断空白符 <code>&amp;nbsp;</code> 属于 latin1 （ISO/IEC_8859-1）中的扩展字符集字符，代表空白符nbsp(non-breaking space)。latin1 字符集向下兼容 ASCII （ 0x20~0x7e ）。通常我们见到的字符多数是 latin1 的</p>
-<p>比如在 MySQL 数据库中，有如下信息：</p>
-<pre><code>&lt;span style=\\&quot;font-size: 16px;\\&quot;&gt;\xa0&lt;/span&gt;</code></pre><p>网页中的正常数据为</p>
-<pre><code>&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;</code></pre><p>网页地址：</p>
-<pre><code>https://mp.weixin.qq.com/s?__biz=MjM5ODkyMDE0OQ==&amp;mid=2651784114&amp;idx=2&amp;sn=d16c9e4977dbeb4de26bf49f03a6670f&amp;chksm=bd38c9088a4f401e03f81c97bd2ba0896ef199f262c63bd635ea8dba332ebd1378b49ee376a9&amp;scene=0&amp;xtrack=1#rd</code></pre><a id="more"></a>
 
-<h2 id="排查问题"><a href="#排查问题" class="headerlink" title="排查问题"></a>排查问题</h2><p>起初以为可能是如下问题引起的</p>
-<ol>
-<li>xpath 解析的问题</li>
-<li><code>pymysql.escape_string(value)</code> 处理的问题</li>
-</ol>
-<p>经排查不都是，排查代码如下：</p>
-<pre><code>text = &apos;&lt;span style=&quot;font-size: 16px;&quot;&gt; &lt;/span&gt;&apos;
-a = {
-    &quot;text&quot;:text
-}
-print(a)</code></pre><p>输出：</p>
-<pre><code>{&apos;text&apos;: &apos;&lt;span style=&quot;font-size: 16px;&quot;&gt;\xa0&lt;/span&gt;&apos;}</code></pre><p>当然，这里没看到<code>&amp;nbsp;</code>, 原因是解析时xpath将<code>&amp;nbsp;</code> 转成了text中的\xa0，因为是空白符，所以看不见</p>
-<p>xpath解析代码如下：</p>
-<pre><code>from parsel import Selector
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%93%E5%8F%96/" data-id="ck4h4zkw6000a6gx10x5efnf7"
+         class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1/" rel="tag">微信</a></li></ul>
 
-text = &apos;&lt;span style=&quot;font-size: 16px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&apos;
-selector = Selector(text)
-text = selector.xpath(&apos;.&apos;).extract_first()
-a = {
-    &quot;text&quot;:text
-}
-print(a)
-print(text)</code></pre><p>输出：</p>
-<pre><code>{&apos;text&apos;: &apos;&lt;html&gt;&lt;body&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;\xa0&lt;/span&gt;&lt;/body&gt;&lt;/html&gt;&apos;}
-&lt;html&gt;&lt;body&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt; &lt;/span&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>直接用正则替换为空白符</p>
-<pre><code>text = re.sub(&apos;\xa0&apos;, &apos;\x20&apos;, text)</code></pre>]]></content>
-      <categories>
-        <category>爬虫</category>
-      </categories>
-      <tags>
-        <tag>特殊字符</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MONIO 文件存储服务</title>
-    <url>/2019/12/06/MONIO-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>MinIO 是一个基于Apache License v2.0开源协议的对象存储服务。它兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几kb到最大5T不等。</p>
-<p>MinIO是一个非常轻量的服务,可以很简单的和其他应用的结合，类似 NodeJS, Redis 或者 MySQL。</p>
-<a id="more"></a>
+    </footer>
 
-<h1 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><h3 id="Docker-容器"><a href="#Docker-容器" class="headerlink" title="Docker 容器"></a>Docker 容器</h3><pre><code>docker pull minio/minio
-docker run -p 9000:9000 minio/minio server /data</code></pre><h3 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h3><p>使用 Homebrew安装minio</p>
-<pre><code>Copybrew install minio/stable/minio
-minio server /data</code></pre><p>下载二进制文件</p>
-<pre><code>wget https://dl.min.io/server/minio/release/darwin-amd64/minio
-chmod 755 minio
-./minio server /data</code></pre><h3 id="GNU-Linux"><a href="#GNU-Linux" class="headerlink" title="GNU/Linux"></a>GNU/Linux</h3><pre><code>wget https://dl.min.io/server/minio/release/linux-amd64/minio
-chmod +x minio
-./minio server /data</code></pre><h3 id="微软Windows系统"><a href="#微软Windows系统" class="headerlink" title="微软Windows系统"></a>微软Windows系统</h3><p>下载地址：<a href="https://dl.min.io/server/minio/release/windows-amd64/minio.exe" target="_blank" rel="noopener">https://dl.min.io/server/minio/release/windows-amd64/minio.exe</a></p>
-<p>运行</p>
-<pre><code>minio.exe server D:\data</code></pre><h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>运行时留意打印的参数</p>
-<pre><code>AccessKey: 916PB1FPAX34MADOS3DI
-SecretKey: qDq9d2C+j4HncPbKJfb+R9x2UXPfUcDtYtnKIB4+</code></pre><h3 id="使用浏览器进行验证"><a href="#使用浏览器进行验证" class="headerlink" title="使用浏览器进行验证"></a>使用浏览器进行验证</h3><p>安装后使用浏览器访问 <a href="http://127.0.0.1:9000" target="_blank" rel="noopener">http://127.0.0.1:9000</a> 如果可以访问，则表示minio已经安装成功。</p>
-<h2 id="python-代码示例"><a href="#python-代码示例" class="headerlink" title="python 代码示例"></a>python 代码示例</h2><pre><code># -*- coding: utf-8 -*-
-&quot;&quot;&quot;
-Created on 2019/7/24 7:49 PM
----------
-@summary:
----------
-@author: liubo
-&quot;&quot;&quot;
+  </div>
 
-from datetime import timedelta
+  
+    
+  <nav class="article-nav">
+    
+    
+      <a href="/2019/12/10/%E7%A9%BA%E7%99%BD%E7%AC%A6-xa0/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">空白符 </div>
+      </a>
+    
+  </nav>
 
-from minio import Minio
 
-minioClient = Minio(
-    endpoint=&quot;192.168.0.129:9000&quot;,
-    access_key=&quot;916PB1FPAX34MADOS3DI&quot;,
-    secret_key=&quot;qDq9d2C+j4HncPbKJfb+R9x2UXPfUcDtYtnKIB4+&quot;,
-    secure=False,
-)
+  
 
-# 创建bucket 不能重复创建
-# minioClient.make_bucket(&quot;files&quot;, location=&quot;us-east-1&quot;)
+  
+    
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '955c9faec73be9ec9c60',
+      clientSecret: 'a5011b60f1fe57f6e35f6aadd6f444c3d4da0b52',
+      repo: 'Boris-code.github.io',
+      owner: 'Boris-code',
+      admin: ['Boris-code'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
 
-# 上传文件
-etag = minioClient.fput_object(
-    &quot;files&quot;, &quot;微信公众号爬虫.jpg&quot;, &quot;/Users/liubo/Downloads/微信公众号爬虫.jpg&quot;
-)
+  gitalk.render('gitalk-container')
+  </script>
 
-print(etag)
+  
 
-# 获取下载地址
-presignedURL = minioClient.presigned_get_object(
-    &quot;files&quot;, &quot;微信公众号爬虫.jpg&quot;, timedelta(days=7)
-)
-print(presignedURL)</code></pre><h1 id="使用docker-运行"><a href="#使用docker-运行" class="headerlink" title="使用docker 运行"></a>使用docker 运行</h1><h2 id="下载-1"><a href="#下载-1" class="headerlink" title="下载"></a>下载</h2><pre><code>docker pull minio/minio</code></pre><h2 id="创建本地存储文件夹"><a href="#创建本地存储文件夹" class="headerlink" title="创建本地存储文件夹"></a>创建本地存储文件夹</h2><pre><code># 创建文件下
-mkdir /mnt
-cd /mnt
-mkdir data
-mkdir config
-# 文件夹授权写权限
-sudo chmod -R 777 /mnt/data
-sudo chmod -R 777 /mnt/config</code></pre><h2 id="首次运行"><a href="#首次运行" class="headerlink" title="首次运行"></a>首次运行</h2><pre><code>sudo docker run -p 9000:9000 --name minio1 \
--e &quot;MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE&quot; \
--e &quot;MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&quot; \
--v /mnt/data:/data \
--v /mnt/config:/root/.minio \
-minio/minio server /data</code></pre><p>MINIO_ACCESS_KEY 与 MINIO_SECRET_KEY 为密钥，可修改</p>
-<p>停止：</p>
-<pre><code>ctrl + c</code></pre><h2 id="再次运行"><a href="#再次运行" class="headerlink" title="再次运行"></a>再次运行</h2><pre><code>docker container start minio1</code></pre><p>停止：</p>
-<pre><code>docker container stop minio1</code></pre><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>官方文档：<a href="https://docs.min.io/cn/minio-quickstart-guide.html" target="_blank" rel="noopener">https://docs.min.io/cn/minio-quickstart-guide.html</a></p>
-]]></content>
-      <categories>
-        <category>第三方服务</category>
-      </categories>
-      <tags>
-        <tag>文件存储服务</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>arm 常用指令</title>
-    <url>/2019/11/17/arm-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>逆向</category>
-      </categories>
-      <tags>
-        <tag>汇编</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>缺口类滑块验证码破解</title>
-    <url>/2019/11/14/crack-gap-slider/</url>
-    <content><![CDATA[<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>以抖音开发者平台为例</p>
-<pre><code>https://sso.douyin.com/?service=https://www.douyin.com/login?redirect_url=https%3A%2F%2Fwww.douyin.com%2Fplatform</code></pre><p>目标，找到如下滑块缺口中心点，计算需要滑动的偏移量即像素点的个数</p>
-<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737096984879.jpg" alt=""></p>
-<a id="more"></a>
+</article>
 
-<h1 id="破解思路"><a href="#破解思路" class="headerlink" title="破解思路"></a>破解思路</h1><h2 id="1-根据边界的rgb方式"><a href="#1-根据边界的rgb方式" class="headerlink" title="1. 根据边界的rgb方式"></a>1. 根据边界的rgb方式</h2><ol>
-<li>找出缺口边缘的像素 rgb值</li>
-<li>根据rgb值来找出缺口边缘的像素点</li>
-</ol>
-<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097349737.jpg" alt=""><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097429933.jpg" alt=""></p>
-<ol start="3">
-<li><p>绘制背景图的二维矩阵，将匹配到点的位置，即红点位置设置为1，其他点为0</p>
-</li>
-<li><p>想办法排除干扰点，找出正确的缺口中心点</p>
-</li>
-<li><p>绘制小滑块的边界点<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097637196.jpg" alt=""><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097752550.jpg" alt=""></p>
-</li>
-<li><p>绘制小滑块的二维矩阵，将匹配到点的位置，即红点位置设置为1，其他点为0</p>
-</li>
-<li><p>找出落在小滑块边界最多点的区域，即为缺口区域</p>
-</li>
-<li><p>在背景图的二维矩阵中，移动小滑块的二维矩阵，用被遮罩的背景图所在区域的二维矩阵与小滑块的二维矩阵对应坐标相乘，取乘积最大的位置的中心点。</p>
-</li>
-</ol>
-<h2 id="2-直接找边缘"><a href="#2-直接找边缘" class="headerlink" title="2. 直接找边缘"></a>2. 直接找边缘</h2><p>原图<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737097903269.jpg" alt=""></p>
-<p>转为灰度图 （不是原图，拿个其他的图冒出下）<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098031088.jpg" alt=""></p>
-<p>锐化 成 0 255的点<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098203947.jpg" alt=""></p>
-<p>找小滑块的边界<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098368335.jpg" alt=""></p>
-<p>矩阵如下<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098535328.jpg" alt=""></p>
-<p>用小滑块的矩阵与背景图蜕化之后形成的矩阵做2d卷积（为了找落在小滑块边界最多的点的区域）<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098694558.jpg" alt=""></p>
-<p>找出图中值最大的点，及为缺口的中心点<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737098808389.jpg" alt=""></p>
-<p>此处识别结果有些小偏移，且多组图的偏移量一致，不知这个偏移量是如何产生的，待后续优化</p>
-<h1 id="福利"><a href="#福利" class="headerlink" title="福利"></a>福利</h1><p>本识别验证码算法已打包成可执行文件，提供http接口，方便不同语言间调用。</p>
-<p>下载地址：<a href="https://github.com/striver-ing/crack_slider.git" target="_blank" rel="noopener">https://github.com/striver-ing/crack_slider.git</a></p>
-]]></content>
-      <categories>
-        <category>爬虫</category>
-      </categories>
-      <tags>
-        <tag>滑块破解</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Sublime-Plugin-CreateInit</title>
-    <url>/2019/11/14/Sublime-Plugin-CreateInit/</url>
-    <content><![CDATA[<h1 id="CreateInit"><a href="#CreateInit" class="headerlink" title="CreateInit"></a>CreateInit</h1><p>This CreateInit plugin for Sublime Text to auto create <code>__init__.py</code> that import all python files into <code>__all__</code></p>
-<a id="more"></a>
 
-<h1 id="Plugin-Installation"><a href="#Plugin-Installation" class="headerlink" title="Plugin Installation"></a>Plugin Installation</h1><p><strong>With the Package Control plugin:</strong> The easiest way to install<br><code>CreateInit</code> is through Package Control, which can be found at this site: <a href="http://wbond.net/sublime_packages/package_control" target="_blank" rel="noopener">http://wbond.net/sublime_packages/package_control</a></p>
-<p>Once you install Package Control, restart Sublime Text and bring up the<br>Command Palette (<code>Command+Shift+P</code> on OS X, <code>Control+Shift+P</code> on<br>Linux/Windows). Select “Package Control: Install Package”, wait while<br>Package Control fetches the latest package list, then select<br><code>CreateInit</code> when the list appears. The advantage of using this<br>method is that Package Control will automatically keep CreateInit<br>up to date with the latest version.</p>
-<p><strong>Without Git:</strong> Download the latest source from <a href="https://github.com/Boris-code/CreateInit" target="_blank" rel="noopener">GitHub</a> and copy<br>the whole directory into the Packages directory.</p>
-<p><strong>With Git:</strong> Clone the repository in your Sublime Text Packages directory, located somewhere in user’s “Home” directory:</p>
-<pre><code>git clone https://github.com/Boris-code/CreateInit.git</code></pre><p>The “Packages” packages directory is located differently in different<br>platforms. To access the directory use:</p>
-<ul>
-<li><p>OS X:</p>
-<pre><code>Sublime Text -&gt; Preferences -&gt; Browse Packages...</code></pre></li>
-<li><p>Linux:</p>
-<pre><code>Preferences -&gt; Browse Packages...</code></pre></li>
-<li><p>Windows:</p>
-<pre><code>Preferences -&gt; Browse Packages...</code></pre></li>
+
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
 </ul>
-<h1 id="Using"><a href="#Using" class="headerlink" title="Using"></a>Using</h1><ul>
-<li><p>Start typing code as usual. When you need create <code>__init__.py</code>, You can use bellow shortcut key.</p>
-<p>  For Mac OS X:</p>
-<ul>
-<li><p><code>command + alt + i</code></p>
-<p>For Linux:</p>
-</li>
-<li><p><code>ctrl + alt + i</code></p>
-<p>For Windows:</p>
-</li>
-<li><p><code>ctrl + alt +i</code></p>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>插件</category>
-      </categories>
-      <tags>
-        <tag>sublime 插件</tag>
-      </tags>
-  </entry>
-</search>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2019 Boris</li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+
+<aside class="sidebar sidebar-specter">
+  
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/shark.svg" alt="Boris"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/categories">分类</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/tocbot.min.js"></script>
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>
