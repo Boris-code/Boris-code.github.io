@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    python 面试题 |
+    
+    Boris</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  
+
+<article id="post-python-面试题" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python 面试题
+    </h1>
+  
+  
+
+
+
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/12/31/python-%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-date">
+  <time datetime="2019-12-31T07:20:32.000Z" itemprop="datePublished">2019-12-31</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>
+  </div>
+
+      </div>
+    
+
+    
+      
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+        <h1 id="1-基础"><a href="#1-基础" class="headerlink" title="1. 基础"></a>1. 基础</h1><h2 id="1-杂七杂八"><a href="#1-杂七杂八" class="headerlink" title="1. 杂七杂八"></a>1. 杂七杂八</h2><ol>
+<li><p>list 切片是<code>前闭后开</code></p>
+<pre><code>[1,2,3][0:2]
+&gt;&gt;&gt; [1, 2]</code></pre></li>
+<li><p><code>__new__</code> 是用来创建类并返回这个类的实例, 而<code>__init__</code>只是将传入的参数来初始化该实例.</p>
+ <a id="more"></a>
+</li>
+<li><p>metaclass的主要目的，是为了能够在创建类的时候，自动地修改类。</p>
+</li>
+<li><p><code>__getattribute__</code>定义了你的属性被访问时的行为，相比较，<code>__getattr__</code>只有该属性不存在时才会起作用。</p>
+</li>
+<li><p>上下文管理</p>
+<pre><code> __enter__会返回一个值，并赋值给as关键词之后的变量。在这里，你可以定义代码段开始的一些操作。
+
+__exit__(self, exception_type, exception_value, traceback)</code></pre><p> <code>__exit__</code> 定义了代码段结束后的一些操作，可以这里执行一些清除操作，或者做一些代码段结束后需要立即执行的命令，比如文件的关闭，socket断开等。如果代码段成功结束，那么exception_type, exception_value, traceback 三个参数传进来时都将为None。如果代码段抛出异常，那么传进来的三个参数将分别为: 异常的类型，异常的值，异常的追踪栈。<br> 如果<strong>exit</strong>返回True, 那么with声明下的代码段的一切异常将会被屏蔽。<br> 如果<strong>exit</strong>返回None, 那么如果有异常，异常将正常抛出，这时候with的作用将不会显现出来。</p>
+</li>
+<li><p>正则</p>
+<ol>
+<li><p>\d 匹配一个数字字符。等价于 [0-9]</p>
+</li>
+<li><p>\D 匹配一个非数字字符。等价于 [^0-9] </p>
+<p>可以理解为 大写字母 为小写字母的反义</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-基本数据类型"><a href="#2-基本数据类型" class="headerlink" title="2. 基本数据类型"></a>2. 基本数据类型</h2><p>Python3 中有六个标准的数据类型：</p>
+<ol>
+<li>Number（数字）</li>
+<li>String（字符串）</li>
+<li>List（列表）</li>
+<li>Tuple（元组）</li>
+<li>Set（集合）</li>
+<li>Dictionary（字典）</li>
+</ol>
+<h2 id="3-创建一个迭代器"><a href="#3-创建一个迭代器" class="headerlink" title="3. 创建一个迭代器"></a>3. 创建一个迭代器</h2><pre><code>class A:
+    def __iter__(self):
+        print(&quot;__iter__&quot;)
+        self.a = 1
+        return self
+
+    def __next__(self):
+        x = self.a
+        self.a += 1
+        return x
+
+
+myclass = A()
+myiter = iter(myclass)  # 输出 __iter__
+print(next(myiter))  # 输出 1
+
+也可以用for循环</code></pre><p>StopIteration 异常用于标识迭代的完成，防止出现无限循环的情况，在 <code>__next__()</code> 方法中我们可以设置在完成指定循环次数后触发 StopIteration 异常来结束迭代。  </p>
+<pre><code>class MyNumbers:
+    def __iter__(self):
+        self.a = 1
+        print(&quot;__iter__&quot;)
+        return self
+
+    def __next__(self):
+        if self.a &lt;= 20:
+            x = self.a
+            self.a += 1
+            return x
+        else:
+            raise StopIteration
+
+
+myclass = MyNumbers()
+
+for x in myclass:
+    print(x)  </code></pre><p> 用迭代器写斐波那契数列：</p>
+<pre><code>def f(n):
+    a, b = 0, 1
+    while n:
+        yield a
+        a, b = b, a+b
+        n -= 1
+
+for i in f(10):
+    print(i)</code></pre><h2 id="4-sorted-与-sort"><a href="#4-sorted-与-sort" class="headerlink" title="4  sorted 与 .sort"></a>4  sorted 与 .sort</h2><pre><code>a = [0,2,4,6,1]
+print(a.sort()) # None
+print(a) # [0, 1, 2, 4, 6]
+a.sort(reverse=True) # [6, 4, 2, 1, 0]
+
+print(sorted(a)) # [0, 1, 2, 4, 6]
+print(a) # [0, 2, 4, 6, 1]
+print(sorted(a, reverse=True)) # [6, 4, 2, 1, 0]</code></pre><p>lambda</p>
+<pre><code>#按照第一个元素进行排序
+l = [[2, 2, 3], [1, 4, 5], [5, 4, 9]]
+l.sort(lambda x:x[0])
+print(l) #输出：[[1, 4, 5], [2, 2, 3], [5, 4, 9]]
+
+# 对字典排序
+dict1={&apos;a&apos;:2,&apos;e&apos;:3,&apos;f&apos;:8,&apos;d&apos;:4}
+list1= sorted(dict1.items(),key=lambda x:x[0])
+print(list1)</code></pre><p>匿名函数的x，表示的是l列表中的每一个成员元素<br>x[0] :表示列表里面列表的第一个成员元素</p>
+<pre><code>class Student:
+    def __init__(self, name, grade, age):
+        self.name = name
+        self.grade = grade
+        self.age = age
+
+    def __repr__(self):
+        return repr((self.name, self.grade, self.age))
+
+
+student_objects = [
+    Student(&apos;john&apos;, &apos;A&apos;, 15),
+    Student(&apos;jane&apos;, &apos;B&apos;, 12),
+    Student(&apos;dave&apos;, &apos;B&apos;, 10),
+]
+a = sorted(student_objects, key=lambda student: -student.age)
+print(a) # [(&apos;john&apos;, &apos;A&apos;, 15), (&apos;jane&apos;, &apos;B&apos;, 12), (&apos;dave&apos;, &apos;B&apos;, 10)]</code></pre><h2 id="5-map"><a href="#5-map" class="headerlink" title="5. map()"></a>5. map()</h2><p>map() 会根据提供的函数对指定序列做映射。<br>第一个参数 function 以参数序列中的每一个元素调用 function 函数，返回包含每次 function 函数返回值的新列表。</p>
+<p>map() 函数语法：</p>
+<pre><code>map(function, iterable, ...)</code></pre><p>应用</p>
+<pre><code>&gt;&gt;&gt;def square(x) :            # 计算平方数
+...     return x ** 2
+... 
+&gt;&gt;&gt; map(square, [1,2,3,4,5])   # 计算列表各个元素的平方
+[1, 4, 9, 16, 25]</code></pre><h2 id="6-列表实现原理"><a href="#6-列表实现原理" class="headerlink" title="6. 列表实现原理"></a>6. 列表实现原理</h2><h2 id="7-repr-和str"><a href="#7-repr-和str" class="headerlink" title="7. _repr_ 和str"></a>7. _<em>repr_</em> 和<strong>str</strong></h2><p>_<em>repr_</em> 在交互模式下或print时调用<br>_<em>str_</em> 在print时调用</p>
+<pre><code>&gt;&gt;&gt;class A():
+        def __str__(self):
+            return &apos;a&apos;
+&gt;&gt;&gt;A()
+&gt;&gt;&gt; &lt;__main__.A at 0x1136949e8&gt;
+&gt;&gt;&gt;print(A())
+&gt;&gt;&gt;a
+&gt;&gt;&gt;class A():
+        def __repr__(self):
+            return &apos;a&apos;
+&gt;&gt;&gt;A()
+&gt;&gt;&gt; a
+&gt;&gt;&gt;print(A())
+&gt;&gt;&gt;a</code></pre><h2 id="8-python中时间日期格式化符号："><a href="#8-python中时间日期格式化符号：" class="headerlink" title="8. python中时间日期格式化符号："></a>8. python中时间日期格式化符号：</h2><ol>
+<li>%y 两位数的年份表示（00-99）</li>
+<li>%Y 四位数的年份表示（000-9999）</li>
+<li>%m 月份（01-12）</li>
+<li>%d 月内中的一天（0-31）</li>
+<li>%H 24小时制小时数（0-23）</li>
+<li>%I 12小时制小时数（01-12）</li>
+<li>%M 分钟数（00=59）</li>
+<li>%S 秒（00-59）</li>
+<li>%a 本地简化星期名称</li>
+<li>%A 本地完整星期名称</li>
+<li>%b 本地简化的月份名称</li>
+<li>%B 本地完整的月份名称</li>
+<li>%c 本地相应的日期表示和时间表示</li>
+<li>%j 年内的一天（001-366）</li>
+<li>%p 本地A.M.或P.M.的等价符</li>
+<li>%U 一年中的星期数（00-53）星期天为星期的开始</li>
+<li>%w 星期（0-6），星期天为星期的开始</li>
+<li>%W 一年中的星期数（00-53）星期一为星期的开始</li>
+<li>%x 本地相应的日期表示</li>
+<li>%X 本地相应的时间表示</li>
+<li>%Z 当前时区的名称</li>
+</ol>
+<h2 id="9-异常"><a href="#9-异常" class="headerlink" title="9.异常"></a>9.异常</h2><pre><code>try:
+    1
+except Exception as e:
+    print(e)
+else: # 不发生异常时执行
+    print(1)
+finally:
+    print(&quot;finally&quot;)</code></pre><h2 id="10-垃圾回收"><a href="#10-垃圾回收" class="headerlink" title="10. 垃圾回收"></a>10. 垃圾回收</h2><blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/83251959" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/83251959</a></p>
+</blockquote>
+<ol>
+<li><p>引用计数：ob_ref 来记引用次数 （不能回收循环引用）</p>
+</li>
+<li><p>标记清除: 标记清除就是用来解决循环引用的问题的只有容器对象才会出现引用循环，比如列表、字典、类、元组。</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15782094765530.jpg" alt="-w350"></p>
+<p> 对象之间通过引用（指针）连在一起，构成一个有向图，对象构成这个有向图的节点，而引用关系构成这个有向图的边。从根对象（root object）出发，沿着有向边遍历对象，可达的（reachable）对象标记为活动对象，不可达的对象就是要被清除的非活动对象。根对象就是全局变量、调用栈、寄存器。 mark-sweepg 在上图中，我们把小黑圈视为全局变量，也就是把它作为root object，从小黑圈出发，对象1可直达，那么它将被标记，对象2、3可间接到达也会被标记，而4和5不可达，那么1、2、3就是活动对象，4和5是非活动对象会被GC回收。</p>
+<p> 标记清除算法作为Python的辅助垃圾收集技术主要处理的是一些容器对象，比如list、dict、tuple，instance等，因为对于字符串、数值对象是不可能造成循环引用问题。Python使用一个双向链表将这些容器对象组织起来。不过，这种简单粗暴的标记清除算法也有明显的<code>缺点：清除非活动的对象前它必须顺序扫描整个堆内存，哪怕只剩下小部分活动对象也要扫描所有对象。</code></p>
+<p> <strong>上面描述的垃圾回收的阶段，会暂停整个应用程序，等待标记清除结束后才会恢复应用程序的运行。</strong></p>
+</li>
+<li><p>分代回收</p>
+<p> 在循环引用对象的回收中，整个应用程序会被暂停，为了减少应用程序暂停的时间，Python 通过“分代回收”(Generational Collection)以空间换时间的方法提高垃圾回收效率。</p>
+<p> 分代回收是一种以空间换时间的操作方式，Python将内存根据对象的存活时间划分为不同的集合，每个集合称为一个代，Python将内存分为了3“代”，分别为年轻代（第0代）、中年代（第1代）、老年代（第2代），他们对应的是3个链表，它们的垃圾收集频率与对象的存活时间的增大而减小。</p>
+<p> 新创建的对象都会分配在年轻代，年轻代链表的总数达到上限时，Python垃圾收集机制就会被触发，把那些可以被回收的对象回收掉，而那些不会回收的对象就会被移到中年代去，依此类推，老年代中的对象是存活时间最久的对象，甚至是存活于整个系统的生命周期内。</p>
+<p> 同时，分代回收是建立在标记清除技术基础之上。分代回收同样作为Python的辅助垃圾收集技术处理那些容器对象</p>
+<p> 有三种情况会触发垃圾回收：</p>
+<ol>
+<li>调用gc.collect(),需要先导入gc模块。</li>
+<li>当gc模块的计数器达到阀值的时候。</li>
+<li>程序退出的时候</li>
+</ol>
+</li>
+</ol>
+<p>循环引用示例</p>
+<pre><code>    a = []
+b = []
+a.append(b)
+b.append(a)
+print a
+[[[…]]]
+print b
+[[[…]]]</code></pre><p><strong>扩展</strong><br>java 垃圾回收为 标记清除，分代回收</p>
+<h2 id="11-list-底层实现原理"><a href="#11-list-底层实现原理" class="headerlink" title="11. list 底层实现原理"></a>11. list 底层实现原理</h2><blockquote>
+<p><a href="https://github.com/python/cpython/blob/master/Include/listobject.h" target="_blank" rel="noopener">https://github.com/python/cpython/blob/master/Include/listobject.h</a><br><a href="https://www.jianshu.com/p/J4U6rR" target="_blank" rel="noopener">https://www.jianshu.com/p/J4U6rR</a></p>
+</blockquote>
+<p>列表被实现为长度可变的顺序表（数组）</p>
+<p>Python中的列表是由对其它对象的引用组成的连续数组，指向这个数组的指针及其长度被保存在一个列表头结构中。这意味着，每次添加或删除一个元素时，由引用组成的数组需要该标大小（重新分配）。幸运的是，Python在创建这些数组时采用了指数过分配，所以并不是每次操作都需要改变数组的大小。但是，也因为这个原因添加或取出元素的平摊复杂度较低。</p>
+<p>list实现采用了如下的策略：在建立空表（或者很小的表）时，系统分配一块能容纳8个元素的存储区；在执行插入操作（insert或append）时，如果元素存储区满就换一块4倍大的存储区。但如果此时的表已经很大（目前的阀值为50000），则改变策略，采用加一倍的方法。引入这种改变策略的方式，是为了避免出现过多空闲的存储位置。</p>
+<p>时间复杂度：</p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/a2c98df9cfae" target="_blank" rel="noopener">https://www.jianshu.com/p/a2c98df9cfae</a></p>
+</blockquote>
+<ol>
+<li><p>append<br> append(object)：向列表尾部添加元素，最好情况即列表容量足够，添加元素一步完成，对应的时间复杂度为O(1)；最坏情况即列表需要扩容，这时需要对现有元素一一遍历移动位置，此时时间复杂度为O(n)。因此最终的时间复杂度为O(1)。这是均摊计算的结果，大家可以自己推算下。看下append的代码实现：</p>
+</li>
+<li><p>pop<br> pop([index])：删除并返回特定索引的元素，默认删除最后一个元素。默认的pop操作最好情况是底层不需要收缩数组，一步操作即可，对应的时间复杂度为O(1)；最坏的情况是删除元素后，紧接着python要执行收缩数组的操作，此时时间复杂度为O(n)；因此最终的时间复杂度为O(1)。对于删除指定索引的元素，不管这步操作是否需要收缩数组，该索引以后的数据都要向前移动位置，以确保存储空间的连续性。因此对应的时间复杂度为O(n)。</p>
+</li>
+<li><p>len<br>len(list)：获取列表内元素的个数，因为在列表实现中，其内部维护了一个Py_ssize_t类型的变量表示列表内元素的个数，因此时间复杂度为O(1)。</p>
+</li>
+</ol>
+<h2 id="12-队列"><a href="#12-队列" class="headerlink" title="12. 队列"></a>12. 队列</h2><ol>
+<li><p>collections.deque</p>
+<p> deque是双端队列，相比于list实现的队列，deque实现拥有更低的时间和空间复杂度。list实现在出队（pop）和插入（insert）时的空间复杂度大约为O(n)，deque在出队（pop）和入队（append）时的时间复杂度是O(1)。</p>
+<p> 线程安全方面，collections.deque中的append()、pop()等方法都是原子操作，所以是GIL保护下的线程安全方法。</p>
+</li>
+<li><p>queue.Queue &amp; asyncio.Queue</p>
+<p> queue.Queue和asyncio.Queue都是支持多生产者、多消费者的队列，基于collections.deque</p>
+</li>
+<li><p>multiprocessing.Queue</p>
+<p> multiprocessing.Queue既是线程安全也是进程安全的</p>
+</li>
+</ol>
+<h1 id="2-算法"><a href="#2-算法" class="headerlink" title="2 算法"></a>2 算法</h1><h2 id="1-排序"><a href="#1-排序" class="headerlink" title="1. 排序"></a>1. 排序</h2><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15783302494264.jpg" alt="-w724"></p>
+<h3 id="1-拓扑排序"><a href="#1-拓扑排序" class="headerlink" title="1. 拓扑排序"></a>1. 拓扑排序</h3><h3 id="2-堆排序"><a href="#2-堆排序" class="headerlink" title="2. 堆排序"></a>2. 堆排序</h3><blockquote>
+<p>算法描述参考：<a href="https://blog.csdn.net/u010452388/article/details/81283998" target="_blank" rel="noopener">https://blog.csdn.net/u010452388/article/details/81283998</a></p>
+</blockquote>
+<p>大顶堆：每个节点的值都大于或等于其子节点的值，在堆排序算法中用于升序排列；</p>
+<p>小顶堆：每个节点的值都小于或等于其子节点的值，在堆排序算法中用于降序排列；</p>
+<p>堆排序的平均时间复杂度为 Ο(nlogn)</p>
+<pre><code>def build_tree(arr, root, arr_length):
+    max_node = root
+    left_child = root * 2 + 1
+    right_child = root * 2 + 2
+
+    if left_child &lt; arr_length and arr[max_node] &lt; arr[left_child]:  # 如果根结点比左孩子小，则标记最大节点位置
+        max_node = left_child
+    if right_child &lt; arr_length and arr[max_node] &lt; arr[right_child]:  # # 如果根结点比右孩子小，则标记最大节点位置
+        max_node = right_child
+
+    if max_node != root:
+        arr[root], arr[max_node] = arr[max_node], arr[root]
+        build_tree(arr, max_node, arr_length)  # # 根结点 A 与 B交换后，largest 为A的位置，需要继续跟子节点比较
+
+
+def heap_sort(arr: list):
+    # 构建大根堆
+    for i in range(len(arr) // 2 - 1, -1, -1):  # 因为左右孩子的关系，所以根结点从len(arr) // 2 - 1 开始
+        build_tree(arr, i, len(arr))
+
+    print(arr)
+
+    # 交换
+    for i in range(len(arr) - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]  # 将根 i=0 与最后一个元素交换，然后将剩余的数再构造成一个大根堆。 及固定最大值再构造堆
+        build_tree(arr, 0, i)
+
+
+a = [1, 4, 6, 1, 3, 8, 3, 5, 0, 12, 4]
+heap_sort(a)
+print(a)</code></pre><h3 id="3-快排"><a href="#3-快排" class="headerlink" title="3. 快排"></a>3. 快排</h3><blockquote>
+<p>参考 <a href="https://www.jianshu.com/p/2b2f1f79984e" target="_blank" rel="noopener">https://www.jianshu.com/p/2b2f1f79984e</a></p>
+</blockquote>
+<p>这个效率低 每次都要便利全部的数组</p>
+<pre><code>def quicksort(arr):
+    if len(arr) &lt;= 1:
+        return arr
+    pivot = arr[len(arr) // 2] # 从中间一分为二 取中间的值
+    left = [x for x in arr if x &lt; pivot] # 左边的数组都小于中间值
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x &gt; pivot] # 右边数组都大于中间值
+
+    return quicksort(left) + middle + quicksort(right)
+
+
+print(quicksort([3, 6, 8, 19, 1, 5]))  # [1，3, 5, 6, 8, 19]</code></pre><p>正宗的</p>
+<pre><code>def get_pivokey(arr, left, right):
+    pivotkey = arr[left] # 千万别写成 arr[0] 了
+
+    while left &lt; right:
+        while left &lt; right and arr[right] &gt; pivotkey:
+            right -=1
+        arr[left] = arr[right]
+
+        while left &lt; right and arr[left] &lt; pivotkey:
+            left += 1
+        arr[right] = arr[left]
+
+    arr[left] = pivotkey
+
+    return left
+
+
+def quick_sort(arr, left, right):
+    pivot = get_pivokey(arr, left, right)
+
+    if left &lt; right:
+        quick_sort(arr, left, pivot - 1)
+        quick_sort(arr, pivot + 1, right)
+
+
+arr = [3, 6, 8, 19, 1, 5]
+quick_sort(arr, 0, len(arr) - 1)  # [1，3, 5, 6, 8, 19]
+print(arr)</code></pre><h3 id="4-冒泡"><a href="#4-冒泡" class="headerlink" title="4.冒泡"></a>4.冒泡</h3><pre><code>    def bubble_sort(arr):
+    for i in range(len(arr)):
+        for j in range(len(arr)-1-i): # 沉底之后的就不用排了
+            if arr[j] &gt; arr[j+1]: # 大的沉底
+                arr[j+1], arr[j] = arr[j], arr[j+1]
+
+    return arr
+
+
+arr = [3, 6, 8, 19, 1, 5]
+bubble_sort(arr)
+print(arr)</code></pre><h3 id="5-插入排序"><a href="#5-插入排序" class="headerlink" title="5. 插入排序"></a>5. 插入排序</h3><p>O(n^2)</p>
+<pre><code>def insert_sort(arr):
+    for i in range(len(arr)):
+        temp = arr[i]
+        j = i - 1
+        while j &gt;= 0 and temp &lt; arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+
+        arr[j + 1] = temp
+
+        print(arr[:i], arr)
+
+    return arr
+
+
+arr = [3, 6, 8, 19, 1, 5]
+insert_sort(arr)
+print(arr)</code></pre><h2 id="2-动态规划"><a href="#2-动态规划" class="headerlink" title="2. 动态规划"></a>2. 动态规划</h2><p>自底向上：先解决子问题，在解决父问题</p>
+<h3 id="1-斐波那契"><a href="#1-斐波那契" class="headerlink" title="1. 斐波那契"></a>1. 斐波那契</h3><pre><code>def f(n):
+    fi = 0
+    fj = 1
+
+    while True:
+        print(fi)
+        fn = fi + fj
+        n -= 1
+        if n &lt;= 0:
+            break
+
+        fi, fj = fj, fn
+
+    return fi
+
+print(f(10)) #134</code></pre><h3 id="2-找零钱"><a href="#2-找零钱" class="headerlink" title="2. 找零钱"></a>2. 找零钱</h3><pre><code># 使用张数最少， 找出15元
+money = [1, 5, 11]
+total_money = 15
+
+money_used = list(range(16))
+cost = list(range(16))  # cost[金钱] = 找零的张数， 初始化为都用1块钱找领
+for i in range(1, total_money + 1):
+    coin = None
+    for j in range(len(money)):
+        if money[j] &lt;= i:  # 当前找领的金额不能需要找零的金额
+            if (
+                cost[i - money[j]] + 1 &lt; cost[i]
+            ):  # 如果本次所用money[j]找零 1张 + 之前找零 cost[i - money[j]] 张，小于cost[i]张， 则更新cost[i]
+                cost[i] = cost[i - money[j]] + 1
+                coin = money[j]
+
+    money_used[i] = coin
+
+print(cost[15])  # 下标就是金钱
+print(money_used)
+
+# 3
+# [0, None, None, None, None, 5, 1, 1, 1, 1, 5, 11, 1, 1, 1, 5] # 下标为金钱， 值为使用的面值</code></pre><h3 id="3-最大上升子序列"><a href="#3-最大上升子序列" class="headerlink" title="3. 最大上升子序列"></a>3. 最大上升子序列</h3><blockquote>
+<p> o(n)^2</p>
+</blockquote>
+<pre><code>a = [1, 7, 6, 2, 3, 4]
+dp = [1] * len(a) #  dp[i]dp[i] 表示以第 i 元素为结尾的最长上升子序列长度，那么对于每一个 dp[i] 而言，初始值即为 1 ；
+for i in range(len(a)):
+    for j in range(i):
+        if a[j] &lt; a[i] and dp[i] &lt; dp[j] + 1: # 用if判断是否可以拼凑成上升子序列， 并且判断当前状态是否优于之前枚举
+            dp[i] = dp[j] + 1
+            # print(&quot;-&quot;, a[i]) # 更新最优状态
+            # print(j)
+
+print(max(dp))</code></pre><h2 id="3-题目"><a href="#3-题目" class="headerlink" title="3. 题目"></a>3. 题目</h2><ol>
+<li><p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+<p> a = [2,2,1]</p>
+<p> number = a[0]<br> for i in a[1:]:</p>
+<pre><code>number = number ^ i</code></pre><p> print(number)</p>
+</li>
+<li><p>最长子串</p>
+<p> 开始的时候，begin和end都指向0的位置即‘a’，然后end不断后移（窗口变宽），当遇到第二个‘a’时（遇见重复字符）就得到一个子串，其长度就是end和begin位置的差。<br> <img src="media/15790156280960.jpg" alt="-w514"><br> 如何判断是否遇到了重复字符‘a’呢？需要一个字典作为辅助数据结构，把end从头开始遇到的每个字符及其索引位置都放到字典里面，end每次移动到新字符就查一下字典即可。</p>
+<p> 通过字典，我们遇到第二个‘a’时就可以找到存在字典里面的第一个‘a’的位置。为了继续寻找无重复子串，begin就要指向第一个‘a’后面一个的位置即‘b’。然后end继续后移到‘b’，有发现它与前面的‘b’重复，计算子串长度赋值给最大长度（需要比较），同时begin要移动第一个‘b’后面的位置即‘c’。</p>
+<p> 这样依次移动end到字符串末尾就可以找到最长的子串，“子串窗口”也就从头移到了末尾。而只需要end从头到尾的一次循环即可。</p>
+</li>
+</ol>
+<h1 id="3-linux"><a href="#3-linux" class="headerlink" title="3. linux"></a>3. linux</h1><ol>
+<li>man 用于查看指令的文档， 如 man ls， 查看ls的使用说明</li>
+</ol>
+<h1 id="4-数据库"><a href="#4-数据库" class="headerlink" title="4. 数据库"></a>4. 数据库</h1><ol>
+<li><p>mysql 索引</p>
+<ol>
+<li>单列索引(普通索引，唯一索引，主键索引)<ol>
+<li>普通索引：MySQL中基本索引类型，没有什么限制，允许在定义索引的列中插入重复值和空值，纯粹为了查询数据更快一点</li>
+<li>唯一索引：索引列中的值必须是唯一的，但是允许为空值，</li>
+<li>主键索引：是一种特殊的唯一索引，不允许有空值。</li>
+</ol>
+</li>
+<li>组合索引<ol>
+<li>在表中的多个字段组合上创建的索引，只有在查询条件中使用了这些字段的左边字段时，索引才会被使用</li>
+</ol>
+</li>
+<li>全文索引<ol>
+<li>全文索引，只有在MyISAM引擎上才能使用，只能在CHAR,VARCHAR,TEXT类型字段上使用全文索引</li>
+<li>全文索引，就是在一堆文字中，通过其中的某个关键字等，就能找到该字段所属的记录行，比如有”你是个靓仔，靓女 …” 通过靓仔，可能就可以找到该条记录</li>
+</ol>
+</li>
+<li>空间索引<ol>
+<li>空间索引是对空间数据类型的字段建立的索引，MySQL中的空间数据类型有四种，GEOMETRY、POINT、LINESTRING、POLYGON。在创建空间索引时，使用SPATIAL关键字。要求，引擎为MyISAM，创建空间索引的列，必须将其声明为NOT NULL。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>mysql中in和exists（）区别</p>
+<p> SELECT * FROM A WHERE id IN (SELECT id FROM B);</p>
+<p> exists()适合B表比A表数据大的情况</p>
+<p> 当A表数据与B表数据一样大时,in与exists效率差不多,可任选一个使用</p>
+</li>
+<li><p>批量插入及更新语句</p>
+</li>
+<li><p>redis 数据类型</p>
+<ol>
+<li>string</li>
+<li>hash</li>
+<li>list</li>
+<li>set</li>
+<li>soreset</li>
+</ol>
+</li>
+<li><p>redis 数据落盘的几种方式</p>
+<ol>
+<li><p><strong>RDB</strong>持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。</p>
+<ol>
+<li>优点：<ol>
+<li>只包含一个文件，易备份</li>
+<li>性能高：fork出子进程，之后再由子进程完成这些持久化的工作</li>
+<li>占用空间小</li>
+</ol>
+</li>
+<li>缺点<ol>
+<li>系统一旦在定时持久化之前出现宕机现象，此前没有来得及写入磁盘的数据都将丢失</li>
+<li>由于RDB是通过fork子进程来协助完成数据持久化工作的，因此，如果当数据集较大时，可能会导致整个服务器停止服务几百毫秒，甚至是1秒钟。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p><strong>AOF</strong>持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录。落盘策略为每秒同步、每修改同步和不同步</p>
+<ol>
+<li>优点<ol>
+<li>由于落盘机制，可有效的保证数据的安全性</li>
+</ol>
+</li>
+<li>缺点<ol>
+<li>文件大</li>
+<li>效率比RDB低</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="5-协议"><a href="#5-协议" class="headerlink" title="5. 协议"></a>5. 协议</h1><blockquote>
+<p><a href="https://www.cnblogs.com/Javi/p/9303020.html" target="_blank" rel="noopener">https://www.cnblogs.com/Javi/p/9303020.html</a></p>
+</blockquote>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15784055974222.jpg" alt="-w637"></p>
+<h2 id="1-tcp"><a href="#1-tcp" class="headerlink" title="1. tcp"></a>1. tcp</h2><p>连接三次握手：<br>    1. 客户端发送SYN（SEQ=x）报文给服务器端，进入SYN_SEND状态。<br>    2. 服务器端收到SYN报文，回应一个SYN （SEQ=y）ACK（ACK=x+1）报文，进入SYN_RECV状态。<br>    3. 客户端收到服务器端的SYN报文，回应一个ACK（ACK=y+1）报文，进入Established状态。<br>    <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15784040015647.jpg" alt="-w221"></p>
+<p>关闭 4次握手：<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15784039465315.jpg" alt="-w226"></p>
+<h2 id="2-udp"><a href="#2-udp" class="headerlink" title="2. udp"></a>2. udp</h2><p>无连接协议，不需要先建立连接</p>
+<p><strong>UDP与TCP的区别：</strong></p>
+<ol>
+<li><p>连接和无连接</p>
+</li>
+<li><p>数据完整性<br> TCP协议会检验数据完整性，及当接收方收到数据时，会向发送方发出确认信息。发送方只有在接收到该确认消息之后才继续传送其它信息，否则将一直等待直到收到确认信息为止。</p>
+<p> UDP则不检验数据完整性，在发送数据过程中出现丢包的情况，协议本身不做任何检测和提示</p>
+</li>
+<li><p>一对一和一对多<br> TCP 一对一<br> UDP 支持一对一，一对多，多对一和多对多的交互通信</p>
+</li>
+</ol>
+<h2 id="3-socket"><a href="#3-socket" class="headerlink" title="3. socket"></a>3. socket</h2><p>Socket是应用层与TCP/IP协议族通信的中间软件抽象层，它是一组接口。在设计模式中，Socket其实就是一个门面模式，它把复杂的TCP/IP协议族隐藏在Socket接口后面，对用户来说，一组简单的接口就是全部，让Socket去组织数据，以符合指定的协议。</p>
+<p>Socket是传输控制层协议</p>
+<h2 id="4-websocket"><a href="#4-websocket" class="headerlink" title="4. websocket"></a>4. websocket</h2><p>WebSocket是应用层协议。</p>
+<p>WebSocket在建立握手时，数据是通过HTTP传输的。但是建立之后，在真正传输时候是不需要HTTP协议的。</p>
+<h2 id="5-http"><a href="#5-http" class="headerlink" title="5. http"></a>5. http</h2><p>基于tcp，属于应用层。TCP是传输层</p>
+<h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h1><ol>
+<li><p>装饰器的实质是什么</p>
+<ol>
+<li>答：装饰器是要把原来的函数装饰成新的函数，并且返回这个函数本身的高阶函数</li>
+</ol>
+</li>
+<li><p>高阶函数：一个函数可以作为参数传给另外一个函数，或者一个函数的返回值为另外一个函数（若返回值为该函数本身，则为递归），满足其一则为高阶函数。</p>
+</li>
+<li><p>Python之GIL</p>
+<ol>
+<li>GIL是一个互斥锁，它防止多个线程同时执行Python字节码。这个锁是必要的，主要是因为CPython的内存管理不是线程安全的</li>
+<li>Python内部对变量或数据对象使用了引用计数器,当多个线程同时修改这个值时,可能会导致内存泄漏,为了避免内存泄漏和死锁问题,CPython使用了单锁,即全局解释器锁(GIL),即执行Python字节码都需要获取GIL,这可以防止死锁,但它有效地使任何受CPU限制的Python程序都是单线程.</li>
+<li>GIL对多线程Python程序的影响<ol>
+<li>程序的性能受到计算密集型(CPU)的程序限制和I/O密集型的程序限制影响,那什么是计算密集型和I/O密集型程序呢?</li>
+<li>计算密集型(CPU):高度使用CPU的程序,例如: 进行数学计算,矩阵运算,搜索,图像处理等.</li>
+<li>I/O密集型:I/0(Input/Output)程序是进行数据传输,例如: 文件操作,数据库,网络数据等</li>
+<li>GIL对I/O绑定多线程程序的性能影响不大,因为线程在等待I/O时共享锁.</li>
+<li>GIL对计算型绑定多线程程序有影响,例如: 使用线程处理部分图像的程序,不仅会因锁定而成为单线程,而且还会看到执行时间的增加,这种增加是由锁的获取和释放开销的结果.</li>
+<li>标准库中所有执行阻塞型 IO 操作的函数，在等待结果返回时都会释放GIL。这意味着尽管有GIL，Python线程还是能在 IO 密集型任务中一展身手</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>异步框架Twisted（scrapy使用的）</p>
+</li>
+</ol>
+<h1 id="个人信息相关"><a href="#个人信息相关" class="headerlink" title="个人信息相关"></a>个人信息相关</h1><h2 id="1-自我介绍"><a href="#1-自我介绍" class="headerlink" title="1. 自我介绍"></a>1. 自我介绍</h2><h2 id="2-项目经验"><a href="#2-项目经验" class="headerlink" title="2. 项目经验"></a>2. 项目经验</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/31/python-%E9%9D%A2%E8%AF%95%E9%A2%98/" data-id="ck6vsr19b000bcux142ju78ic"
+         class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+      <a href="/2020/01/15/java-%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            java 面试题
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%93%E5%8F%96/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">微信公众号抓取</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '955c9faec73be9ec9c60',
+      clientSecret: 'a5011b60f1fe57f6e35f6aadd6f444c3d4da0b52',
+      repo: 'Boris-code.github.io',
+      owner: 'Boris-code',
+      admin: ['Boris-code'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Boris</li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+
+<aside class="sidebar sidebar-specter">
+  
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/shark.svg" alt="Boris"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/categories">分类</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/tocbot.min.js"></script>
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>

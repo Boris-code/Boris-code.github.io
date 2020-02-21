@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    js逆向技巧分享 |
+    
+    Boris</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  
+
+<article id="post-js 逆向技巧" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      js逆向技巧分享
+    </h1>
+  
+  
+
+
+
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/" class="article-date">
+  <time datetime="2019-11-14T05:33:38.000Z" itemprop="datePublished">2019-11-14</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
+  </div>
+
+      </div>
+    
+
+    
+      
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+        <p>当我们抓取网页端数据时，经常被加密参数、加密数据所困扰，如何快速定位这些加解密函数，尤为重要。本片文章是我逆向js时一些技巧的总结，如有遗漏，欢迎补充。</p>
+<p>所需环境：Chrome浏览器</p>
+<a id="more"></a>
+
+<h2 id="1-搜索"><a href="#1-搜索" class="headerlink" title="1. 搜索"></a>1. 搜索</h2><h3 id="1-1-全局搜索"><a href="#1-1-全局搜索" class="headerlink" title="1.1 全局搜索"></a>1.1 全局搜索</h3><blockquote>
+<p>适用于根据关键词快速定位关键文件及代码</p>
+</blockquote>
+<p>当前页面右键-&gt;检查，弹出检查工具<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818546991703.jpg" alt="-w771"><br>搜索支持 关键词、正则表达式</p>
+<h3 id="1-2-代码内搜索"><a href="#1-2-代码内搜索" class="headerlink" title="1.2 代码内搜索"></a>1.2 代码内搜索</h3><blockquote>
+<p>适用于根据关键词快速定位关键代码</p>
+</blockquote>
+<p>点击代码，然后按ctrl+f 或 command+f 调出搜索框。搜索支持 关键词、css表达式、xpath<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818548355218.jpg" alt="-w567"></p>
+<h2 id="2-debug"><a href="#2-debug" class="headerlink" title="2. debug"></a>2. debug</h2><h3 id="2-1-常规debug"><a href="#2-1-常规debug" class="headerlink" title="2.1 常规debug"></a>2.1 常规debug</h3><blockquote>
+<p>适用于分析关键函数代码逻辑</p>
+</blockquote>
+<ol>
+<li><p>埋下断点</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818553940142.jpg" alt="-w963"></p>
+</li>
+<li><p>调试</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818560289237.jpg" alt="-w790"></p>
+<p> 如图所示，我标记了1到6，下面分别介绍其含义</p>
+<p> 1.执行到下一个端点<br> 2.执行下一步，不会进入所调用的函数内部<br> 3.进入所调用的函数内部<br> 4.跳出函数内部<br> 5.一步步执行代码，遇到有函数调用，则进入函数<br> 6.Call Stack 为代码调用的堆栈信息，代码执行顺序为由下至上，这对于着关键函数前后调用关系很有帮助</p>
+</li>
+</ol>
+<h3 id="2-2-XHR-debug"><a href="#2-2-XHR-debug" class="headerlink" title="2.2 XHR debug"></a>2.2 XHR debug</h3><blockquote>
+<p>匹配url中关键词，匹配到则跳转到参数生成处，适用于url中的加密参数全局搜索搜不到，可采用这种方式拦截</p>
+</blockquote>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818564958339.jpg" alt="-w991"></p>
+<h3 id="2-3-行为debug"><a href="#2-3-行为debug" class="headerlink" title="2.3 行为debug"></a>2.3 行为debug</h3><blockquote>
+<p>适用于点击按钮时，分析代码执行逻辑</p>
+</blockquote>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818568240138.jpg" alt="-w1515"></p>
+<p>如图所示，可快速定位点击探索按钮后，所执行的js。</p>
+<h2 id="3-查看请求调用的堆栈"><a href="#3-查看请求调用的堆栈" class="headerlink" title="3 查看请求调用的堆栈"></a>3 查看请求调用的堆栈</h2><p>可以在 Network 选项卡下，该请求的 Initiator 列里看到它的调用栈，调用顺序由上而下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818572338786.jpg" alt="-w1211"></p>
+<h2 id="4-执行堆内存中的函数"><a href="#4-执行堆内存中的函数" class="headerlink" title="4. 执行堆内存中的函数"></a>4. 执行堆内存中的函数</h2><p>当debug到某一个函数时，我们想主动调用，比如传递下自定义的参数，这时可以在检查工具里的console里调用</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818574162547.jpg" alt="-w990"></p>
+<p>此处要注意，只有debug打这个函数时，控制台里才可以调用。如果想保留这个函数，可使用this.xxx=xxx 的方式。之后调用时无需debug到xxx函数，直接使用this.xxx 即可。</p>
+<h2 id="5-修改堆栈中的参数值"><a href="#5-修改堆栈中的参数值" class="headerlink" title="5. 修改堆栈中的参数值"></a>5. 修改堆栈中的参数值</h2><p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15807829279682.png" alt="1580782927968_2"></p>
+<h2 id="6-写js代码"><a href="#6-写js代码" class="headerlink" title="6. 写js代码"></a>6. 写js代码</h2><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818584762149.jpg" alt="-w647"></p>
+<h2 id="7-打印windows对象的值"><a href="#7-打印windows对象的值" class="headerlink" title="7. 打印windows对象的值"></a>7. 打印windows对象的值</h2><p>在console中输入如下代码，如只打印_$开头的变量值</p>
+<pre><code>for (var p in window) {
+    if (p.substr(0, 2) !== &quot;_$&quot;) 
+        continue;
+    console.log(p + &quot; &gt;&gt;&gt; &quot; + eval(p))
+}</code></pre><h2 id="8-勾子"><a href="#8-勾子" class="headerlink" title="8. 勾子"></a>8. 勾子</h2><blockquote>
+<p>以chrome插件的方式，在匹配到关键词处插入断点</p>
+</blockquote>
+<h3 id="8-1-cookie钩子"><a href="#8-1-cookie钩子" class="headerlink" title="8.1 cookie钩子"></a>8.1 cookie钩子</h3><blockquote>
+<p>用于定位cookie中关键参数生成位置</p>
+</blockquote>
+<pre><code>var code = function(){
+    var org = document.cookie.__lookupSetter__(&apos;cookie&apos;);
+    document.__defineSetter__(&quot;cookie&quot;,function(cookie){
+        if(cookie.indexOf(&apos;TSdc75a61a&apos;)&gt;-1){
+            debugger;
+        }
+        org = cookie;
+    });
+    document.__defineGetter__(&quot;cookie&quot;,function(){return org;});
+}
+var script = document.createElement(&apos;script&apos;);
+script.textContent = &apos;(&apos; + code + &apos;)()&apos;;
+(document.head||document.documentElement).appendChild(script);
+script.parentNode.removeChild(script);</code></pre><p>当cookie中匹配到了 <code>TSdc75a61a</code>， 则插入断点。</p>
+<h3 id="8-2-请求钩子"><a href="#8-2-请求钩子" class="headerlink" title="8.2 请求钩子"></a>8.2 请求钩子</h3><blockquote>
+<p>用于定位请求中关键参数生成位置</p>
+</blockquote>
+<pre><code>var code = function(){
+var open = window.XMLHttpRequest.prototype.open;
+window.XMLHttpRequest.prototype.open = function (method, url, async){
+    if (url.indexOf(&quot;MmEwMD&quot;)&gt;-1){
+        debugger;
+    }
+    return open.apply(this, arguments);
+};
+}
+var script = document.createElement(&apos;script&apos;);
+script.textContent = &apos;(&apos; + code + &apos;)()&apos;;
+(document.head||document.documentElement).appendChild(script);
+script.parentNode.removeChild(script);</code></pre><p>当请求的url里包含<code>MmEwMD</code>时，则插入断点</p>
+<h3 id="8-3-header钩子"><a href="#8-3-header钩子" class="headerlink" title="8.3 header钩子"></a>8.3 header钩子</h3><blockquote>
+<p>用于定位header中关键参数生成位置</p>
+</blockquote>
+<pre><code>var code = function(){
+var org = window.XMLHttpRequest.prototype.setRequestHeader;
+window.XMLHttpRequest.prototype.setRequestHeader = function(key,value){
+    if(key==&apos;Authorization&apos;){
+        debugger;
+    }
+    return org.apply(this,arguments);
+}
+}
+var script = document.createElement(&apos;script&apos;);
+script.textContent = &apos;(&apos; + code + &apos;)()&apos;;
+(document.head||document.documentElement).appendChild(script);
+script.parentNode.removeChild(script);</code></pre><p>当header中包含<code>Authorization</code>时，则插入断点</p>
+<h3 id="8-4-manifest-json"><a href="#8-4-manifest-json" class="headerlink" title="8.4 manifest.json"></a>8.4 manifest.json</h3><blockquote>
+<p>插件的配置文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;name&quot;: &quot;Injection&quot;,</span><br><span class="line">	&quot;version&quot;: &quot;2.0&quot;,</span><br><span class="line">	&quot;description&quot;: &quot;RequestHeader钩子&quot;,</span><br><span class="line">	&quot;manifest_version&quot;: 2,</span><br><span class="line">	&quot;content_scripts&quot;: [</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;matches&quot;: [</span><br><span class="line">				&quot;&lt;all_urls&gt;&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;js&quot;: [</span><br><span class="line">				&quot;inject.js&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;all_frames&quot;: true,</span><br><span class="line">			&quot;permissions&quot;: [</span><br><span class="line">				&quot;tabs&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;run_at&quot;: &quot;document_start&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
+<li><p>如图所示，创建一个文件夹，文件夹中创建一个钩子函数文件inject.js 及 插件的配置文件 mainfest.json 即可</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818591973251.jpg" alt="-w1447"></p>
+</li>
+<li><p>打开chrome 的扩展程序, 加载已解压的扩展程序，选择步骤1创建的文件夹即可</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818594196696.jpg" alt="-w634"></p>
+</li>
+<li><p>切换回原网页，刷新页面，若钩子函数关键词匹配到了，则触发debug</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818596523026.jpg" alt="-w763"></p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上为我做js逆向分析时用到的手段，如有不足之处或更多技巧，欢迎指教补充。愿本文的分享对您之后分析js有所帮助。谢谢～</p>
+<h2 id="下期分享预告"><a href="#下期分享预告" class="headerlink" title="下期分享预告"></a>下期分享预告</h2><p>字体加密破解</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15656719312214.png" alt="1565671931221_4"></p>
+<h2 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h2><p>欢迎加入知识星球 <a href="https://t.zsxq.com/eEmAeae" target="_blank" rel="noopener">https://t.zsxq.com/eEmAeae</a></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/zhi-shi-xing-qiu.jpeg" alt="知识星球"></p>
+<p>本星球专注于爬虫技术分享，通过一些案例详细讲解爬虫中遇到的问题以及解决手段。涉及的知识包括但不限于 爬虫框架刨析、js逆向、中间人、selenium 、pyppeteer、Android 逆向！期待您的加入，和我们一起探讨爬虫技术，拓展爬虫思维！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/" data-id="ck6vsr1970005cux13q3u3yc7"
+         class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js%E9%80%86%E5%90%91/" rel="tag">js逆向</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+      <a href="/2019/11/14/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            字体加密破解技术分享-01
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/11/14/Sublime-Plugin-CreateInit/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">Sublime-Plugin-CreateInit</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '955c9faec73be9ec9c60',
+      clientSecret: 'a5011b60f1fe57f6e35f6aadd6f444c3d4da0b52',
+      repo: 'Boris-code.github.io',
+      owner: 'Boris-code',
+      admin: ['Boris-code'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Boris</li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+
+<aside class="sidebar sidebar-specter">
+  
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/shark.svg" alt="Boris"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/categories">分类</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/tocbot.min.js"></script>
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>

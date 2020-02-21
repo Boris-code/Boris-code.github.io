@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    微信公众号爬虫技术分享 |
+    
+    Boris</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+  
+
+<article id="post-wechat_article" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+  
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      微信公众号爬虫技术分享
+    </h1>
+  
+  
+
+
+
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/11/14/wechat_article/" class="article-date">
+  <time datetime="2019-11-14T05:33:38.000Z" itemprop="datePublished">2019-11-14</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
+  </div>
+
+      </div>
+    
+
+    
+      
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+        <h2 id="采集方案分析对比"><a href="#采集方案分析对比" class="headerlink" title="采集方案分析对比"></a>采集方案分析对比</h2><p>目前主流的抓取公众号文章及动态信息不同采集方案对比如下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816069888183.jpg" alt="-w699"></p>
+<p>由上图可知：<br>    如果需要长期监控公众号实时的文章，我推荐使用逆向的方式；<br>    如果要做获取文章阅读点赞评论量或搜狗微信转永久链接等接口，推荐使用万能key的方式；<br>    至于中间人的方式，技术门槛低，开发周期短，如果要监控的公众号不多，且实效性要求不那么高，我推荐使用这种方式。</p>
+<p>下面将详细介绍基于中间人方式采集的原理</p>
+<a id="more"></a>
+
+<h2 id="采集方案详解"><a href="#采集方案详解" class="headerlink" title="采集方案详解"></a>采集方案详解</h2><blockquote>
+<p>基于中间人方式</p>
+</blockquote>
+<h3 id="采集原理"><a href="#采集原理" class="headerlink" title="采集原理"></a>采集原理</h3><p>中间人好比中介，这里指抓包工具，大致的原理图如下</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/wei-xin-pa-chongzhong-jian-ren-yuan-li.png" alt="微信爬虫-中间人原理"></p>
+<p>微信客户端之所以可以看到文章信息，是因为请求了微信的服务器，服务器收到请求后，将对应的文章返给客户端。这里我们通过抓包工具（中间人）拦截数据，将拦截到的文章数据解析入库，就完成了一次简单的数据抓取。</p>
+<p>那么如何实现多个文章自动抓取，及列表页自动翻页呢。总不能人肉去点吧。那么最先想到的是自动化工具，比如大家都知道的按键精灵。但是这种自动化工具如何与抓包工具交互，是个问题。我们要保证在数据被拦截入库之后，再去点击下一个抓取的目标，又或者当网络异常时，自动化工具如何检测出来，然后重刷当前页面，发起请求。即使可以实现，应该也很麻烦，所以没采用这种方法。本人也不喜欢自动化工具，总感觉它不稳定。。。</p>
+<p>既然微信文章界面是html的，我们可以嵌入js嘛，让他自动跳转。那么如何在文章和源代码里嵌入自己的js呢？这时中间人就派上用场了，既然他可以拦截数据，当然可以修改数据，再返回给客户端。因此这种方式是可行的。</p>
+<h3 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h3><p>知道了中间人的原理，下面说说代码如何实现。这里所用语言为 <code>python3</code>，抓包工具为 <code>mitmproxy</code>. 代理地址仓库为：<a href="https://github.com/striver-ing/wechat-spider" target="_blank" rel="noopener">https://github.com/striver-ing/wechat-spider</a></p>
+<p>可先下载代码，然后对照本文去看代码</p>
+<p> 本项目的目录结构为：</p>
+<pre><code>wechat-spider
+    ├── config.py  # 读取配置文件
+    ├── config.yaml # 配置文件
+    ├── core # 代码的核心
+    │   ├── capture_packet.py # 抓包代码（中间人）
+    │   ├── data_pipeline.py # 数据入库
+    │   ├── deal_data.py # 数据处理
+    │   └── task_manager.py # 任务调度
+    ├── create_tables.py # 创建表
+    ├── db # 数据库的封装
+    │   ├── mysqldb.py # mysql数据库
+    │   └── redisdb.py # redis数据库
+    ├── run.py # 启动入口
+    └── utils # 工具包
+        ├── log.py # 日志
+        ├── selector.py # xpath解析工具
+        └── tools.py # 一些函数的封装</code></pre><h4 id="capture-packet-py"><a href="#capture-packet-py" class="headerlink" title="capture_packet.py"></a>capture_packet.py</h4><p>本模块代码用于拦截微信服务端到客户端的数据，然后将拦截到的数据交给deal_data.py 处理，再注入js返回给微信客户端。</p>
+<p>红框框住的为<strong>拦截的数据包规则</strong>，比如返回的数据包地址中包含 <code>/s?__biz=</code>，那么该数据包的数据就会被拦截。具体每个规则代表什么数据包，代码中有注释说明，可对应查看</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816094651015.jpg" alt="-w1007"></p>
+<p><strong>注入js的代码为</strong></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816098538386.jpg" alt="-w796"></p>
+<p>next_page 为所注入的js，值为task_manager.py中返回的，如下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816099868271.jpg" alt="-w1242"></p>
+<p>核心js为 </p>
+<pre><code>&lt;script&gt;setTimeout(function(){window.location.href=&apos;url&apos;;},sleep_time);&lt;/script&gt;</code></pre><p>即设置了个定时器，在一定的间隔后，跳转到指定的url。url 即为我们要抓取的下一个目标，可以为文章地址，可以为历史页面的下一页地址等。</p>
+<p><strong>坑</strong></p>
+<p>坑1：列表页第一页为html，可注入js，之后再翻页时数据包的格式为json。注入js不生效。因此需要改返回头才可以<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816102930388.jpg" alt="-w804"></p>
+<p>坑2：文章页面有安全机制，外部注入的js不生效，也需要改返回的头。如下：<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816103611504.jpg" alt="-w1239"></p>
+<p><strong>优化</strong></p>
+<p>为了使微信客户端页面加载更快，减少没必要的网络请求。我们可以去掉页面中的图片及视频，代码如下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816104677156.jpg" alt="-w818"></p>
+<p>这部分代码是把返回给微信客户端数据里的img标签替换为空，那么客户端就自然不加载图片了，不加载视频的原理一样。</p>
+<p><font color='red'>这个模块的代码为核心中的核心，也是中间人全部的代码，若第一遍没读懂，可反复理解几遍，再往下看</font></p>
+<h4 id="deal-data-py"><a href="#deal-data-py" class="headerlink" title="deal_data.py"></a>deal_data.py</h4><p>本模块代码为数据清洗入库，代码如下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816920160188.jpg" alt="-w734"></p>
+<p>__parse_account_info：解析公众号信息<br>__parse_article_list与deal_article_list：解析文章列表<br>deal_article：解析文章<br>deal_article_dynamic_info：解析文章动态信息，阅读、点赞、评论量<br>deal_comment：解析评论信息<br>get_task：获取下一个任务</p>
+<p>此处有个细节，处理完数据后，要返回需要注入的js（即接下来要抓取的页面）给capture_packet.py，以便后续自动抓取其他文章或历史列面内容。但阅读点赞评论量与评论内容这俩接口是在访问文章地址时间接请求的，因此这俩解析函数不需要返回注入的js。</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/zhong-jian-ren-zhu-rujs-liu-cheng.png" alt="中间人注入js流程"></p>
+<p>具体的代码执行逻辑如上图。此处建议自己抓下数据包去分析分析，再结合代码，这样便于理解</p>
+<h4 id="task-manager-py"><a href="#task-manager-py" class="headerlink" title="task_manager.py"></a>task_manager.py</h4><p>本模块为任务管理，获取任务时首先从redis中取，若redis中没有，再从mysql中取，然后添加到redis中</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816940315051.jpg" alt="-w1242"></p>
+<p>next_page 中 关键的跳转代码为：</p>
+<p>跳转到下一个url</p>
+<pre><code>&lt;script&gt;setTimeout(function(){{window.location.href='{url}';}},{sleep_time_msec});&lt;/script&gt;</code></pre><p>没任务时当前页面在一定时间间隔后刷新</p>
+<pre><code>&lt;script&gt;setTimeout(function(){{window.location.reload();}},{sleep_time_msec});&lt;/script&gt;</code></pre><p>之所以没任务时要在一定时间间隔后刷新，是为了触发微信客户端对服务端的请求，然后中间人才能抓到包，之后才能触发本模块的代码逻辑执行，重新获取任务。</p>
+<h4 id="data-pipeline-py"><a href="#data-pipeline-py" class="headerlink" title="data_pipeline.py"></a>data_pipeline.py</h4><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816943925719.jpg" alt="-w602"></p>
+<p>这个模块没啥说的，就是数据入库，本处省略</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以上为现阶段主流的<code>微信公众号爬虫技术方案对比分析</code>及<code>微信公众号爬虫</code> <a href="https://github.com/striver-ing/wechat-spider" target="_blank" rel="noopener">https://github.com/striver-ing/wechat-spider</a> 代码刨析。建议先抓下微信的数据包分析下，搞清楚微信公众号数据整个请求流程，对理解本代码很有帮助。目前7.0以上的手机微信貌似抓不到包了，可以抓取pc端的或者mac端的，协议是一样的。</p>
+<p>愿本次分享对您有些许帮助，谢谢～</p>
+<h3 id="下期分享预告"><a href="#下期分享预告" class="headerlink" title="下期分享预告"></a>下期分享预告</h3><p>智联-瑞数反爬破解</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816948423864.jpg" alt="-w1678"></p>
+<h2 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h2><p>欢迎加入知识星球 <a href="https://t.zsxq.com/eEmAeae" target="_blank" rel="noopener">https://t.zsxq.com/eEmAeae</a></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/zhi-shi-xing-qiu.jpeg" alt="知识星球"></p>
+<p>本星球专注于爬虫技术分享，通过一些案例详细讲解爬虫中遇到的问题以及解决手段。涉及的知识包括但不限于 爬虫框架刨析、js逆向、中间人、selenium 、pyppeteer、Android 逆向！期待您的加入，和我们一起探讨爬虫技术，拓展爬虫思维！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/14/wechat_article/" data-id="ck6vsr19d000fcux1gtc08ujn"
+         class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/" rel="tag">微信公众号</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+      <a href="/2019/11/14/crack-gap-slider/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            缺口类滑块验证码破解
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/11/14/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">字体加密破解技术分享-01</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+    
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '955c9faec73be9ec9c60',
+      clientSecret: 'a5011b60f1fe57f6e35f6aadd6f444c3d4da0b52',
+      repo: 'Boris-code.github.io',
+      owner: 'Boris-code',
+      admin: ['Boris-code'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 Boris</li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+
+<aside class="sidebar sidebar-specter">
+  
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/shark.svg" alt="Boris"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/categories">分类</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/tags">标签</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/gallery">相册</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/tocbot.min.js"></script>
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>

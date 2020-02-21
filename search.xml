@@ -1,6 +1,558 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>java 面试题</title>
+    <url>/2020/01/15/java-%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="1-基础"><a href="#1-基础" class="headerlink" title="1. 基础"></a>1. 基础</h1><h2 id="1-基本类型"><a href="#1-基本类型" class="headerlink" title="1. 基本类型"></a>1. 基本类型</h2><p>byte &gt; short &gt; int &gt; long &gt; float &gt;double &gt; char &gt; boolean </p>
+<p><img src="media/15790179885669.jpg" alt=""></p>
+<a id="more"></a>
+
+<h2 id="2-ArrayList-和-LinkedList-有什么区别"><a href="#2-ArrayList-和-LinkedList-有什么区别" class="headerlink" title="2. ArrayList 和 LinkedList 有什么区别"></a>2. ArrayList 和 LinkedList 有什么区别</h2><p>ArrayList : 数组<br>LinkedList: 双向链表</p>
+<h2 id="3-StringBuilder-StringBuffer"><a href="#3-StringBuilder-StringBuffer" class="headerlink" title="3. StringBuilder, StringBuffer"></a>3. StringBuilder, StringBuffer</h2><p>StringBuilder是线程不安全的，速度快<br>StringBuffer是线程安全的</p>
+<p>String：适用于少量的字符串操作的情况<br>StringBuilder：适用于单线程下在字符缓冲区进行大量操作的情况<br>StringBuffer：适用多线程下在字符缓冲区进行大量操作的情况</p>
+<p>底层存储结构为 chat [], 不过string 的为 final chat []</p>
+]]></content>
+      <categories>
+        <category>面试题</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python 面试题</title>
+    <url>/2019/12/31/python-%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="1-基础"><a href="#1-基础" class="headerlink" title="1. 基础"></a>1. 基础</h1><h2 id="1-杂七杂八"><a href="#1-杂七杂八" class="headerlink" title="1. 杂七杂八"></a>1. 杂七杂八</h2><ol>
+<li><p>list 切片是<code>前闭后开</code></p>
+<pre><code>[1,2,3][0:2]
+&gt;&gt;&gt; [1, 2]</code></pre></li>
+<li><p><code>__new__</code> 是用来创建类并返回这个类的实例, 而<code>__init__</code>只是将传入的参数来初始化该实例.</p>
+ <a id="more"></a>
+</li>
+<li><p>metaclass的主要目的，是为了能够在创建类的时候，自动地修改类。</p>
+</li>
+<li><p><code>__getattribute__</code>定义了你的属性被访问时的行为，相比较，<code>__getattr__</code>只有该属性不存在时才会起作用。</p>
+</li>
+<li><p>上下文管理</p>
+<pre><code> __enter__会返回一个值，并赋值给as关键词之后的变量。在这里，你可以定义代码段开始的一些操作。
+
+__exit__(self, exception_type, exception_value, traceback)</code></pre><p> <code>__exit__</code> 定义了代码段结束后的一些操作，可以这里执行一些清除操作，或者做一些代码段结束后需要立即执行的命令，比如文件的关闭，socket断开等。如果代码段成功结束，那么exception_type, exception_value, traceback 三个参数传进来时都将为None。如果代码段抛出异常，那么传进来的三个参数将分别为: 异常的类型，异常的值，异常的追踪栈。<br> 如果<strong>exit</strong>返回True, 那么with声明下的代码段的一切异常将会被屏蔽。<br> 如果<strong>exit</strong>返回None, 那么如果有异常，异常将正常抛出，这时候with的作用将不会显现出来。</p>
+</li>
+<li><p>正则</p>
+<ol>
+<li><p>\d 匹配一个数字字符。等价于 [0-9]</p>
+</li>
+<li><p>\D 匹配一个非数字字符。等价于 [^0-9] </p>
+<p>可以理解为 大写字母 为小写字母的反义</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-基本数据类型"><a href="#2-基本数据类型" class="headerlink" title="2. 基本数据类型"></a>2. 基本数据类型</h2><p>Python3 中有六个标准的数据类型：</p>
+<ol>
+<li>Number（数字）</li>
+<li>String（字符串）</li>
+<li>List（列表）</li>
+<li>Tuple（元组）</li>
+<li>Set（集合）</li>
+<li>Dictionary（字典）</li>
+</ol>
+<h2 id="3-创建一个迭代器"><a href="#3-创建一个迭代器" class="headerlink" title="3. 创建一个迭代器"></a>3. 创建一个迭代器</h2><pre><code>class A:
+    def __iter__(self):
+        print(&quot;__iter__&quot;)
+        self.a = 1
+        return self
+
+    def __next__(self):
+        x = self.a
+        self.a += 1
+        return x
+
+
+myclass = A()
+myiter = iter(myclass)  # 输出 __iter__
+print(next(myiter))  # 输出 1
+
+也可以用for循环</code></pre><p>StopIteration 异常用于标识迭代的完成，防止出现无限循环的情况，在 <code>__next__()</code> 方法中我们可以设置在完成指定循环次数后触发 StopIteration 异常来结束迭代。  </p>
+<pre><code>class MyNumbers:
+    def __iter__(self):
+        self.a = 1
+        print(&quot;__iter__&quot;)
+        return self
+
+    def __next__(self):
+        if self.a &lt;= 20:
+            x = self.a
+            self.a += 1
+            return x
+        else:
+            raise StopIteration
+
+
+myclass = MyNumbers()
+
+for x in myclass:
+    print(x)  </code></pre><p> 用迭代器写斐波那契数列：</p>
+<pre><code>def f(n):
+    a, b = 0, 1
+    while n:
+        yield a
+        a, b = b, a+b
+        n -= 1
+
+for i in f(10):
+    print(i)</code></pre><h2 id="4-sorted-与-sort"><a href="#4-sorted-与-sort" class="headerlink" title="4  sorted 与 .sort"></a>4  sorted 与 .sort</h2><pre><code>a = [0,2,4,6,1]
+print(a.sort()) # None
+print(a) # [0, 1, 2, 4, 6]
+a.sort(reverse=True) # [6, 4, 2, 1, 0]
+
+print(sorted(a)) # [0, 1, 2, 4, 6]
+print(a) # [0, 2, 4, 6, 1]
+print(sorted(a, reverse=True)) # [6, 4, 2, 1, 0]</code></pre><p>lambda</p>
+<pre><code>#按照第一个元素进行排序
+l = [[2, 2, 3], [1, 4, 5], [5, 4, 9]]
+l.sort(lambda x:x[0])
+print(l) #输出：[[1, 4, 5], [2, 2, 3], [5, 4, 9]]
+
+# 对字典排序
+dict1={&apos;a&apos;:2,&apos;e&apos;:3,&apos;f&apos;:8,&apos;d&apos;:4}
+list1= sorted(dict1.items(),key=lambda x:x[0])
+print(list1)</code></pre><p>匿名函数的x，表示的是l列表中的每一个成员元素<br>x[0] :表示列表里面列表的第一个成员元素</p>
+<pre><code>class Student:
+    def __init__(self, name, grade, age):
+        self.name = name
+        self.grade = grade
+        self.age = age
+
+    def __repr__(self):
+        return repr((self.name, self.grade, self.age))
+
+
+student_objects = [
+    Student(&apos;john&apos;, &apos;A&apos;, 15),
+    Student(&apos;jane&apos;, &apos;B&apos;, 12),
+    Student(&apos;dave&apos;, &apos;B&apos;, 10),
+]
+a = sorted(student_objects, key=lambda student: -student.age)
+print(a) # [(&apos;john&apos;, &apos;A&apos;, 15), (&apos;jane&apos;, &apos;B&apos;, 12), (&apos;dave&apos;, &apos;B&apos;, 10)]</code></pre><h2 id="5-map"><a href="#5-map" class="headerlink" title="5. map()"></a>5. map()</h2><p>map() 会根据提供的函数对指定序列做映射。<br>第一个参数 function 以参数序列中的每一个元素调用 function 函数，返回包含每次 function 函数返回值的新列表。</p>
+<p>map() 函数语法：</p>
+<pre><code>map(function, iterable, ...)</code></pre><p>应用</p>
+<pre><code>&gt;&gt;&gt;def square(x) :            # 计算平方数
+...     return x ** 2
+... 
+&gt;&gt;&gt; map(square, [1,2,3,4,5])   # 计算列表各个元素的平方
+[1, 4, 9, 16, 25]</code></pre><h2 id="6-列表实现原理"><a href="#6-列表实现原理" class="headerlink" title="6. 列表实现原理"></a>6. 列表实现原理</h2><h2 id="7-repr-和str"><a href="#7-repr-和str" class="headerlink" title="7. _repr_ 和str"></a>7. _<em>repr_</em> 和<strong>str</strong></h2><p>_<em>repr_</em> 在交互模式下或print时调用<br>_<em>str_</em> 在print时调用</p>
+<pre><code>&gt;&gt;&gt;class A():
+        def __str__(self):
+            return &apos;a&apos;
+&gt;&gt;&gt;A()
+&gt;&gt;&gt; &lt;__main__.A at 0x1136949e8&gt;
+&gt;&gt;&gt;print(A())
+&gt;&gt;&gt;a
+&gt;&gt;&gt;class A():
+        def __repr__(self):
+            return &apos;a&apos;
+&gt;&gt;&gt;A()
+&gt;&gt;&gt; a
+&gt;&gt;&gt;print(A())
+&gt;&gt;&gt;a</code></pre><h2 id="8-python中时间日期格式化符号："><a href="#8-python中时间日期格式化符号：" class="headerlink" title="8. python中时间日期格式化符号："></a>8. python中时间日期格式化符号：</h2><ol>
+<li>%y 两位数的年份表示（00-99）</li>
+<li>%Y 四位数的年份表示（000-9999）</li>
+<li>%m 月份（01-12）</li>
+<li>%d 月内中的一天（0-31）</li>
+<li>%H 24小时制小时数（0-23）</li>
+<li>%I 12小时制小时数（01-12）</li>
+<li>%M 分钟数（00=59）</li>
+<li>%S 秒（00-59）</li>
+<li>%a 本地简化星期名称</li>
+<li>%A 本地完整星期名称</li>
+<li>%b 本地简化的月份名称</li>
+<li>%B 本地完整的月份名称</li>
+<li>%c 本地相应的日期表示和时间表示</li>
+<li>%j 年内的一天（001-366）</li>
+<li>%p 本地A.M.或P.M.的等价符</li>
+<li>%U 一年中的星期数（00-53）星期天为星期的开始</li>
+<li>%w 星期（0-6），星期天为星期的开始</li>
+<li>%W 一年中的星期数（00-53）星期一为星期的开始</li>
+<li>%x 本地相应的日期表示</li>
+<li>%X 本地相应的时间表示</li>
+<li>%Z 当前时区的名称</li>
+</ol>
+<h2 id="9-异常"><a href="#9-异常" class="headerlink" title="9.异常"></a>9.异常</h2><pre><code>try:
+    1
+except Exception as e:
+    print(e)
+else: # 不发生异常时执行
+    print(1)
+finally:
+    print(&quot;finally&quot;)</code></pre><h2 id="10-垃圾回收"><a href="#10-垃圾回收" class="headerlink" title="10. 垃圾回收"></a>10. 垃圾回收</h2><blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/83251959" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/83251959</a></p>
+</blockquote>
+<ol>
+<li><p>引用计数：ob_ref 来记引用次数 （不能回收循环引用）</p>
+</li>
+<li><p>标记清除: 标记清除就是用来解决循环引用的问题的只有容器对象才会出现引用循环，比如列表、字典、类、元组。</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15782094765530.jpg" alt="-w350"></p>
+<p> 对象之间通过引用（指针）连在一起，构成一个有向图，对象构成这个有向图的节点，而引用关系构成这个有向图的边。从根对象（root object）出发，沿着有向边遍历对象，可达的（reachable）对象标记为活动对象，不可达的对象就是要被清除的非活动对象。根对象就是全局变量、调用栈、寄存器。 mark-sweepg 在上图中，我们把小黑圈视为全局变量，也就是把它作为root object，从小黑圈出发，对象1可直达，那么它将被标记，对象2、3可间接到达也会被标记，而4和5不可达，那么1、2、3就是活动对象，4和5是非活动对象会被GC回收。</p>
+<p> 标记清除算法作为Python的辅助垃圾收集技术主要处理的是一些容器对象，比如list、dict、tuple，instance等，因为对于字符串、数值对象是不可能造成循环引用问题。Python使用一个双向链表将这些容器对象组织起来。不过，这种简单粗暴的标记清除算法也有明显的<code>缺点：清除非活动的对象前它必须顺序扫描整个堆内存，哪怕只剩下小部分活动对象也要扫描所有对象。</code></p>
+<p> <strong>上面描述的垃圾回收的阶段，会暂停整个应用程序，等待标记清除结束后才会恢复应用程序的运行。</strong></p>
+</li>
+<li><p>分代回收</p>
+<p> 在循环引用对象的回收中，整个应用程序会被暂停，为了减少应用程序暂停的时间，Python 通过“分代回收”(Generational Collection)以空间换时间的方法提高垃圾回收效率。</p>
+<p> 分代回收是一种以空间换时间的操作方式，Python将内存根据对象的存活时间划分为不同的集合，每个集合称为一个代，Python将内存分为了3“代”，分别为年轻代（第0代）、中年代（第1代）、老年代（第2代），他们对应的是3个链表，它们的垃圾收集频率与对象的存活时间的增大而减小。</p>
+<p> 新创建的对象都会分配在年轻代，年轻代链表的总数达到上限时，Python垃圾收集机制就会被触发，把那些可以被回收的对象回收掉，而那些不会回收的对象就会被移到中年代去，依此类推，老年代中的对象是存活时间最久的对象，甚至是存活于整个系统的生命周期内。</p>
+<p> 同时，分代回收是建立在标记清除技术基础之上。分代回收同样作为Python的辅助垃圾收集技术处理那些容器对象</p>
+<p> 有三种情况会触发垃圾回收：</p>
+<ol>
+<li>调用gc.collect(),需要先导入gc模块。</li>
+<li>当gc模块的计数器达到阀值的时候。</li>
+<li>程序退出的时候</li>
+</ol>
+</li>
+</ol>
+<p>循环引用示例</p>
+<pre><code>    a = []
+b = []
+a.append(b)
+b.append(a)
+print a
+[[[…]]]
+print b
+[[[…]]]</code></pre><p><strong>扩展</strong><br>java 垃圾回收为 标记清除，分代回收</p>
+<h2 id="11-list-底层实现原理"><a href="#11-list-底层实现原理" class="headerlink" title="11. list 底层实现原理"></a>11. list 底层实现原理</h2><blockquote>
+<p><a href="https://github.com/python/cpython/blob/master/Include/listobject.h" target="_blank" rel="noopener">https://github.com/python/cpython/blob/master/Include/listobject.h</a><br><a href="https://www.jianshu.com/p/J4U6rR" target="_blank" rel="noopener">https://www.jianshu.com/p/J4U6rR</a></p>
+</blockquote>
+<p>列表被实现为长度可变的顺序表（数组）</p>
+<p>Python中的列表是由对其它对象的引用组成的连续数组，指向这个数组的指针及其长度被保存在一个列表头结构中。这意味着，每次添加或删除一个元素时，由引用组成的数组需要该标大小（重新分配）。幸运的是，Python在创建这些数组时采用了指数过分配，所以并不是每次操作都需要改变数组的大小。但是，也因为这个原因添加或取出元素的平摊复杂度较低。</p>
+<p>list实现采用了如下的策略：在建立空表（或者很小的表）时，系统分配一块能容纳8个元素的存储区；在执行插入操作（insert或append）时，如果元素存储区满就换一块4倍大的存储区。但如果此时的表已经很大（目前的阀值为50000），则改变策略，采用加一倍的方法。引入这种改变策略的方式，是为了避免出现过多空闲的存储位置。</p>
+<p>时间复杂度：</p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/a2c98df9cfae" target="_blank" rel="noopener">https://www.jianshu.com/p/a2c98df9cfae</a></p>
+</blockquote>
+<ol>
+<li><p>append<br> append(object)：向列表尾部添加元素，最好情况即列表容量足够，添加元素一步完成，对应的时间复杂度为O(1)；最坏情况即列表需要扩容，这时需要对现有元素一一遍历移动位置，此时时间复杂度为O(n)。因此最终的时间复杂度为O(1)。这是均摊计算的结果，大家可以自己推算下。看下append的代码实现：</p>
+</li>
+<li><p>pop<br> pop([index])：删除并返回特定索引的元素，默认删除最后一个元素。默认的pop操作最好情况是底层不需要收缩数组，一步操作即可，对应的时间复杂度为O(1)；最坏的情况是删除元素后，紧接着python要执行收缩数组的操作，此时时间复杂度为O(n)；因此最终的时间复杂度为O(1)。对于删除指定索引的元素，不管这步操作是否需要收缩数组，该索引以后的数据都要向前移动位置，以确保存储空间的连续性。因此对应的时间复杂度为O(n)。</p>
+</li>
+<li><p>len<br>len(list)：获取列表内元素的个数，因为在列表实现中，其内部维护了一个Py_ssize_t类型的变量表示列表内元素的个数，因此时间复杂度为O(1)。</p>
+</li>
+</ol>
+<h2 id="12-队列"><a href="#12-队列" class="headerlink" title="12. 队列"></a>12. 队列</h2><ol>
+<li><p>collections.deque</p>
+<p> deque是双端队列，相比于list实现的队列，deque实现拥有更低的时间和空间复杂度。list实现在出队（pop）和插入（insert）时的空间复杂度大约为O(n)，deque在出队（pop）和入队（append）时的时间复杂度是O(1)。</p>
+<p> 线程安全方面，collections.deque中的append()、pop()等方法都是原子操作，所以是GIL保护下的线程安全方法。</p>
+</li>
+<li><p>queue.Queue &amp; asyncio.Queue</p>
+<p> queue.Queue和asyncio.Queue都是支持多生产者、多消费者的队列，基于collections.deque</p>
+</li>
+<li><p>multiprocessing.Queue</p>
+<p> multiprocessing.Queue既是线程安全也是进程安全的</p>
+</li>
+</ol>
+<h1 id="2-算法"><a href="#2-算法" class="headerlink" title="2 算法"></a>2 算法</h1><h2 id="1-排序"><a href="#1-排序" class="headerlink" title="1. 排序"></a>1. 排序</h2><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15783302494264.jpg" alt="-w724"></p>
+<h3 id="1-拓扑排序"><a href="#1-拓扑排序" class="headerlink" title="1. 拓扑排序"></a>1. 拓扑排序</h3><h3 id="2-堆排序"><a href="#2-堆排序" class="headerlink" title="2. 堆排序"></a>2. 堆排序</h3><blockquote>
+<p>算法描述参考：<a href="https://blog.csdn.net/u010452388/article/details/81283998" target="_blank" rel="noopener">https://blog.csdn.net/u010452388/article/details/81283998</a></p>
+</blockquote>
+<p>大顶堆：每个节点的值都大于或等于其子节点的值，在堆排序算法中用于升序排列；</p>
+<p>小顶堆：每个节点的值都小于或等于其子节点的值，在堆排序算法中用于降序排列；</p>
+<p>堆排序的平均时间复杂度为 Ο(nlogn)</p>
+<pre><code>def build_tree(arr, root, arr_length):
+    max_node = root
+    left_child = root * 2 + 1
+    right_child = root * 2 + 2
+
+    if left_child &lt; arr_length and arr[max_node] &lt; arr[left_child]:  # 如果根结点比左孩子小，则标记最大节点位置
+        max_node = left_child
+    if right_child &lt; arr_length and arr[max_node] &lt; arr[right_child]:  # # 如果根结点比右孩子小，则标记最大节点位置
+        max_node = right_child
+
+    if max_node != root:
+        arr[root], arr[max_node] = arr[max_node], arr[root]
+        build_tree(arr, max_node, arr_length)  # # 根结点 A 与 B交换后，largest 为A的位置，需要继续跟子节点比较
+
+
+def heap_sort(arr: list):
+    # 构建大根堆
+    for i in range(len(arr) // 2 - 1, -1, -1):  # 因为左右孩子的关系，所以根结点从len(arr) // 2 - 1 开始
+        build_tree(arr, i, len(arr))
+
+    print(arr)
+
+    # 交换
+    for i in range(len(arr) - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]  # 将根 i=0 与最后一个元素交换，然后将剩余的数再构造成一个大根堆。 及固定最大值再构造堆
+        build_tree(arr, 0, i)
+
+
+a = [1, 4, 6, 1, 3, 8, 3, 5, 0, 12, 4]
+heap_sort(a)
+print(a)</code></pre><h3 id="3-快排"><a href="#3-快排" class="headerlink" title="3. 快排"></a>3. 快排</h3><blockquote>
+<p>参考 <a href="https://www.jianshu.com/p/2b2f1f79984e" target="_blank" rel="noopener">https://www.jianshu.com/p/2b2f1f79984e</a></p>
+</blockquote>
+<p>这个效率低 每次都要便利全部的数组</p>
+<pre><code>def quicksort(arr):
+    if len(arr) &lt;= 1:
+        return arr
+    pivot = arr[len(arr) // 2] # 从中间一分为二 取中间的值
+    left = [x for x in arr if x &lt; pivot] # 左边的数组都小于中间值
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x &gt; pivot] # 右边数组都大于中间值
+
+    return quicksort(left) + middle + quicksort(right)
+
+
+print(quicksort([3, 6, 8, 19, 1, 5]))  # [1，3, 5, 6, 8, 19]</code></pre><p>正宗的</p>
+<pre><code>def get_pivokey(arr, left, right):
+    pivotkey = arr[left] # 千万别写成 arr[0] 了
+
+    while left &lt; right:
+        while left &lt; right and arr[right] &gt; pivotkey:
+            right -=1
+        arr[left] = arr[right]
+
+        while left &lt; right and arr[left] &lt; pivotkey:
+            left += 1
+        arr[right] = arr[left]
+
+    arr[left] = pivotkey
+
+    return left
+
+
+def quick_sort(arr, left, right):
+    pivot = get_pivokey(arr, left, right)
+
+    if left &lt; right:
+        quick_sort(arr, left, pivot - 1)
+        quick_sort(arr, pivot + 1, right)
+
+
+arr = [3, 6, 8, 19, 1, 5]
+quick_sort(arr, 0, len(arr) - 1)  # [1，3, 5, 6, 8, 19]
+print(arr)</code></pre><h3 id="4-冒泡"><a href="#4-冒泡" class="headerlink" title="4.冒泡"></a>4.冒泡</h3><pre><code>    def bubble_sort(arr):
+    for i in range(len(arr)):
+        for j in range(len(arr)-1-i): # 沉底之后的就不用排了
+            if arr[j] &gt; arr[j+1]: # 大的沉底
+                arr[j+1], arr[j] = arr[j], arr[j+1]
+
+    return arr
+
+
+arr = [3, 6, 8, 19, 1, 5]
+bubble_sort(arr)
+print(arr)</code></pre><h3 id="5-插入排序"><a href="#5-插入排序" class="headerlink" title="5. 插入排序"></a>5. 插入排序</h3><p>O(n^2)</p>
+<pre><code>def insert_sort(arr):
+    for i in range(len(arr)):
+        temp = arr[i]
+        j = i - 1
+        while j &gt;= 0 and temp &lt; arr[j]:
+            arr[j + 1] = arr[j]
+            j -= 1
+
+        arr[j + 1] = temp
+
+        print(arr[:i], arr)
+
+    return arr
+
+
+arr = [3, 6, 8, 19, 1, 5]
+insert_sort(arr)
+print(arr)</code></pre><h2 id="2-动态规划"><a href="#2-动态规划" class="headerlink" title="2. 动态规划"></a>2. 动态规划</h2><p>自底向上：先解决子问题，在解决父问题</p>
+<h3 id="1-斐波那契"><a href="#1-斐波那契" class="headerlink" title="1. 斐波那契"></a>1. 斐波那契</h3><pre><code>def f(n):
+    fi = 0
+    fj = 1
+
+    while True:
+        print(fi)
+        fn = fi + fj
+        n -= 1
+        if n &lt;= 0:
+            break
+
+        fi, fj = fj, fn
+
+    return fi
+
+print(f(10)) #134</code></pre><h3 id="2-找零钱"><a href="#2-找零钱" class="headerlink" title="2. 找零钱"></a>2. 找零钱</h3><pre><code># 使用张数最少， 找出15元
+money = [1, 5, 11]
+total_money = 15
+
+money_used = list(range(16))
+cost = list(range(16))  # cost[金钱] = 找零的张数， 初始化为都用1块钱找领
+for i in range(1, total_money + 1):
+    coin = None
+    for j in range(len(money)):
+        if money[j] &lt;= i:  # 当前找领的金额不能需要找零的金额
+            if (
+                cost[i - money[j]] + 1 &lt; cost[i]
+            ):  # 如果本次所用money[j]找零 1张 + 之前找零 cost[i - money[j]] 张，小于cost[i]张， 则更新cost[i]
+                cost[i] = cost[i - money[j]] + 1
+                coin = money[j]
+
+    money_used[i] = coin
+
+print(cost[15])  # 下标就是金钱
+print(money_used)
+
+# 3
+# [0, None, None, None, None, 5, 1, 1, 1, 1, 5, 11, 1, 1, 1, 5] # 下标为金钱， 值为使用的面值</code></pre><h3 id="3-最大上升子序列"><a href="#3-最大上升子序列" class="headerlink" title="3. 最大上升子序列"></a>3. 最大上升子序列</h3><blockquote>
+<p> o(n)^2</p>
+</blockquote>
+<pre><code>a = [1, 7, 6, 2, 3, 4]
+dp = [1] * len(a) #  dp[i]dp[i] 表示以第 i 元素为结尾的最长上升子序列长度，那么对于每一个 dp[i] 而言，初始值即为 1 ；
+for i in range(len(a)):
+    for j in range(i):
+        if a[j] &lt; a[i] and dp[i] &lt; dp[j] + 1: # 用if判断是否可以拼凑成上升子序列， 并且判断当前状态是否优于之前枚举
+            dp[i] = dp[j] + 1
+            # print(&quot;-&quot;, a[i]) # 更新最优状态
+            # print(j)
+
+print(max(dp))</code></pre><h2 id="3-题目"><a href="#3-题目" class="headerlink" title="3. 题目"></a>3. 题目</h2><ol>
+<li><p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+<p> a = [2,2,1]</p>
+<p> number = a[0]<br> for i in a[1:]:</p>
+<pre><code>number = number ^ i</code></pre><p> print(number)</p>
+</li>
+<li><p>最长子串</p>
+<p> 开始的时候，begin和end都指向0的位置即‘a’，然后end不断后移（窗口变宽），当遇到第二个‘a’时（遇见重复字符）就得到一个子串，其长度就是end和begin位置的差。<br> <img src="media/15790156280960.jpg" alt="-w514"><br> 如何判断是否遇到了重复字符‘a’呢？需要一个字典作为辅助数据结构，把end从头开始遇到的每个字符及其索引位置都放到字典里面，end每次移动到新字符就查一下字典即可。</p>
+<p> 通过字典，我们遇到第二个‘a’时就可以找到存在字典里面的第一个‘a’的位置。为了继续寻找无重复子串，begin就要指向第一个‘a’后面一个的位置即‘b’。然后end继续后移到‘b’，有发现它与前面的‘b’重复，计算子串长度赋值给最大长度（需要比较），同时begin要移动第一个‘b’后面的位置即‘c’。</p>
+<p> 这样依次移动end到字符串末尾就可以找到最长的子串，“子串窗口”也就从头移到了末尾。而只需要end从头到尾的一次循环即可。</p>
+</li>
+</ol>
+<h1 id="3-linux"><a href="#3-linux" class="headerlink" title="3. linux"></a>3. linux</h1><ol>
+<li>man 用于查看指令的文档， 如 man ls， 查看ls的使用说明</li>
+</ol>
+<h1 id="4-数据库"><a href="#4-数据库" class="headerlink" title="4. 数据库"></a>4. 数据库</h1><ol>
+<li><p>mysql 索引</p>
+<ol>
+<li>单列索引(普通索引，唯一索引，主键索引)<ol>
+<li>普通索引：MySQL中基本索引类型，没有什么限制，允许在定义索引的列中插入重复值和空值，纯粹为了查询数据更快一点</li>
+<li>唯一索引：索引列中的值必须是唯一的，但是允许为空值，</li>
+<li>主键索引：是一种特殊的唯一索引，不允许有空值。</li>
+</ol>
+</li>
+<li>组合索引<ol>
+<li>在表中的多个字段组合上创建的索引，只有在查询条件中使用了这些字段的左边字段时，索引才会被使用</li>
+</ol>
+</li>
+<li>全文索引<ol>
+<li>全文索引，只有在MyISAM引擎上才能使用，只能在CHAR,VARCHAR,TEXT类型字段上使用全文索引</li>
+<li>全文索引，就是在一堆文字中，通过其中的某个关键字等，就能找到该字段所属的记录行，比如有”你是个靓仔，靓女 …” 通过靓仔，可能就可以找到该条记录</li>
+</ol>
+</li>
+<li>空间索引<ol>
+<li>空间索引是对空间数据类型的字段建立的索引，MySQL中的空间数据类型有四种，GEOMETRY、POINT、LINESTRING、POLYGON。在创建空间索引时，使用SPATIAL关键字。要求，引擎为MyISAM，创建空间索引的列，必须将其声明为NOT NULL。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>mysql中in和exists（）区别</p>
+<p> SELECT * FROM A WHERE id IN (SELECT id FROM B);</p>
+<p> exists()适合B表比A表数据大的情况</p>
+<p> 当A表数据与B表数据一样大时,in与exists效率差不多,可任选一个使用</p>
+</li>
+<li><p>批量插入及更新语句</p>
+</li>
+<li><p>redis 数据类型</p>
+<ol>
+<li>string</li>
+<li>hash</li>
+<li>list</li>
+<li>set</li>
+<li>soreset</li>
+</ol>
+</li>
+<li><p>redis 数据落盘的几种方式</p>
+<ol>
+<li><p><strong>RDB</strong>持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。</p>
+<ol>
+<li>优点：<ol>
+<li>只包含一个文件，易备份</li>
+<li>性能高：fork出子进程，之后再由子进程完成这些持久化的工作</li>
+<li>占用空间小</li>
+</ol>
+</li>
+<li>缺点<ol>
+<li>系统一旦在定时持久化之前出现宕机现象，此前没有来得及写入磁盘的数据都将丢失</li>
+<li>由于RDB是通过fork子进程来协助完成数据持久化工作的，因此，如果当数据集较大时，可能会导致整个服务器停止服务几百毫秒，甚至是1秒钟。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p><strong>AOF</strong>持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录。落盘策略为每秒同步、每修改同步和不同步</p>
+<ol>
+<li>优点<ol>
+<li>由于落盘机制，可有效的保证数据的安全性</li>
+</ol>
+</li>
+<li>缺点<ol>
+<li>文件大</li>
+<li>效率比RDB低</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="5-协议"><a href="#5-协议" class="headerlink" title="5. 协议"></a>5. 协议</h1><blockquote>
+<p><a href="https://www.cnblogs.com/Javi/p/9303020.html" target="_blank" rel="noopener">https://www.cnblogs.com/Javi/p/9303020.html</a></p>
+</blockquote>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15784055974222.jpg" alt="-w637"></p>
+<h2 id="1-tcp"><a href="#1-tcp" class="headerlink" title="1. tcp"></a>1. tcp</h2><p>连接三次握手：<br>    1. 客户端发送SYN（SEQ=x）报文给服务器端，进入SYN_SEND状态。<br>    2. 服务器端收到SYN报文，回应一个SYN （SEQ=y）ACK（ACK=x+1）报文，进入SYN_RECV状态。<br>    3. 客户端收到服务器端的SYN报文，回应一个ACK（ACK=y+1）报文，进入Established状态。<br>    <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15784040015647.jpg" alt="-w221"></p>
+<p>关闭 4次握手：<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/01/07/15784039465315.jpg" alt="-w226"></p>
+<h2 id="2-udp"><a href="#2-udp" class="headerlink" title="2. udp"></a>2. udp</h2><p>无连接协议，不需要先建立连接</p>
+<p><strong>UDP与TCP的区别：</strong></p>
+<ol>
+<li><p>连接和无连接</p>
+</li>
+<li><p>数据完整性<br> TCP协议会检验数据完整性，及当接收方收到数据时，会向发送方发出确认信息。发送方只有在接收到该确认消息之后才继续传送其它信息，否则将一直等待直到收到确认信息为止。</p>
+<p> UDP则不检验数据完整性，在发送数据过程中出现丢包的情况，协议本身不做任何检测和提示</p>
+</li>
+<li><p>一对一和一对多<br> TCP 一对一<br> UDP 支持一对一，一对多，多对一和多对多的交互通信</p>
+</li>
+</ol>
+<h2 id="3-socket"><a href="#3-socket" class="headerlink" title="3. socket"></a>3. socket</h2><p>Socket是应用层与TCP/IP协议族通信的中间软件抽象层，它是一组接口。在设计模式中，Socket其实就是一个门面模式，它把复杂的TCP/IP协议族隐藏在Socket接口后面，对用户来说，一组简单的接口就是全部，让Socket去组织数据，以符合指定的协议。</p>
+<p>Socket是传输控制层协议</p>
+<h2 id="4-websocket"><a href="#4-websocket" class="headerlink" title="4. websocket"></a>4. websocket</h2><p>WebSocket是应用层协议。</p>
+<p>WebSocket在建立握手时，数据是通过HTTP传输的。但是建立之后，在真正传输时候是不需要HTTP协议的。</p>
+<h2 id="5-http"><a href="#5-http" class="headerlink" title="5. http"></a>5. http</h2><p>基于tcp，属于应用层。TCP是传输层</p>
+<h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h1><ol>
+<li><p>装饰器的实质是什么</p>
+<ol>
+<li>答：装饰器是要把原来的函数装饰成新的函数，并且返回这个函数本身的高阶函数</li>
+</ol>
+</li>
+<li><p>高阶函数：一个函数可以作为参数传给另外一个函数，或者一个函数的返回值为另外一个函数（若返回值为该函数本身，则为递归），满足其一则为高阶函数。</p>
+</li>
+<li><p>Python之GIL</p>
+<ol>
+<li>GIL是一个互斥锁，它防止多个线程同时执行Python字节码。这个锁是必要的，主要是因为CPython的内存管理不是线程安全的</li>
+<li>Python内部对变量或数据对象使用了引用计数器,当多个线程同时修改这个值时,可能会导致内存泄漏,为了避免内存泄漏和死锁问题,CPython使用了单锁,即全局解释器锁(GIL),即执行Python字节码都需要获取GIL,这可以防止死锁,但它有效地使任何受CPU限制的Python程序都是单线程.</li>
+<li>GIL对多线程Python程序的影响<ol>
+<li>程序的性能受到计算密集型(CPU)的程序限制和I/O密集型的程序限制影响,那什么是计算密集型和I/O密集型程序呢?</li>
+<li>计算密集型(CPU):高度使用CPU的程序,例如: 进行数学计算,矩阵运算,搜索,图像处理等.</li>
+<li>I/O密集型:I/0(Input/Output)程序是进行数据传输,例如: 文件操作,数据库,网络数据等</li>
+<li>GIL对I/O绑定多线程程序的性能影响不大,因为线程在等待I/O时共享锁.</li>
+<li>GIL对计算型绑定多线程程序有影响,例如: 使用线程处理部分图像的程序,不仅会因锁定而成为单线程,而且还会看到执行时间的增加,这种增加是由锁的获取和释放开销的结果.</li>
+<li>标准库中所有执行阻塞型 IO 操作的函数，在等待结果返回时都会释放GIL。这意味着尽管有GIL，Python线程还是能在 IO 密集型任务中一展身手</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>异步框架Twisted（scrapy使用的）</p>
+</li>
+</ol>
+<h1 id="个人信息相关"><a href="#个人信息相关" class="headerlink" title="个人信息相关"></a>个人信息相关</h1><h2 id="1-自我介绍"><a href="#1-自我介绍" class="headerlink" title="1. 自我介绍"></a>1. 自我介绍</h2><h2 id="2-项目经验"><a href="#2-项目经验" class="headerlink" title="2. 项目经验"></a>2. 项目经验</h2>]]></content>
+      <categories>
+        <category>面试题</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>微信公众号抓取</title>
     <url>/2019/12/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%93%E5%8F%96/</url>
     <content><![CDATA[<h2 id="采集方案对比"><a href="#采集方案对比" class="headerlink" title="采集方案对比"></a>采集方案对比</h2><p>抓取公众号文章及文章动态信息不同采集方案对比如下：</p>
@@ -574,6 +1126,295 @@ minio/minio server /data</code></pre><p>MINIO_ACCESS_KEY 与 MINIO_SECRET_KEY �
       </categories>
       <tags>
         <tag>滑块破解</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>微信公众号爬虫技术分享</title>
+    <url>/2019/11/14/wechat_article/</url>
+    <content><![CDATA[<h2 id="采集方案分析对比"><a href="#采集方案分析对比" class="headerlink" title="采集方案分析对比"></a>采集方案分析对比</h2><p>目前主流的抓取公众号文章及动态信息不同采集方案对比如下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816069888183.jpg" alt="-w699"></p>
+<p>由上图可知：<br>    如果需要长期监控公众号实时的文章，我推荐使用逆向的方式；<br>    如果要做获取文章阅读点赞评论量或搜狗微信转永久链接等接口，推荐使用万能key的方式；<br>    至于中间人的方式，技术门槛低，开发周期短，如果要监控的公众号不多，且实效性要求不那么高，我推荐使用这种方式。</p>
+<p>下面将详细介绍基于中间人方式采集的原理</p>
+<a id="more"></a>
+
+<h2 id="采集方案详解"><a href="#采集方案详解" class="headerlink" title="采集方案详解"></a>采集方案详解</h2><blockquote>
+<p>基于中间人方式</p>
+</blockquote>
+<h3 id="采集原理"><a href="#采集原理" class="headerlink" title="采集原理"></a>采集原理</h3><p>中间人好比中介，这里指抓包工具，大致的原理图如下</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/wei-xin-pa-chongzhong-jian-ren-yuan-li.png" alt="微信爬虫-中间人原理"></p>
+<p>微信客户端之所以可以看到文章信息，是因为请求了微信的服务器，服务器收到请求后，将对应的文章返给客户端。这里我们通过抓包工具（中间人）拦截数据，将拦截到的文章数据解析入库，就完成了一次简单的数据抓取。</p>
+<p>那么如何实现多个文章自动抓取，及列表页自动翻页呢。总不能人肉去点吧。那么最先想到的是自动化工具，比如大家都知道的按键精灵。但是这种自动化工具如何与抓包工具交互，是个问题。我们要保证在数据被拦截入库之后，再去点击下一个抓取的目标，又或者当网络异常时，自动化工具如何检测出来，然后重刷当前页面，发起请求。即使可以实现，应该也很麻烦，所以没采用这种方法。本人也不喜欢自动化工具，总感觉它不稳定。。。</p>
+<p>既然微信文章界面是html的，我们可以嵌入js嘛，让他自动跳转。那么如何在文章和源代码里嵌入自己的js呢？这时中间人就派上用场了，既然他可以拦截数据，当然可以修改数据，再返回给客户端。因此这种方式是可行的。</p>
+<h3 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h3><p>知道了中间人的原理，下面说说代码如何实现。这里所用语言为 <code>python3</code>，抓包工具为 <code>mitmproxy</code>. 代理地址仓库为：<a href="https://github.com/striver-ing/wechat-spider" target="_blank" rel="noopener">https://github.com/striver-ing/wechat-spider</a></p>
+<p>可先下载代码，然后对照本文去看代码</p>
+<p> 本项目的目录结构为：</p>
+<pre><code>wechat-spider
+    ├── config.py  # 读取配置文件
+    ├── config.yaml # 配置文件
+    ├── core # 代码的核心
+    │   ├── capture_packet.py # 抓包代码（中间人）
+    │   ├── data_pipeline.py # 数据入库
+    │   ├── deal_data.py # 数据处理
+    │   └── task_manager.py # 任务调度
+    ├── create_tables.py # 创建表
+    ├── db # 数据库的封装
+    │   ├── mysqldb.py # mysql数据库
+    │   └── redisdb.py # redis数据库
+    ├── run.py # 启动入口
+    └── utils # 工具包
+        ├── log.py # 日志
+        ├── selector.py # xpath解析工具
+        └── tools.py # 一些函数的封装</code></pre><h4 id="capture-packet-py"><a href="#capture-packet-py" class="headerlink" title="capture_packet.py"></a>capture_packet.py</h4><p>本模块代码用于拦截微信服务端到客户端的数据，然后将拦截到的数据交给deal_data.py 处理，再注入js返回给微信客户端。</p>
+<p>红框框住的为<strong>拦截的数据包规则</strong>，比如返回的数据包地址中包含 <code>/s?__biz=</code>，那么该数据包的数据就会被拦截。具体每个规则代表什么数据包，代码中有注释说明，可对应查看</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816094651015.jpg" alt="-w1007"></p>
+<p><strong>注入js的代码为</strong></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816098538386.jpg" alt="-w796"></p>
+<p>next_page 为所注入的js，值为task_manager.py中返回的，如下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816099868271.jpg" alt="-w1242"></p>
+<p>核心js为 </p>
+<pre><code>&lt;script&gt;setTimeout(function(){window.location.href=&apos;url&apos;;},sleep_time);&lt;/script&gt;</code></pre><p>即设置了个定时器，在一定的间隔后，跳转到指定的url。url 即为我们要抓取的下一个目标，可以为文章地址，可以为历史页面的下一页地址等。</p>
+<p><strong>坑</strong></p>
+<p>坑1：列表页第一页为html，可注入js，之后再翻页时数据包的格式为json。注入js不生效。因此需要改返回头才可以<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816102930388.jpg" alt="-w804"></p>
+<p>坑2：文章页面有安全机制，外部注入的js不生效，也需要改返回的头。如下：<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816103611504.jpg" alt="-w1239"></p>
+<p><strong>优化</strong></p>
+<p>为了使微信客户端页面加载更快，减少没必要的网络请求。我们可以去掉页面中的图片及视频，代码如下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816104677156.jpg" alt="-w818"></p>
+<p>这部分代码是把返回给微信客户端数据里的img标签替换为空，那么客户端就自然不加载图片了，不加载视频的原理一样。</p>
+<p><font color='red'>这个模块的代码为核心中的核心，也是中间人全部的代码，若第一遍没读懂，可反复理解几遍，再往下看</font></p>
+<h4 id="deal-data-py"><a href="#deal-data-py" class="headerlink" title="deal_data.py"></a>deal_data.py</h4><p>本模块代码为数据清洗入库，代码如下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816920160188.jpg" alt="-w734"></p>
+<p>__parse_account_info：解析公众号信息<br>__parse_article_list与deal_article_list：解析文章列表<br>deal_article：解析文章<br>deal_article_dynamic_info：解析文章动态信息，阅读、点赞、评论量<br>deal_comment：解析评论信息<br>get_task：获取下一个任务</p>
+<p>此处有个细节，处理完数据后，要返回需要注入的js（即接下来要抓取的页面）给capture_packet.py，以便后续自动抓取其他文章或历史列面内容。但阅读点赞评论量与评论内容这俩接口是在访问文章地址时间接请求的，因此这俩解析函数不需要返回注入的js。</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/zhong-jian-ren-zhu-rujs-liu-cheng.png" alt="中间人注入js流程"></p>
+<p>具体的代码执行逻辑如上图。此处建议自己抓下数据包去分析分析，再结合代码，这样便于理解</p>
+<h4 id="task-manager-py"><a href="#task-manager-py" class="headerlink" title="task_manager.py"></a>task_manager.py</h4><p>本模块为任务管理，获取任务时首先从redis中取，若redis中没有，再从mysql中取，然后添加到redis中</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816940315051.jpg" alt="-w1242"></p>
+<p>next_page 中 关键的跳转代码为：</p>
+<p>跳转到下一个url</p>
+<pre><code>&lt;script&gt;setTimeout(function(){{window.location.href='{url}';}},{sleep_time_msec});&lt;/script&gt;</code></pre><p>没任务时当前页面在一定时间间隔后刷新</p>
+<pre><code>&lt;script&gt;setTimeout(function(){{window.location.reload();}},{sleep_time_msec});&lt;/script&gt;</code></pre><p>之所以没任务时要在一定时间间隔后刷新，是为了触发微信客户端对服务端的请求，然后中间人才能抓到包，之后才能触发本模块的代码逻辑执行，重新获取任务。</p>
+<h4 id="data-pipeline-py"><a href="#data-pipeline-py" class="headerlink" title="data_pipeline.py"></a>data_pipeline.py</h4><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816943925719.jpg" alt="-w602"></p>
+<p>这个模块没啥说的，就是数据入库，本处省略</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以上为现阶段主流的<code>微信公众号爬虫技术方案对比分析</code>及<code>微信公众号爬虫</code> <a href="https://github.com/striver-ing/wechat-spider" target="_blank" rel="noopener">https://github.com/striver-ing/wechat-spider</a> 代码刨析。建议先抓下微信的数据包分析下，搞清楚微信公众号数据整个请求流程，对理解本代码很有帮助。目前7.0以上的手机微信貌似抓不到包了，可以抓取pc端的或者mac端的，协议是一样的。</p>
+<p>愿本次分享对您有些许帮助，谢谢～</p>
+<h3 id="下期分享预告"><a href="#下期分享预告" class="headerlink" title="下期分享预告"></a>下期分享预告</h3><p>智联-瑞数反爬破解</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816948423864.jpg" alt="-w1678"></p>
+<h2 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h2><p>欢迎加入知识星球 <a href="https://t.zsxq.com/eEmAeae" target="_blank" rel="noopener">https://t.zsxq.com/eEmAeae</a></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/zhi-shi-xing-qiu.jpeg" alt="知识星球"></p>
+<p>本星球专注于爬虫技术分享，通过一些案例详细讲解爬虫中遇到的问题以及解决手段。涉及的知识包括但不限于 爬虫框架刨析、js逆向、中间人、selenium 、pyppeteer、Android 逆向！期待您的加入，和我们一起探讨爬虫技术，拓展爬虫思维！</p>
+]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>微信公众号</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>字体加密破解技术分享-01</title>
+    <url>/2019/11/14/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="1-什么是字体加密"><a href="#1-什么是字体加密" class="headerlink" title="1. 什么是字体加密"></a>1. 什么是字体加密</h2><p>简单的说，字体加密即为<code>所复制非所得</code>。如下图，我们复制<code>186.37万字</code>得到<code>𘠜𘠚𘠗𘠛𘠖𘠔万字</code>。那么这里的186.37这个数字就被加密了，用到的技术为字体加密。</p>
+<p>网址：<a href="https://book.qidian.com/info/1013562540" target="_blank" rel="noopener">https://book.qidian.com/info/1013562540</a><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15820221913491.jpg" alt="-w1194"></p>
+<p>字体加密所用范围也很广，如大众点评、猫眼、起点中文网、landchian等。如果我们直接抓取页面源代码，得到的则为一堆无意义的数据。<br>那么如何把这些无意义的数据解密成他原本的含义呢，下面我将进行详细的讲解。</p>
+<a id="more"></a>
+
+<h2 id="2-基本知识"><a href="#2-基本知识" class="headerlink" title="2. 基本知识"></a>2. 基本知识</h2><h3 id="2-1-字体加密原理"><a href="#2-1-字体加密原理" class="headerlink" title="2.1 字体加密原理"></a>2.1 字体加密原理</h3><p>我们所看到的文字，都有对应的字体文件，字体文件描述着每个文字如何绘制。比如下图：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15821960933111.jpg" alt="-w244"><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15821961523776.jpg" alt="-w260"></p>
+<p>不同的字体文件，绘制出来的<code>爬虫</code>二字形状不一样。这就好比画画一样，不同的人画猫，有的人画出来的是猫，有人画出来的却是虎。懂了这点，那么下图的字体加密就不难理解了：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15821964555239.jpg" alt="-w1374"></p>
+<p>上图我们看到的<code>土地基本概况</code> 其实是<code>冋块基鴻戥况</code>通过字体文件绘制出来的，即原本真实的文字应为<code>冋块基鴻戥况</code>。不信你可以去复制这几个文字，然后粘贴下看看，<a href="https://www.landchina.com/DesktopModule/BizframeExtendMdl/workList/bulWorkView.aspx?wmguid=4a611fc4-42b1-4231-ac26-8d25b002dc2b&recorderguid=JYXT_ZJGS_13594&sitePath=" target="_blank" rel="noopener">打开原网页</a>。就好比我们看到的画是虎，其实画画那人画的对象是猫。</p>
+<p>总结下：我们所看到的文字，是由字体文件绘制出来的，正常都是将这个文字原本字形绘制出来。但遇到字体反爬这种不正经的字体文件，他把文字<code>男</code>绘制成<code>人妖</code>这种事都干得出来。</p>
+<h3 id="2-2-字体文件刨析"><a href="#2-2-字体文件刨析" class="headerlink" title="2.2 字体文件刨析"></a>2.2 字体文件刨析</h3><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15821972247789.jpg" alt="-w1249"></p>
+<p>我们先找到这个网页所用到的字体，并下载下来，用以下几行代码来解析字体保存为xml</p>
+<pre><code>from fontTools.ttLib import TTFont
+
+font = TTFont(&quot;vJ3z6kV9Oo0MYQNQhaEWLTMF54ysPI1p.woff&quot;)
+font.saveXML(&quot;vJ3z6kV9Oo0MYQNQhaEWLTMF54ysPI1p.xml&quot;)</code></pre><p>这里解释下woff字体</p>
+<blockquote>
+<p>WOFF（Web开发字体格式）是一种专门为了Web而设计的字体格式标准，实际上是对于TrueType/OpenType等字体格式的封装，每个字体文件中含有字体以及针对字体的元数据（Metadata），字体文件被压缩，以便于网络传输。</p>
+</blockquote>
+<p>下面分析下这个xml文件：</p>
+<p>GlyphOrder 节点下为该字体文件中所包含的文字<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15821995970833.jpg" alt="-w670"></p>
+<p>TTGlyph 节点下，name为所绘制的文字，contour节点为字型信息。<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15822126778809.jpg" alt="-w616"></p>
+<p>xMin、xMax、yMin、yMax 为这个文字所在的横纵坐标,如下图：<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15822125522407.jpg" alt="-w656"></p>
+<p>pt 中的 x, y 为关键点的坐标，on的值 1表示直线，0表示弧形。为了验证on表达的含义，亲自拿标准的微软雅黑用文字<code>十</code>和<code>八</code>做了验证，如下：</p>
+<p>文字<code>八</code>，因为八是有弧的，所以on的值有1有0<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15822132803667.jpg" alt="-w678"></p>
+<p>文字<code>十</code>，on均为1<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15822133508484.jpg" alt="-w588"></p>
+<p>name 为文字名，一个表识。标准字体的name即为所绘文字的unicode16进制编码。非标准字体name的值是什么，看他心情。我们可以通过如下方法将文字与16进制相互转换。</p>
+<pre><code># 转16进制
+&gt;&gt;&gt; hex(ord(&apos;十&apos;))
+&apos;0x5341&apos;
+
+转回文字
+&gt;&gt;&gt; u&apos;\u5341&apos;
+&apos;十&apos;</code></pre><h3 id="2-3-破解字体加密"><a href="#2-3-破解字体加密" class="headerlink" title="2.3 破解字体加密"></a>2.3 破解字体加密</h3><blockquote>
+<p>此方法适用于知道标准字体是什么</p>
+</blockquote>
+<h4 id="2-3-1-思路"><a href="#2-3-1-思路" class="headerlink" title="2.3.1 思路"></a>2.3.1 思路</h4><p>看完字体文件刨析之后，我们大致对字体文件有所了解了。一个文字张什么样子是由x、y、on来决定的。<strong>那么当我们拿到一个非标准字体中某个文字的x、y、on后，在对应的标准字体文件中寻找最相近的x、y、on以及其表达的文字，这样所找到的文字即为解密后的文字</strong>。</p>
+<p>比如下面这个图，我们拿<code>土地基本情况</code>中的地来举例，从源码中看出<code>地</code>对应的文字为<code>冋</code><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15821964555239.jpg" alt="-w1374"><br>从源码中还发现了标准字体为微软雅黑<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15822151752003.jpg" alt="-w694"></p>
+<p>分别将网页所用的加密字体及标准的微软雅黑字体保存为xml，然后分别在微软雅黑中取<code>地</code>及在加密字体中取<code>冋</code>的字型，对比如下</p>
+<ol>
+<li><p>先计算下<code>地</code>与<code>冋</code>的16进制</p>
+<pre><code>&gt;&gt;&gt; hex(ord(&apos;地&apos;))
+&apos;0x5730&apos;
+&gt;&gt;&gt; hex(ord(&apos;冋&apos;))
+&apos;0x518b&apos;</code></pre></li>
+<li><p>字形对比</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15822154822831.jpg" alt="-w1365"></p>
+<p> 观察字形可以看到标准字体中的<code>地</code>与加密字体中的<code>冋</code>的字型是非常相近的。x,y的缩放比例相同，on的值更是完全的一致。这是因为这俩字型绘制的都是同一个文字<code>地</code>。也就是为什么网页的源码中是<code>冋</code>，而我们在页面中看到的文字是<code>地</code></p>
+</li>
+</ol>
+<h4 id="2-3-2-付出行动"><a href="#2-3-2-付出行动" class="headerlink" title="2.3.2 付出行动"></a>2.3.2 付出行动</h4><p>我们已经有了在标准字体文件中寻找最相近字型的思路，那么下面讲解如何寻找！</p>
+<ol>
+<li><p>解析标准字体文件，将文字与字型保存为如下关系<br> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15822163443876.jpg" alt="-w471"><br> 不同文字的on可能相同，因此on的值为list类型，下面保存了多个相同on值的文字及字型</p>
+<p> 我训练完的字体文件如下<br> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/21/15822169008177.jpg" alt="-w1196"></p>
+</li>
+<li><p>解析加密的字体文件，将每个文字、on、及xy对应关系取出来。然后用on值在上面的字典中快速取出一组on值相同的字型（大多数只有一个），然后再在这组字型中匹配一个最相近的字型，得出对应的文字即可</p>
+<p> 匹配最相近的字型方法：遍历候选字型，计算每个字型xy的特征与源word xy特征相除后的方差（相除是因为 同一字体xy是成比例缩放的），然后取方差最小的字型。</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上分别介绍了什么是字体加密、加密原理、字体文件刨析、以及破解思路。破解思路适用于已知标准字体的情况，对于未知标准字体的字体反爬，下期讲解。</p>
+<h2 id="下期分享预告"><a href="#下期分享预告" class="headerlink" title="下期分享预告"></a>下期分享预告</h2><p>未知标准字体的字体反爬破解思路</p>
+<h2 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h2><p>欢迎加入知识星球 <a href="https://t.zsxq.com/eEmAeae" target="_blank" rel="noopener">https://t.zsxq.com/eEmAeae</a></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/zhi-shi-xing-qiu.jpeg" alt="知识星球"></p>
+<p>本星球专注于爬虫技术分享，通过一些案例详细讲解爬虫中遇到的问题以及解决手段。涉及的知识包括但不限于 爬虫框架刨析、js逆向、中间人、selenium 、pyppeteer、Android 逆向！期待您的加入，和我们一起探讨爬虫技术，拓展爬虫思维！</p>
+]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>字体加密</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js逆向技巧分享</title>
+    <url>/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<p>当我们抓取网页端数据时，经常被加密参数、加密数据所困扰，如何快速定位这些加解密函数，尤为重要。本片文章是我逆向js时一些技巧的总结，如有遗漏，欢迎补充。</p>
+<p>所需环境：Chrome浏览器</p>
+<a id="more"></a>
+
+<h2 id="1-搜索"><a href="#1-搜索" class="headerlink" title="1. 搜索"></a>1. 搜索</h2><h3 id="1-1-全局搜索"><a href="#1-1-全局搜索" class="headerlink" title="1.1 全局搜索"></a>1.1 全局搜索</h3><blockquote>
+<p>适用于根据关键词快速定位关键文件及代码</p>
+</blockquote>
+<p>当前页面右键-&gt;检查，弹出检查工具<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818546991703.jpg" alt="-w771"><br>搜索支持 关键词、正则表达式</p>
+<h3 id="1-2-代码内搜索"><a href="#1-2-代码内搜索" class="headerlink" title="1.2 代码内搜索"></a>1.2 代码内搜索</h3><blockquote>
+<p>适用于根据关键词快速定位关键代码</p>
+</blockquote>
+<p>点击代码，然后按ctrl+f 或 command+f 调出搜索框。搜索支持 关键词、css表达式、xpath<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818548355218.jpg" alt="-w567"></p>
+<h2 id="2-debug"><a href="#2-debug" class="headerlink" title="2. debug"></a>2. debug</h2><h3 id="2-1-常规debug"><a href="#2-1-常规debug" class="headerlink" title="2.1 常规debug"></a>2.1 常规debug</h3><blockquote>
+<p>适用于分析关键函数代码逻辑</p>
+</blockquote>
+<ol>
+<li><p>埋下断点</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818553940142.jpg" alt="-w963"></p>
+</li>
+<li><p>调试</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818560289237.jpg" alt="-w790"></p>
+<p> 如图所示，我标记了1到6，下面分别介绍其含义</p>
+<p> 1.执行到下一个端点<br> 2.执行下一步，不会进入所调用的函数内部<br> 3.进入所调用的函数内部<br> 4.跳出函数内部<br> 5.一步步执行代码，遇到有函数调用，则进入函数<br> 6.Call Stack 为代码调用的堆栈信息，代码执行顺序为由下至上，这对于着关键函数前后调用关系很有帮助</p>
+</li>
+</ol>
+<h3 id="2-2-XHR-debug"><a href="#2-2-XHR-debug" class="headerlink" title="2.2 XHR debug"></a>2.2 XHR debug</h3><blockquote>
+<p>匹配url中关键词，匹配到则跳转到参数生成处，适用于url中的加密参数全局搜索搜不到，可采用这种方式拦截</p>
+</blockquote>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818564958339.jpg" alt="-w991"></p>
+<h3 id="2-3-行为debug"><a href="#2-3-行为debug" class="headerlink" title="2.3 行为debug"></a>2.3 行为debug</h3><blockquote>
+<p>适用于点击按钮时，分析代码执行逻辑</p>
+</blockquote>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818568240138.jpg" alt="-w1515"></p>
+<p>如图所示，可快速定位点击探索按钮后，所执行的js。</p>
+<h2 id="3-查看请求调用的堆栈"><a href="#3-查看请求调用的堆栈" class="headerlink" title="3 查看请求调用的堆栈"></a>3 查看请求调用的堆栈</h2><p>可以在 Network 选项卡下，该请求的 Initiator 列里看到它的调用栈，调用顺序由上而下：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818572338786.jpg" alt="-w1211"></p>
+<h2 id="4-执行堆内存中的函数"><a href="#4-执行堆内存中的函数" class="headerlink" title="4. 执行堆内存中的函数"></a>4. 执行堆内存中的函数</h2><p>当debug到某一个函数时，我们想主动调用，比如传递下自定义的参数，这时可以在检查工具里的console里调用</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818574162547.jpg" alt="-w990"></p>
+<p>此处要注意，只有debug打这个函数时，控制台里才可以调用。如果想保留这个函数，可使用this.xxx=xxx 的方式。之后调用时无需debug到xxx函数，直接使用this.xxx 即可。</p>
+<h2 id="5-修改堆栈中的参数值"><a href="#5-修改堆栈中的参数值" class="headerlink" title="5. 修改堆栈中的参数值"></a>5. 修改堆栈中的参数值</h2><p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15807829279682.png" alt="1580782927968_2"></p>
+<h2 id="6-写js代码"><a href="#6-写js代码" class="headerlink" title="6. 写js代码"></a>6. 写js代码</h2><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818584762149.jpg" alt="-w647"></p>
+<h2 id="7-打印windows对象的值"><a href="#7-打印windows对象的值" class="headerlink" title="7. 打印windows对象的值"></a>7. 打印windows对象的值</h2><p>在console中输入如下代码，如只打印_$开头的变量值</p>
+<pre><code>for (var p in window) {
+    if (p.substr(0, 2) !== &quot;_$&quot;) 
+        continue;
+    console.log(p + &quot; &gt;&gt;&gt; &quot; + eval(p))
+}</code></pre><h2 id="8-勾子"><a href="#8-勾子" class="headerlink" title="8. 勾子"></a>8. 勾子</h2><blockquote>
+<p>以chrome插件的方式，在匹配到关键词处插入断点</p>
+</blockquote>
+<h3 id="8-1-cookie钩子"><a href="#8-1-cookie钩子" class="headerlink" title="8.1 cookie钩子"></a>8.1 cookie钩子</h3><blockquote>
+<p>用于定位cookie中关键参数生成位置</p>
+</blockquote>
+<pre><code>var code = function(){
+    var org = document.cookie.__lookupSetter__(&apos;cookie&apos;);
+    document.__defineSetter__(&quot;cookie&quot;,function(cookie){
+        if(cookie.indexOf(&apos;TSdc75a61a&apos;)&gt;-1){
+            debugger;
+        }
+        org = cookie;
+    });
+    document.__defineGetter__(&quot;cookie&quot;,function(){return org;});
+}
+var script = document.createElement(&apos;script&apos;);
+script.textContent = &apos;(&apos; + code + &apos;)()&apos;;
+(document.head||document.documentElement).appendChild(script);
+script.parentNode.removeChild(script);</code></pre><p>当cookie中匹配到了 <code>TSdc75a61a</code>， 则插入断点。</p>
+<h3 id="8-2-请求钩子"><a href="#8-2-请求钩子" class="headerlink" title="8.2 请求钩子"></a>8.2 请求钩子</h3><blockquote>
+<p>用于定位请求中关键参数生成位置</p>
+</blockquote>
+<pre><code>var code = function(){
+var open = window.XMLHttpRequest.prototype.open;
+window.XMLHttpRequest.prototype.open = function (method, url, async){
+    if (url.indexOf(&quot;MmEwMD&quot;)&gt;-1){
+        debugger;
+    }
+    return open.apply(this, arguments);
+};
+}
+var script = document.createElement(&apos;script&apos;);
+script.textContent = &apos;(&apos; + code + &apos;)()&apos;;
+(document.head||document.documentElement).appendChild(script);
+script.parentNode.removeChild(script);</code></pre><p>当请求的url里包含<code>MmEwMD</code>时，则插入断点</p>
+<h3 id="8-3-header钩子"><a href="#8-3-header钩子" class="headerlink" title="8.3 header钩子"></a>8.3 header钩子</h3><blockquote>
+<p>用于定位header中关键参数生成位置</p>
+</blockquote>
+<pre><code>var code = function(){
+var org = window.XMLHttpRequest.prototype.setRequestHeader;
+window.XMLHttpRequest.prototype.setRequestHeader = function(key,value){
+    if(key==&apos;Authorization&apos;){
+        debugger;
+    }
+    return org.apply(this,arguments);
+}
+}
+var script = document.createElement(&apos;script&apos;);
+script.textContent = &apos;(&apos; + code + &apos;)()&apos;;
+(document.head||document.documentElement).appendChild(script);
+script.parentNode.removeChild(script);</code></pre><p>当header中包含<code>Authorization</code>时，则插入断点</p>
+<h3 id="8-4-manifest-json"><a href="#8-4-manifest-json" class="headerlink" title="8.4 manifest.json"></a>8.4 manifest.json</h3><blockquote>
+<p>插件的配置文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;name&quot;: &quot;Injection&quot;,</span><br><span class="line">	&quot;version&quot;: &quot;2.0&quot;,</span><br><span class="line">	&quot;description&quot;: &quot;RequestHeader钩子&quot;,</span><br><span class="line">	&quot;manifest_version&quot;: 2,</span><br><span class="line">	&quot;content_scripts&quot;: [</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;matches&quot;: [</span><br><span class="line">				&quot;&lt;all_urls&gt;&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;js&quot;: [</span><br><span class="line">				&quot;inject.js&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;all_frames&quot;: true,</span><br><span class="line">			&quot;permissions&quot;: [</span><br><span class="line">				&quot;tabs&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;run_at&quot;: &quot;document_start&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><ol>
+<li><p>如图所示，创建一个文件夹，文件夹中创建一个钩子函数文件inject.js 及 插件的配置文件 mainfest.json 即可</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818591973251.jpg" alt="-w1447"></p>
+</li>
+<li><p>打开chrome 的扩展程序, 加载已解压的扩展程序，选择步骤1创建的文件夹即可</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818594196696.jpg" alt="-w634"></p>
+</li>
+<li><p>切换回原网页，刷新页面，若钩子函数关键词匹配到了，则触发debug</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15818596523026.jpg" alt="-w763"></p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上为我做js逆向分析时用到的手段，如有不足之处或更多技巧，欢迎指教补充。愿本文的分享对您之后分析js有所帮助。谢谢～</p>
+<h2 id="下期分享预告"><a href="#下期分享预告" class="headerlink" title="下期分享预告"></a>下期分享预告</h2><p>字体加密破解</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/15656719312214.png" alt="1565671931221_4"></p>
+<h2 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h2><p>欢迎加入知识星球 <a href="https://t.zsxq.com/eEmAeae" target="_blank" rel="noopener">https://t.zsxq.com/eEmAeae</a></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/zhi-shi-xing-qiu.jpeg" alt="知识星球"></p>
+<p>本星球专注于爬虫技术分享，通过一些案例详细讲解爬虫中遇到的问题以及解决手段。涉及的知识包括但不限于 爬虫框架刨析、js逆向、中间人、selenium 、pyppeteer、Android 逆向！期待您的加入，和我们一起探讨爬虫技术，拓展爬虫思维！</p>
+]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>js逆向</tag>
       </tags>
   </entry>
   <entry>
