@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>
-    spark入门.md |
+    spark入门 |
     
     Boris</title>
   
@@ -33,7 +33,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      spark入门.md
+      spark入门
     </h1>
   
   
@@ -75,15 +75,17 @@
 
       
         <h1 id="下载安装spark"><a href="#下载安装spark" class="headerlink" title="下载安装spark"></a>下载安装spark</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">http://spark.apache.org/downloads.html</a></p>
-<p><img src="media/15827271213569.jpg" alt="-w714"></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/07/15827271213569.jpg?x-oss-process=style/markdown-media" alt="-w714"></p>
 <p>解压，进入spark根目录，输入bin/spark-shell，出现下图，则安装成功</p>
-<p><img src="media/15827306552400.jpg" alt="-w1041"></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/07/15827306552400.jpg?x-oss-process=style/markdown-media" alt="-w1041"></p>
+<a id="more"></a>
+
 <h2 id="IntelliJ-IDEA-导入-spark-依赖"><a href="#IntelliJ-IDEA-导入-spark-依赖" class="headerlink" title="IntelliJ IDEA 导入 spark 依赖"></a>IntelliJ IDEA 导入 spark 依赖</h2><p><strong>方法一：直接导入spark目录下的jars</strong></p>
-<p><img src="media/15827804023142.jpg" alt="-w422"><br><img src="media/15827804575446.jpg" alt="-w1019"></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/07/15827804023142.jpg?x-oss-process=style/markdown-media" alt="-w422"><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/07/15827804575446.jpg?x-oss-process=style/markdown-media" alt="-w1019"></p>
 <p><strong>方法二：使用maven导入依赖：</strong></p>
 <p>访问maven仓库，搜索spark,选择合适的版本</p>
 <p><a href="https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.12/2.4.4" target="_blank" rel="noopener">https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.12/2.4.4</a></p>
-<p>复制以下信息<br><img src="media/15827847467533.jpg" alt="-w1179"></p>
+<p>复制以下信息<br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/07/15827847467533.jpg?x-oss-process=style/markdown-media" alt="-w1179"></p>
 <p>粘贴到pol.xml 的 dependencies 中</p>
 <pre><code>&lt;dependencies&gt;
     &lt;!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core --&gt;
@@ -92,16 +94,21 @@
         &lt;artifactId&gt;spark-core_2.12&lt;/artifactId&gt;
         &lt;version&gt;2.4.4&lt;/version&gt;
     &lt;/dependency&gt;
-&lt;/dependencies&gt;</code></pre><h2 id="编写Scala代码时自动显示变量类型"><a href="#编写Scala代码时自动显示变量类型" class="headerlink" title="编写Scala代码时自动显示变量类型"></a>编写Scala代码时自动显示变量类型</h2><p><img src="media/15827866535894.jpg" alt="-w1015"></p>
-<h2 id="maven-配置阿里云的镜像"><a href="#maven-配置阿里云的镜像" class="headerlink" title="maven 配置阿里云的镜像"></a>maven 配置阿里云的镜像</h2><p><img src="media/15827863285899.jpg" alt="-w1016"></p>
+&lt;/dependencies&gt;</code></pre><h2 id="编写Scala代码时自动显示变量类型"><a href="#编写Scala代码时自动显示变量类型" class="headerlink" title="编写Scala代码时自动显示变量类型"></a>编写Scala代码时自动显示变量类型</h2><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/07/15827866535894.jpg?x-oss-process=style/markdown-media" alt="-w1015"></p>
+<h2 id="maven-配置阿里云的镜像"><a href="#maven-配置阿里云的镜像" class="headerlink" title="maven 配置阿里云的镜像"></a>maven 配置阿里云的镜像</h2><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/07/15827863285899.jpg?x-oss-process=style/markdown-media" alt="-w1016"></p>
 <pre><code>http://maven.aliyun.com/nexus/content/repositories/central/
-http://maven.aliyun.com/nexus/content/groups/public/</code></pre><h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="wordcount"><a href="#wordcount" class="headerlink" title="wordcount"></a>wordcount</h2><p><img src="media/15827340206711.jpg" alt="-w977"><br><img src="media/15827340794127.jpg" alt="-w1667"></p>
-<h1 id="路线"><a href="#路线" class="headerlink" title="路线"></a>路线</h1><p>sparksql<br>secla</p>
+http://maven.aliyun.com/nexus/content/groups/public/</code></pre><h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="wordcount"><a href="#wordcount" class="headerlink" title="wordcount"></a>wordcount</h2><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/07/15827340206711.jpg?x-oss-process=style/markdown-media" alt="-w977"><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/07/15827340794127.jpg?x-oss-process=style/markdown-media" alt="-w1667"></p>
+<h1 id="路线"><a href="#路线" class="headerlink" title="路线"></a>路线</h1><p>sparksql<br>scala</p>
+<h2 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h2><p>欢迎加入知识星球 <a href="https://t.zsxq.com/eEmAeae" target="_blank" rel="noopener">https://t.zsxq.com/eEmAeae</a></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/zhi-shi-xing-qiu.jpeg" alt="知识星球"></p>
+<p>本星球建设目的是为了分享爬虫技术干货，让爬虫技术在星球内不断的沉淀下来，做到知识积累。 星球每周都会分享爬虫技术干货，涉及的领域包括但不限于js逆向技巧、爬虫框架刨析、爬虫技术分享等。期待您的加入，和我们一起探讨爬虫技术，拓展爬虫思维！</p>
+<p>QQ 群：750614606</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/04/08/wechatimg188.jpeg" alt="WechatIMG188"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/26/spark%E5%85%A5%E9%97%A8/" data-id="ck9wp8ol4000rlyx1ho2jddg8"
+      <a data-url="http://yoursite.com/2020/02/26/spark%E5%85%A5%E9%97%A8/" data-id="ck9wpjswg000idex12q087uer"
          class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/saprk/" rel="tag">saprk</a></li></ul>
@@ -113,6 +120,15 @@ http://maven.aliyun.com/nexus/content/groups/public/</code></pre><h1 id="示例"
   
     
   <nav class="article-nav">
+    
+      <a href="/2020/04/06/MONIO-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            MONIO 文件存储服务
+          
+        </div>
+      </a>
     
     
       <a href="/2019/12/10/%E7%A9%BA%E7%99%BD%E7%AC%A6-xa0/" class="article-nav-link">
