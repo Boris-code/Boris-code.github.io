@@ -59,7 +59,7 @@
       
         
 
-<article id="post-java-面试题" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+<article id="post-spark入门" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
   
   <div class="article-inner">
     
@@ -67,7 +67,7 @@
         
   
     <h2 itemprop="name">
-      <a class="article-title" href="/2020/01/15/java-%E9%9D%A2%E8%AF%95%E9%A2%98/">java 面试题</a>
+      <a class="article-title" href="/2020/02/26/spark%E5%85%A5%E9%97%A8/">spark入门.md</a>
     </h2>
   
   
@@ -80,12 +80,12 @@
 
     
       <div class="article-meta">
-        <a href="/2020/01/15/java-%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-date">
-  <time datetime="2020-01-14T16:04:37.000Z" itemprop="datePublished">2020-01-15</time>
+        <a href="/2020/02/26/spark%E5%85%A5%E9%97%A8/" class="article-date">
+  <time datetime="2020-02-26T14:23:34.000Z" itemprop="datePublished">2020-02-26</time>
 </a>
         
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>
+    <a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
   </div>
 
       </div>
@@ -100,164 +100,37 @@
       
 
       
-        <h1 id="1-基础"><a href="#1-基础" class="headerlink" title="1. 基础"></a>1. 基础</h1><h2 id="1-基本类型"><a href="#1-基本类型" class="headerlink" title="1. 基本类型"></a>1. 基本类型</h2><p>byte &gt; short &gt; int &gt; long &gt; float &gt;double &gt; char &gt; boolean </p>
-<p><img src="media/15790179885669.jpg" alt=""></p>
-        
-          <a class="article-more-link" href="/2020/01/15/java-%E9%9D%A2%E8%AF%95%E9%A2%98/">阅读全文...</a>
-        
+        <h1 id="下载安装spark"><a href="#下载安装spark" class="headerlink" title="下载安装spark"></a>下载安装spark</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p><a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">http://spark.apache.org/downloads.html</a></p>
+<p><img src="media/15827271213569.jpg" alt="-w714"></p>
+<p>解压，进入spark根目录，输入bin/spark-shell，出现下图，则安装成功</p>
+<p><img src="media/15827306552400.jpg" alt="-w1041"></p>
+<h2 id="IntelliJ-IDEA-导入-spark-依赖"><a href="#IntelliJ-IDEA-导入-spark-依赖" class="headerlink" title="IntelliJ IDEA 导入 spark 依赖"></a>IntelliJ IDEA 导入 spark 依赖</h2><p><strong>方法一：直接导入spark目录下的jars</strong></p>
+<p><img src="media/15827804023142.jpg" alt="-w422"><br><img src="media/15827804575446.jpg" alt="-w1019"></p>
+<p><strong>方法二：使用maven导入依赖：</strong></p>
+<p>访问maven仓库，搜索spark,选择合适的版本</p>
+<p><a href="https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.12/2.4.4" target="_blank" rel="noopener">https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.12/2.4.4</a></p>
+<p>复制以下信息<br><img src="media/15827847467533.jpg" alt="-w1179"></p>
+<p>粘贴到pol.xml 的 dependencies 中</p>
+<pre><code>&lt;dependencies&gt;
+    &lt;!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.apache.spark&lt;/groupId&gt;
+        &lt;artifactId&gt;spark-core_2.12&lt;/artifactId&gt;
+        &lt;version&gt;2.4.4&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre><h2 id="编写Scala代码时自动显示变量类型"><a href="#编写Scala代码时自动显示变量类型" class="headerlink" title="编写Scala代码时自动显示变量类型"></a>编写Scala代码时自动显示变量类型</h2><p><img src="media/15827866535894.jpg" alt="-w1015"></p>
+<h2 id="maven-配置阿里云的镜像"><a href="#maven-配置阿里云的镜像" class="headerlink" title="maven 配置阿里云的镜像"></a>maven 配置阿里云的镜像</h2><p><img src="media/15827863285899.jpg" alt="-w1016"></p>
+<pre><code>http://maven.aliyun.com/nexus/content/repositories/central/
+http://maven.aliyun.com/nexus/content/groups/public/</code></pre><h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="wordcount"><a href="#wordcount" class="headerlink" title="wordcount"></a>wordcount</h2><p><img src="media/15827340206711.jpg" alt="-w977"><br><img src="media/15827340794127.jpg" alt="-w1667"></p>
+<h1 id="路线"><a href="#路线" class="headerlink" title="路线"></a>路线</h1><p>sparksql<br>secla</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/01/15/java-%E9%9D%A2%E8%AF%95%E9%A2%98/" data-id="ck6vsr1960004cux1fzjw7mym"
+      <a data-url="http://yoursite.com/2020/02/26/spark%E5%85%A5%E9%97%A8/" data-id="ck9wp8ol4000rlyx1ho2jddg8"
          class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-
-
-
-      
-        
-
-<article id="post-python-面试题" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-  
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h2 itemprop="name">
-      <a class="article-title" href="/2019/12/31/python-%E9%9D%A2%E8%AF%95%E9%A2%98/">python 面试题</a>
-    </h2>
-  
-  
-
-
-
-
-      </header>
-    
-
-    
-      <div class="article-meta">
-        <a href="/2019/12/31/python-%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-date">
-  <time datetime="2019-12-31T07:20:32.000Z" itemprop="datePublished">2019-12-31</time>
-</a>
-        
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>
-  </div>
-
-      </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-        <h1 id="1-基础"><a href="#1-基础" class="headerlink" title="1. 基础"></a>1. 基础</h1><h2 id="1-杂七杂八"><a href="#1-杂七杂八" class="headerlink" title="1. 杂七杂八"></a>1. 杂七杂八</h2><ol>
-<li><p>list 切片是<code>前闭后开</code></p>
-<pre><code>[1,2,3][0:2]
-&gt;&gt;&gt; [1, 2]</code></pre></li>
-<li><p><code>__new__</code> 是用来创建类并返回这个类的实例, 而<code>__init__</code>只是将传入的参数来初始化该实例.</p>
-        
-          <a class="article-more-link" href="/2019/12/31/python-%E9%9D%A2%E8%AF%95%E9%A2%98/">阅读全文...</a>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/31/python-%E9%9D%A2%E8%AF%95%E9%A2%98/" data-id="ck6vsr19b000bcux142ju78ic"
-         class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-
-
-
-      
-        
-
-<article id="post-微信公众号抓取" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-  
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h2 itemprop="name">
-      <a class="article-title" href="/2019/12/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%93%E5%8F%96/">微信公众号抓取</a>
-    </h2>
-  
-  
-  <div class="article-topping">
-    <i class="fe fe-umbrella"></i>
-  </div>
-
-
-
-
-
-      </header>
-    
-
-    
-      <div class="article-meta">
-        <a href="/2019/12/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%93%E5%8F%96/" class="article-date">
-  <time datetime="2019-12-22T14:44:33.000Z" itemprop="datePublished">2019-12-22</time>
-</a>
-        
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
-  </div>
-
-      </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-        <h2 id="采集方案对比"><a href="#采集方案对比" class="headerlink" title="采集方案对比"></a>采集方案对比</h2><p>抓取公众号文章及文章动态信息不同采集方案对比如下：</p>
-<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/12/22/15770262788316.jpg" alt="-w834"></p>
-<p>基于中间人方式已在github上开源：<a href="https://github.com/striver-ing/wechat-spider" target="_blank" rel="noopener">https://github.com/striver-ing/wechat-spider</a><br>下面为基于逆向方式</p>
-        
-          <a class="article-more-link" href="/2019/12/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%93%E5%8F%96/">阅读全文...</a>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%93%E5%8F%96/" data-id="ck6vsr19g000mcux12z3fbu35"
-         class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1/" rel="tag">微信</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/saprk/" rel="tag">saprk</a></li></ul>
 
     </footer>
 
@@ -327,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/10/%E7%A9%BA%E7%99%BD%E7%AC%A6-xa0/" data-id="ck6vsr19y001bcux1hjw92fz4"
+      <a data-url="http://yoursite.com/2019/12/10/%E7%A9%BA%E7%99%BD%E7%AC%A6-xa0/" data-id="ck9wp8ol3000qlyx13x1s0tpv"
          class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6/" rel="tag">特殊字符</a></li></ul>
@@ -396,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/06/MONIO-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/" data-id="ck6vsr1980006cux17zt78yvo"
+      <a data-url="http://yoursite.com/2019/12/06/MONIO-%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/" data-id="ck9wp8okv000dlyx10kji349z"
          class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1/" rel="tag">文件存储服务</a></li></ul>
@@ -416,7 +289,7 @@
       
         
 
-<article id="post-arm-常用指令" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+<article id="post-js 逆向技巧" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
   
   <div class="article-inner">
     
@@ -424,7 +297,7 @@
         
   
     <h2 itemprop="name">
-      <a class="article-title" href="/2019/11/17/arm-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/">arm 常用指令</a>
+      <a class="article-title" href="/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/">js逆向技巧分享</a>
     </h2>
   
   
@@ -437,72 +310,7 @@
 
     
       <div class="article-meta">
-        <a href="/2019/11/17/arm-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" class="article-date">
-  <time datetime="2019-11-17T13:33:24.000Z" itemprop="datePublished">2019-11-17</time>
-</a>
-        
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%80%86%E5%90%91/">逆向</a>
-  </div>
-
-      </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/17/arm-%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4/" data-id="ck6vsr1930001cux13zrff6bh"
-         class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-
-
-
-      
-        
-
-<article id="post-crack-gap-slider" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-  
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h2 itemprop="name">
-      <a class="article-title" href="/2019/11/14/crack-gap-slider/">缺口类滑块验证码破解</a>
-    </h2>
-  
-  
-
-
-
-
-      </header>
-    
-
-    
-      <div class="article-meta">
-        <a href="/2019/11/14/crack-gap-slider/" class="article-date">
+        <a href="/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/" class="article-date">
   <time datetime="2019-11-14T05:33:38.000Z" itemprop="datePublished">2019-11-14</time>
 </a>
         
@@ -522,90 +330,18 @@
       
 
       
-        <h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>以抖音开发者平台为例</p>
-<pre><code>https://sso.douyin.com/?service=https://www.douyin.com/login?redirect_url=https%3A%2F%2Fwww.douyin.com%2Fplatform</code></pre><p>目标，找到如下滑块缺口中心点，计算需要滑动的偏移量即像素点的个数</p>
-<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2019/11/14/15737096984879.jpg" alt=""></p>
+        <p>当我们抓取网页端数据时，经常被加密参数、加密数据所困扰，如何快速定位这些加解密函数，尤为重要。本片文章是我逆向js时一些技巧的总结，如有遗漏，欢迎补充。</p>
+<p>所需环境：Chrome浏览器</p>
         
-          <a class="article-more-link" href="/2019/11/14/crack-gap-slider/">阅读全文...</a>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/14/crack-gap-slider/" data-id="ck6vsr18y0000cux1gng93q0c"
-         class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BB%91%E5%9D%97%E7%A0%B4%E8%A7%A3/" rel="tag">滑块破解</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-
-
-
-      
-        
-
-<article id="post-wechat_article" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
-  
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h2 itemprop="name">
-      <a class="article-title" href="/2019/11/14/wechat_article/">微信公众号爬虫技术分享</a>
-    </h2>
-  
-  
-
-
-
-
-      </header>
-    
-
-    
-      <div class="article-meta">
-        <a href="/2019/11/14/wechat_article/" class="article-date">
-  <time datetime="2019-11-14T05:33:38.000Z" itemprop="datePublished">2019-11-14</time>
-</a>
-        
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
-  </div>
-
-      </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-        <h2 id="采集方案分析对比"><a href="#采集方案分析对比" class="headerlink" title="采集方案分析对比"></a>采集方案分析对比</h2><p>目前主流的抓取公众号文章及动态信息不同采集方案对比如下：</p>
-<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/14/15816069888183.jpg" alt="-w699"></p>
-<p>由上图可知：<br>    如果需要长期监控公众号实时的文章，我推荐使用逆向的方式；<br>    如果要做获取文章阅读点赞评论量或搜狗微信转永久链接等接口，推荐使用万能key的方式；<br>    至于中间人的方式，技术门槛低，开发周期短，如果要监控的公众号不多，且实效性要求不那么高，我推荐使用这种方式。</p>
-<p>下面将详细介绍基于中间人方式采集的原理</p>
-        
-          <a class="article-more-link" href="/2019/11/14/wechat_article/">阅读全文...</a>
+          <a class="article-more-link" href="/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/">阅读全文...</a>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/14/wechat_article/" data-id="ck6vsr19d000fcux1gtc08ujn"
+      <a data-url="http://yoursite.com/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/" data-id="ck9wp8okz000klyx13u6ea15c"
          class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/" rel="tag">微信公众号</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js%E9%80%86%E5%90%91/" rel="tag">js逆向</a></li></ul>
 
     </footer>
 
@@ -672,7 +408,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/14/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3/" data-id="ck6vsr19f000icux1c1cnaka0"
+      <a data-url="http://yoursite.com/2019/11/14/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3/" data-id="ck9wp8ol7000vlyx1494o6z2h"
          class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86/" rel="tag">字体加密</a></li></ul>
@@ -692,7 +428,7 @@
       
         
 
-<article id="post-js 逆向技巧" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+<article id="post-Sublime-Plugin-CreateInit" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
   
   <div class="article-inner">
     
@@ -700,7 +436,7 @@
         
   
     <h2 itemprop="name">
-      <a class="article-title" href="/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/">js逆向技巧分享</a>
+      <a class="article-title" href="/2019/11/14/Sublime-Plugin-CreateInit/">Sublime-Plugin-CreateInit</a>
     </h2>
   
   
@@ -713,12 +449,12 @@
 
     
       <div class="article-meta">
-        <a href="/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/" class="article-date">
-  <time datetime="2019-11-14T05:33:38.000Z" itemprop="datePublished">2019-11-14</time>
+        <a href="/2019/11/14/Sublime-Plugin-CreateInit/" class="article-date">
+  <time datetime="2019-11-14T05:12:36.000Z" itemprop="datePublished">2019-11-14</time>
 </a>
         
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%88%AC%E8%99%AB/">爬虫</a>
+    <a class="article-category-link" href="/categories/%E6%8F%92%E4%BB%B6/">插件</a>
   </div>
 
       </div>
@@ -733,18 +469,17 @@
       
 
       
-        <p>当我们抓取网页端数据时，经常被加密参数、加密数据所困扰，如何快速定位这些加解密函数，尤为重要。本片文章是我逆向js时一些技巧的总结，如有遗漏，欢迎补充。</p>
-<p>所需环境：Chrome浏览器</p>
+        <h1 id="CreateInit"><a href="#CreateInit" class="headerlink" title="CreateInit"></a>CreateInit</h1><p>This CreateInit plugin for Sublime Text to auto create <code>__init__.py</code> that import all python files into <code>__all__</code></p>
         
-          <a class="article-more-link" href="/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/">阅读全文...</a>
+          <a class="article-more-link" href="/2019/11/14/Sublime-Plugin-CreateInit/">阅读全文...</a>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/14/js%20%E9%80%86%E5%90%91%E6%8A%80%E5%B7%A7/" data-id="ck6vsr1970005cux13q3u3yc7"
+      <a data-url="http://yoursite.com/2019/11/14/Sublime-Plugin-CreateInit/" data-id="ck9wp8ol1000mlyx1hm7pa11k"
          class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js%E9%80%86%E5%90%91/" rel="tag">js逆向</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sublime-%E6%8F%92%E4%BB%B6/" rel="tag">sublime 插件</a></li></ul>
 
     </footer>
 
@@ -762,11 +497,6 @@
   </article>
   
 
-  
-    <nav class="page-nav">
-      
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
-    </nav>
   
 </section>
 </div>
