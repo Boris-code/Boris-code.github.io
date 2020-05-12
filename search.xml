@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>vscode 使用技巧</title>
+    <url>/2020/05/13/vscode-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<h1 id="使用虚拟环境"><a href="#使用虚拟环境" class="headerlink" title="使用虚拟环境"></a>使用虚拟环境</h1><ol>
+<li><p>创建虚拟环境</p>
+<p> pip install virtualenv<br> virtualenv venv</p>
+</li>
+<li><p>使用虚拟环境</p>
+<p> command + shift +p 选择python解释器<br> 选择./venv/bin/python</p>
+</li>
+</ol>
+<a id="more"></a>
+
+<h1 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h1><ol>
+<li>打开系统终端 ctrl + ` (mac 也是这个快捷键)</li>
+<li>全局搜索/替换 Ctrl + Shift + f</li>
+<li>重新打开刚关闭的标签页 command + shift + t</li>
+<li>删除上一个单词 window: Ctrl + Backspace (Mac: option + delete)</li>
+<li>跳到文件开头或结尾 command + 上下方向键</li>
+<li>上下移动代码 option + 上下方向键</li>
+<li>控制光标，选多行 commannd + optio + 上下方向键 </li>
+<li>显示/隐藏左侧目录栏 commannd + b</li>
+<li>复制当前行为多行 option + shift + 上下方向键</li>
+<li>查找文件/安装vs code 插件地址：ctrl + p</li>
+<li>拆分编辑器 : ctrl + 2/3</li>
+<li>关闭所有窗口 : ctrl + k + w</li>
+<li>折叠代码： ctrl + k + 0</li>
+<li>展开代码： ctrl + k + j (完全展开代码)</li>
+<li>代码格式化 shift + option + f</li>
+<li>代码内搜素函数变量等 command + p 然后输入 @</li>
+<li>运行 ctrl + F5 可改为 command + b</li>
+</ol>
+<p>更多快捷键：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/13/15893005114254.jpg?x-oss-process=style/markdown-media" alt="-w274"></p>
+<h1 id="使用black-格式化"><a href="#使用black-格式化" class="headerlink" title="使用black 格式化"></a>使用black 格式化</h1><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/13/15893004716064.jpg?x-oss-process=style/markdown-media" alt="-w1196"></p>
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>vscode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>字体加密破解技术分享-01</title>
     <url>/2020/05/01/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="1-什么是字体加密"><a href="#1-什么是字体加密" class="headerlink" title="1. 什么是字体加密"></a>1. 什么是字体加密</h2><p>简单的说，字体加密即为<code>所复制非所得</code>。如下图，我们复制<code>186.37万字</code>得到<code>𘠜𘠚𘠗𘠛𘠖𘠔万字</code>。那么这里的186.37这个数字就被加密了，用到的技术为字体加密。</p>

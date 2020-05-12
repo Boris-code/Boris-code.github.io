@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>
-    Sublime-Plugin-CreateInit |
+    vscode 使用技巧 |
     
     Boris</title>
   
@@ -25,7 +25,7 @@
   <section class="outer">
   
 
-<article id="post-Sublime-Plugin-CreateInit" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+<article id="post-vscode-使用技巧" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
   
   <div class="article-inner">
     
@@ -33,7 +33,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Sublime-Plugin-CreateInit
+      vscode 使用技巧
     </h1>
   
   
@@ -46,12 +46,12 @@
 
     
       <div class="article-meta">
-        <a href="/2019/11/14/Sublime-Plugin-CreateInit/" class="article-date">
-  <time datetime="2019-11-14T05:12:36.000Z" itemprop="datePublished">2019-11-14</time>
+        <a href="/2020/05/13/vscode-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/" class="article-date">
+  <time datetime="2020-05-12T16:20:38.000Z" itemprop="datePublished">2020-05-13</time>
 </a>
         
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%8F%92%E4%BB%B6/">插件</a>
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a>
   </div>
 
       </div>
@@ -74,45 +74,46 @@
       
 
       
-        <h1 id="CreateInit"><a href="#CreateInit" class="headerlink" title="CreateInit"></a>CreateInit</h1><p>This CreateInit plugin for Sublime Text to auto create <code>__init__.py</code> that import all python files into <code>__all__</code></p>
+        <h1 id="使用虚拟环境"><a href="#使用虚拟环境" class="headerlink" title="使用虚拟环境"></a>使用虚拟环境</h1><ol>
+<li><p>创建虚拟环境</p>
+<p> pip install virtualenv<br> virtualenv venv</p>
+</li>
+<li><p>使用虚拟环境</p>
+<p> command + shift +p 选择python解释器<br> 选择./venv/bin/python</p>
+</li>
+</ol>
 <a id="more"></a>
 
-<h1 id="Plugin-Installation"><a href="#Plugin-Installation" class="headerlink" title="Plugin Installation"></a>Plugin Installation</h1><p><strong>With the Package Control plugin:</strong> The easiest way to install<br><code>CreateInit</code> is through Package Control, which can be found at this site: <a href="http://wbond.net/sublime_packages/package_control" target="_blank" rel="noopener">http://wbond.net/sublime_packages/package_control</a></p>
-<p>Once you install Package Control, restart Sublime Text and bring up the<br>Command Palette (<code>Command+Shift+P</code> on OS X, <code>Control+Shift+P</code> on<br>Linux/Windows). Select “Package Control: Install Package”, wait while<br>Package Control fetches the latest package list, then select<br><code>CreateInit</code> when the list appears. The advantage of using this<br>method is that Package Control will automatically keep CreateInit<br>up to date with the latest version.</p>
-<p><strong>Without Git:</strong> Download the latest source from <a href="https://github.com/Boris-code/CreateInit" target="_blank" rel="noopener">GitHub</a> and copy<br>the whole directory into the Packages directory.</p>
-<p><strong>With Git:</strong> Clone the repository in your Sublime Text Packages directory, located somewhere in user’s “Home” directory:</p>
-<pre><code>git clone https://github.com/Boris-code/CreateInit.git</code></pre><p>The “Packages” packages directory is located differently in different<br>platforms. To access the directory use:</p>
-<ul>
-<li><p>OS X:</p>
-<pre><code>Sublime Text -&gt; Preferences -&gt; Browse Packages...</code></pre></li>
-<li><p>Linux:</p>
-<pre><code>Preferences -&gt; Browse Packages...</code></pre></li>
-<li><p>Windows:</p>
-<pre><code>Preferences -&gt; Browse Packages...</code></pre></li>
-</ul>
-<h1 id="Using"><a href="#Using" class="headerlink" title="Using"></a>Using</h1><ul>
-<li><p>Start typing code as usual. When you need create <code>__init__.py</code>, You can use bellow shortcut key.</p>
-<p>  For Mac OS X:</p>
-<ul>
-<li><p><code>command + alt + i</code></p>
-<p>For Linux:</p>
-</li>
-<li><p><code>ctrl + alt + i</code></p>
-<p>For Windows:</p>
-</li>
-<li><p><code>ctrl + alt +i</code></p>
-</li>
-</ul>
-</li>
-</ul>
+<h1 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h1><ol>
+<li>打开系统终端 ctrl + ` (mac 也是这个快捷键)</li>
+<li>全局搜索/替换 Ctrl + Shift + f</li>
+<li>重新打开刚关闭的标签页 command + shift + t</li>
+<li>删除上一个单词 window: Ctrl + Backspace (Mac: option + delete)</li>
+<li>跳到文件开头或结尾 command + 上下方向键</li>
+<li>上下移动代码 option + 上下方向键</li>
+<li>控制光标，选多行 commannd + optio + 上下方向键 </li>
+<li>显示/隐藏左侧目录栏 commannd + b</li>
+<li>复制当前行为多行 option + shift + 上下方向键</li>
+<li>查找文件/安装vs code 插件地址：ctrl + p</li>
+<li>拆分编辑器 : ctrl + 2/3</li>
+<li>关闭所有窗口 : ctrl + k + w</li>
+<li>折叠代码： ctrl + k + 0</li>
+<li>展开代码： ctrl + k + j (完全展开代码)</li>
+<li>代码格式化 shift + option + f</li>
+<li>代码内搜素函数变量等 command + p 然后输入 @</li>
+<li>运行 ctrl + F5 可改为 command + b</li>
+</ol>
+<p>更多快捷键：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/13/15893005114254.jpg?x-oss-process=style/markdown-media" alt="-w274"></p>
+<h1 id="使用black-格式化"><a href="#使用black-格式化" class="headerlink" title="使用black 格式化"></a>使用black 格式化</h1><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/05/13/15893004716064.jpg?x-oss-process=style/markdown-media" alt="-w1196"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/14/Sublime-Plugin-CreateInit/" data-id="cka44qjp0000cnxx173ybgqge"
+      <a data-url="http://yoursite.com/2020/05/13/vscode-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/" data-id="cka44qjp5000nnxx190nqgmih"
          class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sublime-%E6%8F%92%E4%BB%B6/" rel="tag">sublime 插件</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vscode/" rel="tag">vscode</a></li></ul>
 
     </footer>
 
@@ -122,15 +123,11 @@
     
   <nav class="article-nav">
     
-      <a href="/2019/12/10/%E7%A9%BA%E7%99%BD%E7%AC%A6-xa0/" class="article-nav-link">
-        <strong class="article-nav-caption">前一篇</strong>
-        <div class="article-nav-title">
-          
-            空白符 
-          
-        </div>
-      </a>
     
+      <a href="/2020/05/01/%E5%AD%97%E4%BD%93%E5%8A%A0%E5%AF%86%E7%A0%B4%E8%A7%A3/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">字体加密破解技术分享-01</div>
+      </a>
     
   </nav>
 
