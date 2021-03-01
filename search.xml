@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>feapder</title>
+    <url>/2021/03/01/feapder/</url>
+    <content><![CDATA[<h1 id="FEAPDER"><a href="#FEAPDER" class="headerlink" title="FEAPDER"></a>FEAPDER</h1><p><img src="https://img.shields.io/badge/python-3.6-brightgreen" alt=""> </p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>feapder</strong> 是一款简单、快速、轻量级的爬虫框架。起名源于 fast、easy、air、pro、spider的缩写，以开发快速、抓取快速、使用简单、功能强大为宗旨，历时4年倾心打造。支持分布式爬虫、批次爬虫、多模板爬虫，以及完善的爬虫报警机制。</p>
+<p>之前一直在公司内部使用，已使用本框架采集100+数据源，日采千万数据。现在开源，供大家学习交流！</p>
+<p>读音: <code>[ˈfiːpdə]</code></p>
+<p>官方文档：<a href="http://boris.org.cn/feapder/" target="_blank" rel="noopener">http://boris.org.cn/feapder/</a></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2021/02/22/16139928869250.jpg?x-oss-process=style/markdown-media" alt=""></p>
+<a id="more"></a>
+
+<h2 id="环境要求："><a href="#环境要求：" class="headerlink" title="环境要求："></a>环境要求：</h2><ul>
+<li>Python 3.6.0+</li>
+<li>Works on Linux, Windows, macOS</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>From PyPi:</p>
+<pre><code>pip3 install feapder</code></pre><p>From Git:</p>
+<pre><code>pip3 install git+https://github.com/Boris-code/feapder.git</code></pre><p>若安装出错，请参考<a href="https://boris.org.cn/feapder/#/question/%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">安装问题</a></p>
+<h2 id="功能概览"><a href="#功能概览" class="headerlink" title="功能概览"></a>功能概览</h2><h3 id="1-支持周期性采集"><a href="#1-支持周期性采集" class="headerlink" title="1. 支持周期性采集"></a>1. 支持周期性采集</h3><p>周期性抓取是爬虫中常见的需求，如每日抓取一次商品的销量等，我们把每个周期称为一个批次。</p>
+<p>这类爬虫，普遍做法是设置个定时任务，每天启动一次。但你有没有想过，若由于某种原因，定时任务启动程序时没启动起来怎么办？比如服务器资源不够了，启动起来直接被kill了。</p>
+<p>另外如何保证每条数据在每个批次内都得以更新呢？</p>
+<p>本框架支持批次采集，引入了批次表的概念，详细记录了每一批次的抓取状态</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084680404224.jpg?x-oss-process=style/markdown-media" alt="-w899"></p>
+<h3 id="2-支持分布式采集"><a href="#2-支持分布式采集" class="headerlink" title="2. 支持分布式采集"></a>2. 支持分布式采集</h3><p>面对海量的数据，分布式采集必不可少的，本框架支持分布式，且可随时重启爬虫，任务不丢失</p>
+<h3 id="3-支持多模板采集"><a href="#3-支持多模板采集" class="headerlink" title="3. 支持多模板采集"></a>3. 支持多模板采集</h3><p>有时我们要采集数十个数据源，采集的结构化信息一致，通常我们会编写数十个爬虫，然后启动数十个窗口去采集，这样我们管理起来比较麻烦。本框架支持将多种数据源（多模板）集成到一个爬虫里来管理，降低维护成本</p>
+<h3 id="4-支持海量数据去重"><a href="#4-支持海量数据去重" class="headerlink" title="4. 支持海量数据去重"></a>4. 支持海量数据去重</h3><p>框架内置3种去重机制，通过简单的配置可对任务及数据自动去重，也可拿出来单独作为模块使用，支持批量去重。</p>
+<ol>
+<li>临时去重：处理一万条数据约0.26秒。 去重1亿条数据占用内存约1.43G，可指定去重的失效周期</li>
+<li>内存去重：处理一万条数据约0.5秒。 去重一亿条数据占用内存约285MB</li>
+<li>永久去重：处理一万条数据约3.5秒。去重一亿条数据占用内存约285MB</li>
+</ol>
+<h3 id="5-数据自动入库"><a href="#5-数据自动入库" class="headerlink" title="5. 数据自动入库"></a>5. 数据自动入库</h3><p>只需要根据数据库表自动生成item，然后给item属性赋值，直接yield 返回即可批量入库</p>
+<h3 id="6-支持Debug模式"><a href="#6-支持Debug模式" class="headerlink" title="6. 支持Debug模式"></a>6. 支持Debug模式</h3><p>爬虫支持debug模式，debug模式下默认数据不入库、不修改任务状态。可针对某个任务进行调试，方便开发</p>
+<h3 id="7-完善的报警机制"><a href="#7-完善的报警机制" class="headerlink" title="7. 完善的报警机制"></a>7. 完善的报警机制</h3><p>为了保证数据的全量性、准确性、时效性，本框架内置报警机制，有了这些报警，我们可以实时掌握爬虫状态</p>
+<ol>
+<li><p>实时计算爬虫抓取速度，估算剩余时间，在指定的抓取周期内预判是否会超时</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084718683378.jpg?x-oss-process=style/markdown-media" alt="-w657"></p>
+</li>
+</ol>
+<ol start="2">
+<li><p>爬虫卡死报警</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084718974597.jpg?x-oss-process=style/markdown-media" alt="-w501"></p>
+</li>
+<li><p>爬虫任务失败数过多报警，可能是由于网站模板改动或封堵导致</p>
+<p> <img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/29/16092335882158.jpg?x-oss-process=style/markdown-media" alt="-w416"></p>
+</li>
+</ol>
+<h3 id="8-下载监控"><a href="#8-下载监控" class="headerlink" title="8. 下载监控"></a>8. 下载监控</h3><p>框架对请求总数、成功数、失败数、解析异常数进行监控，将数据点打入到infuxdb，结合Grafana面板，可方便掌握抓取情况</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2021/02/09/16128568548280.jpg?x-oss-process=style/markdown-media" alt="-w1299"></p>
+<h2 id="学习交流"><a href="#学习交流" class="headerlink" title="学习交流"></a>学习交流</h2><p>官方文档：<a href="http://boris.org.cn/feapder/" target="_blank" rel="noopener">http://boris.org.cn/feapder/</a></p>
+<p>知识星球：</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/zhi-shi-xing-qiu.jpeg" alt="知识星球"></p>
+<p>星球会不定时分享爬虫技术干货，涉及的领域包括但不限于js逆向技巧、爬虫框架刨析、爬虫技术分享等</p>
+]]></content>
+  </entry>
+  <entry>
     <title>vscode 使用技巧</title>
     <url>/2020/05/13/vscode-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
     <content><![CDATA[<h1 id="使用虚拟环境"><a href="#使用虚拟环境" class="headerlink" title="使用虚拟环境"></a>使用虚拟环境</h1><ol>
