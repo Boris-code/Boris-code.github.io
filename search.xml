@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>feapder</title>
+    <title>FEAPDER 爬虫框架</title>
     <url>/2021/03/01/feapder/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>feapder</strong> 是一款简单、快速、轻量级的爬虫框架。起名源于 fast、easy、air、pro、spider的缩写，以开发快速、抓取快速、使用简单、功能强大为宗旨，历时4年倾心打造。支持分布式爬虫、批次爬虫、多模板爬虫，以及完善的爬虫报警机制。</p>
 <p>之前一直在公司内部使用，已使用本框架采集100+数据源，日采千万数据。现在开源，供大家学习交流！</p>
@@ -53,6 +53,123 @@
 <p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/zhi-shi-xing-qiu.jpeg" alt="知识星球"></p>
 <p>星球会不定时分享爬虫技术干货，涉及的领域包括但不限于js逆向技巧、爬虫框架刨析、爬虫技术分享等</p>
 ]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>框架</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>爬虫开发的一些经验分享</title>
+    <url>/2021/03/01/%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/</url>
+    <content><![CDATA[<p>在阅读本文之前，大家可以思考以下几个问题</p>
+<ol>
+<li>当站点不给你返回全量数据时，如翻页限制的情况下，如何全量或近似全量抓取?</li>
+<li>如何周期性抓取？设置定时任务么？定时任务启动失败咋办？</li>
+<li>如何保证<strong>数据的全量性</strong>？为何爬虫跑完了，你抓取到的数据量和站点的数据量不一致？或多次抓取下来，每次抓取到的数据量都不一致？</li>
+<li>如何保证<strong>数据的准确性</strong>？不会因为网站模板改了，你的字段已经抽取不到了，却不能及时发现?</li>
+<li>如何保证<strong>数据的时效性</strong>？即在指定的时间周期内抓完</li>
+<li>如何对抓取状态监控？</li>
+<li>若需要账号的登录的网站，如何批量注册，管理账号？</li>
+<li>如何防止任务不丢失？不会因为爬虫重启，需要重头抓取，或丢失了正在抓取的任务</li>
+<li>如何管理爬虫？</li>
+<li>如何对数据重抽？</li>
+<li>面对一个庞大复杂的需求，如何编写爬虫？</li>
+</ol>
+<p>下面我将针对这些问题一一解答，如有其他问题或者见解，欢迎补充交流</p>
+<h2 id="问题1：如何抓取全量数据"><a href="#问题1：如何抓取全量数据" class="headerlink" title="问题1：如何抓取全量数据"></a>问题1：如何抓取全量数据</h2><blockquote>
+<p>当站点不给你返回全量数据时，如翻页限制的情况下，如何全量或近似全量抓取?</p>
+</blockquote>
+<p>此问题我们在遍历列表数据时经常出现。比如某招聘网站，我们需要抓取全量的公司及职位，但在遍历职位列表时却只能翻3页，面对这种情况，如何应对呢？</p>
+<p>答：<strong>此类问题我们可以通过遍历菜单或关键词搜索解决</strong></p>
+<h3 id="遍历菜单"><a href="#遍历菜单" class="headerlink" title="遍历菜单"></a>遍历菜单</h3><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084556475549.jpg?x-oss-process=style/markdown-media" alt="-w1026"></p>
+<p>遍历菜单也是需要讲究策略的，野蛮的遍历所有菜单，这往往会成倍的增大我们的请求量。因此我建议是先遍历一级菜单，当返回的数据总量超过翻页限制，如3页时，再遍历子菜单</p>
+<h3 id="搜索关键词"><a href="#搜索关键词" class="headerlink" title="搜索关键词"></a>搜索关键词</h3><p>如果单纯靠遍历列表页，很难将一个公司的所有职位都遍历到，因此我们可以将公司的名称作为关键词，搜索该公司下的职位，在结合遍历菜单的方式，将该公司下的所有职位抓取到。</p>
+<h2 id="问题2：如何周期性抓取"><a href="#问题2：如何周期性抓取" class="headerlink" title="问题2：如何周期性抓取"></a>问题2：如何周期性抓取</h2><blockquote>
+<p>如何周期性抓取？设置定时任务么？定时任务启动失败咋办？</p>
+</blockquote>
+<p>周期性抓取是爬虫中常见的需求，如每日抓取一次商品的销量等，我们把每个周期称为一个批次。</p>
+<p>这类爬虫，普遍做法是设置个定时任务，每天启动一次。但你有没有想过，若由于某种原因，定时任务启动程序时没启动起来怎么办？比如服务器资源不够了，启动起来直接被kill了。</p>
+<p>另外如何保证每条数据在每个批次内都得以更新呢？</p>
+<p>答：<strong>周期性抓取，引入批次表；保证每条数据都得以更新，引入任务表</strong></p>
+<h3 id="批次表"><a href="#批次表" class="headerlink" title="批次表"></a>批次表</h3><p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084680404224.jpg?x-oss-process=style/markdown-media" alt="-w899"></p>
+<p>为了周期性抓取，我们引入了批次表，批次表里记录着每次抓取的批次时间、已做任务量、总任务量、失败量、批次间隔、批次单位、记录更新时间、本批次是否完成、批次记录创建时间等信息。</p>
+<p>如上图，批次周期为30天，但我设置的定时任务不是每30天启动一次，可能是每一天启动一次，只不过每次启动时我会判断本批次的状态，是否在正常运行，还是已完成，又或是将要超时或已超时。若超时，则报警。<strong>若已完成，则根据当前时间与本批次开始的批次日期算时间差，若时间差大于抓取周期，则开始下一批次</strong>，在一个批次内启动多次这种策略，防止了一次启动不成功，本批次爬虫不会被运行的问题。因为即使一次不成功，后边还有机会被再次启动。</p>
+<p>另外，每次启动前，可根据配置选择是否终止正在运行的爬虫启动新爬虫，还是有正在运行的就不启动新的了，以保证爬虫数可控</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084689541457.jpg?x-oss-process=style/markdown-media" alt="-w548"></p>
+<h3 id="任务表"><a href="#任务表" class="headerlink" title="任务表"></a>任务表</h3><p>任务表，即需要待抓取的数据，以抓取商品销量为例，我们可以把每个商品的id都存在任务表里，爬虫利用拿到商品的id，抓取对应的销量数据。任务表里记录着每个任务的抓取状态，如 待抓取、抓取中、抓取完毕、抓取失败等状态。在每个批次开始时需要重置这些状态为待抓取，以保证每个任务在每个批次内都会做一遍。</p>
+<h2 id="问题3-如何保证数据的全量性"><a href="#问题3-如何保证数据的全量性" class="headerlink" title="问题3: 如何保证数据的全量性"></a>问题3: 如何保证数据的全量性</h2><blockquote>
+<p>如何保证数据的全量性？为何爬虫跑完了，你抓取到的数据量和站点的数据量不一致？或多次抓取下来，每次抓取到的数据量都不一致？</p>
+</blockquote>
+<p>此问题可引入问题一、问题二的一些思想，遍历菜单、搜索关键词、采用任务表等。</p>
+<p>但我们还需要注意另外一种情况，<strong>反爬</strong>！有的网站，当你被风控时，会返回给你空数据，如果我们未处理此种情况，则会导致数据抓取不全。因此在编写爬虫时，一定要先调研清楚正常无数据时返回的接口或页面是什么样的，然后再每次请求后验证下当前返回的数据是否为有效数据，若无效则重试</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084707896680.jpg?x-oss-process=style/markdown-media" alt="-w1060"></p>
+<h2 id="问题4：如何保证数据的准确性"><a href="#问题4：如何保证数据的准确性" class="headerlink" title="问题4：如何保证数据的准确性"></a>问题4：如何保证数据的准确性</h2><blockquote>
+<p>如何保证数据的准确性？不会因为网站模板改了，你的字段已经抽取不到了，却不能及时发现?</p>
+</blockquote>
+<p>保证数据的准确性可以针对每个表，写一些校验规则。但这不够通用，且扫表的效率也不高。</p>
+<p>我们采用的是打点的方式，将数据的每个字段的值，以是否有值的两种方式区分，打点到时序数据库influxdb里。然后根据是否有值点数波动的大小来报警。</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084714006792.jpg?x-oss-process=style/markdown-media" alt="-w1021"></p>
+<h2 id="问题5：如何保证数据的时效性"><a href="#问题5：如何保证数据的时效性" class="headerlink" title="问题5：如何保证数据的时效性"></a>问题5：如何保证数据的时效性</h2><blockquote>
+<p>如何保证数据的时效性？即在指定的时间周期内抓完</p>
+</blockquote>
+<p>这个需要隔段时间，统计一次当前的任务处理速度，预估剩余的任务还需要多长时间抓取完毕，若本批次内抓取不完，则及时报警。好让项目负责人及时处理，是因为反爬的原因，还是因为爬虫数不够，需要扩展进程数的问题</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084718683378.jpg?x-oss-process=style/markdown-media" alt="-w657"><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084718974597.jpg?x-oss-process=style/markdown-media" alt="-w501"><br><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084719983446.jpg?x-oss-process=style/markdown-media" alt="-w660"></p>
+<h2 id="问题6：如何对抓取状态监控"><a href="#问题6：如何对抓取状态监控" class="headerlink" title="问题6：如何对抓取状态监控"></a>问题6：如何对抓取状态监控</h2><blockquote>
+<p>如何对抓取状态监控？</p>
+</blockquote>
+<p>涉及到监控，我们采用的是 influxdb + grafana。抓取时，将我们关系的地方埋点，打入到influxdb了，结合grafana的统计功能，很直观的看出一些趋势</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084731920021.jpg?x-oss-process=style/markdown-media" alt="-w1681"></p>
+<p>比如上图，我们将下载总量、下载成功量、下载异常量、解析异常量做了个统计。解析异常是代理里判定为是反爬页面主动抛出的，下载异常则可能是因为代理失效的原因。</p>
+<p>从图中可以看出，下载成功的数量有个周期性的规律，从刚开始的成功率很高，到后面越来越低，再到成功率很高。由此可以推断出可能是因为反爬的原因，生产的签名参数不够或不及时，导致成功率骤降。因此我们可以针对签名算法做一些优化，使其产能提升上来。</p>
+<h2 id="问题7：如何批量注册，管理账号"><a href="#问题7：如何批量注册，管理账号" class="headerlink" title="问题7：如何批量注册，管理账号"></a>问题7：如何批量注册，管理账号</h2><blockquote>
+<p>若需要账号的登录的网站，如何批量注册，管理账号？</p>
+</blockquote>
+<p>注册一般分为两种，电话号或邮箱。电话号可以找第三方的接码平台，邮箱则可以使用免费的10分钟邮箱</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084739249377.jpg?x-oss-process=style/markdown-media" alt="-w1141"></p>
+<p>若是购买的昂贵的账号，则需要注意控制好抓取频率，以及工作时间。如随机抓取时间间隔，晚上停止抓取等，做出近似拟人的行为</p>
+<h2 id="问题8：如何防止任务不丢失"><a href="#问题8：如何防止任务不丢失" class="headerlink" title="问题8：如何防止任务不丢失"></a>问题8：如何防止任务不丢失</h2><blockquote>
+<p>如何防止任务不丢失？不会因为爬虫重启，需要重头抓取，或丢失了正在抓取的任务</p>
+</blockquote>
+<p>此问题我有两道保障方式</p>
+<p>方式1：使用mysql记录每个任务，每条任务都会有个抓取状态的标记，状态为待抓取、抓取中、抓取完毕、抓取失败。当该表里的无待抓取和抓取中的任务时，才算抓取完毕</p>
+<p>方式2：批量从mysql中取出一批任务任务放入到redis的zset集合里，供爬虫消耗，当redis里的任务少于一定数量时再从mysql里取出一批补充。爬虫从redis里取任务时，常规操作是弹出该条任务，但是如果刚取出来爬虫就意外退出来，那本条任务就丢失了（不过还是可以从mysql的任务表里取到的哈）。</p>
+<p>为防止redis层面丢失任务的情况，我没有弹出任务，而是在取出任务时，将该任务的分数设置为当前时间搓 + 600（10分钟），每次取任务只取分数小于等于当前时间搓的任务。这样即使爬虫挂了，丢失的任务还会在10分钟后取到。只有当这条任务做完了，才会主动的从redis里将本条任务删除。这样便保证了redis里取任务不会因为爬虫意外终止而丢失。</p>
+<h2 id="问题9：如何管理爬虫"><a href="#问题9：如何管理爬虫" class="headerlink" title="问题9：如何管理爬虫"></a>问题9：如何管理爬虫</h2><blockquote>
+<p>如何管理爬虫？</p>
+</blockquote>
+<p>基于 k8s + docker 开发一套爬虫管理系统吧。爬虫日志搜集可以使用 Elasticsearch、Logstash、Kibana</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084752649088.jpg?x-oss-process=style/markdown-media" alt="-w1754"></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084753629654.jpg?x-oss-process=style/markdown-media" alt="-w1744"></p>
+<h2 id="问题10：如何对数据重抽"><a href="#问题10：如何对数据重抽" class="headerlink" title="问题10：如何对数据重抽"></a>问题10：如何对数据重抽</h2><blockquote>
+<p>如何对数据重抽？</p>
+</blockquote>
+<p>我们在下载数据后，可以将返回的RAW数据（原数据）存起来，需要重抽时再取出来进行解析。</p>
+<p>考虑到存储成本的问题，不建议存储到mysql等结构化数据中，我们压缩后存储到了阿里的oss。</p>
+<h2 id="问题11：面对一个庞大复杂的需求，如何编写爬虫"><a href="#问题11：面对一个庞大复杂的需求，如何编写爬虫" class="headerlink" title="问题11：面对一个庞大复杂的需求，如何编写爬虫"></a>问题11：面对一个庞大复杂的需求，如何编写爬虫</h2><blockquote>
+<p>面对一个庞大复杂的需求，如何编写爬虫？</p>
+</blockquote>
+<p>面对一个复杂的需求，我们要学会分解，切记不要试图写一个爬虫搞定所有数据。即使能搞定，也会因为某个环节出问题，导致整体都不能运行，且难以维护。</p>
+<p>我们尽可能的按照接口或数据类型拆分爬虫，一种接口或一种数据类型为一个爬虫，爬虫之间以任务表的方式协作即可。</p>
+<p>举个例子，如抓取招聘网站的公司、职位信息，可以把爬虫拆分为职位列表爬虫、职位详情爬虫、公司信息爬虫。职位列表爬虫生产职位详情、和公司详情的任务种子。至于启动，建议把一个项目的启动入口都放到同一个main.py文件里，用命令行参数区分启动哪个爬虫</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/12/20/16084760262625.jpg?x-oss-process=style/markdown-media" alt="-w631"></p>
+<pre><code>python main.py --spider_location</code></pre><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上，是我爬虫方面的一些经验总结吧，可能不全，欢迎补充交流。</p>
+<p>另外您可能觉得我上面这些建议如果实现起来很麻烦，开发一个项目要好久。不过我已经把这些封装到框架里啦，框架支持批次抓取、时效性监控、抓取状态监控等，使用方式和scrapy类型，如有兴趣的，欢迎使用</p>
+<p>框架地址：<a href="https://spider-doc.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">https://spider-doc.readthedocs.io/zh_CN/latest/</a></p>
+<p>安装方式：<code>pip3 install boris-spider</code></p>
+<h2 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h2><p>欢迎加入知识星球 <a href="https://t.zsxq.com/eEmAeae" target="_blank" rel="noopener">https://t.zsxq.com/eEmAeae</a></p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/02/16/zhi-shi-xing-qiu.jpeg" alt="知识星球"></p>
+<p>本星球专注于爬虫技术分享，通过一些案例详细讲解爬虫中遇到的问题以及解决手段。涉及的知识包括但不限于 爬虫框架刨析、js逆向、中间人、selenium 、pyppeteer、Android 逆向！期待您的加入，和我们一起探讨爬虫技术，拓展爬虫思维！</p>
+<p>QQ 群：750614606</p>
+<p><img src="http://markdown-media.oss-cn-beijing.aliyuncs.com/2020/04/08/wechatimg188.jpeg" alt="WechatIMG188"></p>
+]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>爬虫经验</tag>
+      </tags>
   </entry>
   <entry>
     <title>vscode 使用技巧</title>
